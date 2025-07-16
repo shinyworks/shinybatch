@@ -7,6 +7,9 @@ Authors@R:
 Description: A new type of reactive objects for tightly coupled variables
     in `shiny` apps.
 License: MIT + file LICENSE
+URL: https://shinyworks.github.io/shinybatch/,
+    https://github.com/shinyworks/shinybatch
+BugReports: https://github.com/shinyworks/shinybatch/issues
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
@@ -14,5 +17,3 @@ Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-URL: https://github.com/shinyworks/shinybatch
-BugReports: https://github.com/shinyworks/shinybatch/issues
