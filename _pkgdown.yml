@@ -1,0 +1,6 @@
+url: https://shinybatch.shinyworks.org
+template:
+  bootstrap: 5
+development:
+  mode: auto
+lang: en-US
