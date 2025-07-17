@@ -14,6 +14,7 @@ serves as the backend for \code{\link[=batch_reactive_val]{batch_reactive_val()}
 \itemize{
 \item \href{#method-BatchReactiveVal-new}{\code{BatchReactiveVal$new()}}
 \item \href{#method-BatchReactiveVal-get}{\code{BatchReactiveVal$get()}}
+\item \href{#method-BatchReactiveVal-get_rv_value}{\code{BatchReactiveVal$get_rv_value()}}
 \item \href{#method-BatchReactiveVal-set}{\code{BatchReactiveVal$set()}}
 \item \href{#method-BatchReactiveVal-get_name}{\code{BatchReactiveVal$get_name()}}
 \item \href{#method-BatchReactiveVal-get_orchestrator}{\code{BatchReactiveVal$get_orchestrator()}}
@@ -61,13 +62,27 @@ messages.}
 \if{html}{\out{<a id="method-BatchReactiveVal-get"></a>}}
 \if{latex}{\out{\hypertarget{method-BatchReactiveVal-get}{}}}
 \subsection{Method \code{get()}}{
-Get the current value.
+Get the current value, blocking if a transaction is active.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BatchReactiveVal$get()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
-The current value stored in the internal \code{reactiveVal}.
+The current, consistent value stored in the internal \code{reactiveVal}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-BatchReactiveVal-get_rv_value"></a>}}
+\if{latex}{\out{\hypertarget{method-BatchReactiveVal-get_rv_value}{}}}
+\subsection{Method \code{get_rv_value()}}{
+Get the current value of the underlying \code{\link[=reactiveVal]{reactiveVal()}}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{BatchReactiveVal$get_rv_value()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+The current value stored in the internal \code{reactiveVal},
+regardless of whether the value is in a consistent state.
 }
 }
 \if{html}{\out{<hr>}}
