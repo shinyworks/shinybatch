@@ -1,3 +1,5 @@
+# BatchReactiveVal R6 class ----
+
 #' BatchReactiveVal R6 class
 #'
 #' @description An R6 class that encapsulates a standard `reactiveVal`. It
@@ -7,11 +9,13 @@
 #' @keywords internal
 BatchReactiveVal <- R6::R6Class(
   "BatchReactiveVal",
+  ## Private ----
   private = list(
     .name = NULL,
     .rv = NULL,
     .orchestrator = NULL
   ),
+  ## Public ----
   public = list(
     #' @description Initialize the object.
     #' @param name (length-1 `character`) The unique name for this reactive
@@ -37,22 +41,41 @@ BatchReactiveVal <- R6::R6Class(
     },
 
     #' @description Get the current value, blocking if a transaction is active.
-    #' @return The current, consistent value stored in the internal `reactiveVal`.
-    get = function() {
-      private$.orchestrator$wait_for_transaction()
+    #' @param call (`environment`) The execution environment to use for error
+    #'   messages.
+    #' @return The current, consistent value stored in the internal
+    #'   `reactiveVal`.
+    get = function(call = rlang::caller_env()) {
+      private$.orchestrator$wait_for_transaction(call = call)
       private$.rv()
     },
 
-    #' @description Get the current value of the underlying [reactiveVal()].
-    #' @return The current value stored in the internal `reactiveVal`,
-    #'   regardless of whether the value is in a consistent state.
+    #' @description Get the raw value of the internal reactiveVal.
+    #' @details This is an unsafe getter intended for internal use by the
+    #'   orchestrator only. It does not wait for transactions to complete.
+    #' @return The current value stored in the internal `reactiveVal`.
     get_rv_value = function() {
       private$.rv()
     },
 
-    #' @description Set a new value.
+    #' @description Request a new value for this reactive.
+    #' @details This method initiates a transaction with the orchestrator.
     #' @param value (various) The new value to set.
-    set = function(value) {
+    #' @param call (`environment`) The execution environment to use for error
+    #'   messages.
+    set = function(value, call = rlang::caller_env()) {
+      private$.orchestrator$request_update(
+        private$.name,
+        value,
+        call = call
+      )
+    },
+
+    #' @description Set the raw value of the internal reactiveVal.
+    #' @details This is an unsafe setter intended for internal use by the
+    #'   orchestrator only. It does not trigger a validation cascade.
+    #' @param value (various) The new value to set.
+    set_rv_value = function(value) {
       private$.rv(value)
     },
 
@@ -66,38 +89,7 @@ BatchReactiveVal <- R6::R6Class(
   )
 )
 
-#' Choose an orchestrator
-#'
-#' @param orchestrator (`BatchOrchestrator` or `batch_reactive_val`) A
-#'   `BatchOrchestrator` object, or a `batch_reactive_val` that should be
-#'   included in the same batch.
-#' @param call (`environment`) The execution environment to use for error
-#'   messages.
-#'
-#' @returns A `BatchOrchestrator` object.
-#' @keywords internal
-choose_orchestrator <- function(orchestrator, call = rlang::caller_env()) {
-  UseMethod("choose_orchestrator")
-}
-
-#' @export
-choose_orchestrator.default <- function(orchestrator, call = rlang::caller_env()) {
-  cli::cli_abort(
-    "{.arg orchestrator} must be a {.cls BatchOrchestrator} object or another {.cls batch_reactive_val} object.",
-    class = "shinybatch-error-bad_orchestrator",
-    call = call
-  )
-}
-
-#' @export
-choose_orchestrator.BatchOrchestrator <- function(orchestrator, call = rlang::caller_env()) {
-  orchestrator
-}
-
-#' @export
-choose_orchestrator.batch_reactive_val <- function(orchestrator, call = rlang::caller_env()) {
-  attr(orchestrator, ".impl", exact = TRUE)$get_orchestrator()
-}
+# batch_reactive_val ----
 
 #' Create a batch reactive value
 #'
@@ -138,8 +130,7 @@ batch_reactive_val <- function(name,
     if (missing(x)) {
       return(impl$get())
     }
-    # If setting a value, request an update from the orchestrator.
-    impl$get_orchestrator()$request_update(name, x)
+    impl$set(x, call = rlang::current_env())
   }
   structure(
     the_function,

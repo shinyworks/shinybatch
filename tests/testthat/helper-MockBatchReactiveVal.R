@@ -14,6 +14,6 @@ MockBatchReactiveVal <- R6::R6Class(
     get_name = function() private$.name,
     get = function() private$.value,
     get_rv_value = function() private$.value, # Same as get for the mock
-    set = function(value) private$.value <- value
+    set_rv_value = function(value) private$.value <- value
   )
 )

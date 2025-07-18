@@ -110,8 +110,8 @@ Block until the current transaction is complete.
 \item{\code{timeout}}{(length-1 \code{integer}) The maximum number of seconds to wait
 for a transaction to complete.}
 
-\item{\code{call}}{(\code{environment}) The execution environment to use for error
-messages.}
+\item{\code{call}}{(\code{environment}) The execution environment to mention as the
+source of error messages.}
 }
 \if{html}{\out{</div>}}
 }
@@ -137,8 +137,8 @@ that initiated the change.}
 
 \item{\code{proposed_value}}{(various) The new value proposed for the trigger.}
 
-\item{\code{call}}{(\code{environment}) The execution environment to use for error
-messages.}
+\item{\code{call}}{(\code{environment}) The execution environment to mention as the
+source of error messages.}
 }
 \if{html}{\out{</div>}}
 }

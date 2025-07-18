@@ -1,3 +1,5 @@
+# BatchOrchestrator R6 Class ----
+
 #' BatchOrchestrator R6 class
 #'
 #' @description Manages a group of [batch_reactive_val()] objects, orchestrating
@@ -7,28 +9,37 @@
 #' @keywords internal
 BatchOrchestrator <- R6::R6Class(
   "BatchOrchestrator",
+  ## Private ----
   private = list(
-    .managed_vals = list(),
-    .validation_flow = list(),
-    .target_state = NULL,
+    ### Attributes ----
     .is_in_transaction = FALSE,
+    .managed_vals = list(),
+    .target_state = NULL,
     .timeout = 5L,
+    .validation_flow = list(),
 
-    # Check if the current state matches the target state.
-    .is_resolved = function() {
-      if (!length(private$.target_state)) {
-        # covr doesn't see us hit this but of course we do, or we'd time out.
-        return(TRUE) # nocov
+    ### Methods ----
+    .apply_state = function(state) {
+      private$.target_state <- state
+      for (name in names(private$.managed_vals)) {
+        private$.managed_vals[[name]]$set_rv_value(state[[name]])
       }
-
-      current_values <- isolate(
-        lapply(private$.managed_vals, function(v) v$get_rv_value())
-      )
-
-      return(identical(current_values, private$.target_state))
     },
-
-    # Check if the transaction has exceeded its timeout.
+    .apply_validation_rules = function(new_values, managed_flows) {
+      for (name in managed_flows) {
+        validation_fun <- private$.validation_flow[[name]]
+        validated_value <- validation_fun(new_values[[name]], new_values)
+        new_values[[name]] <- validated_value
+      }
+      new_values
+    },
+    .cascade_validation = function(state, call) {
+      managed_flows <- intersect(
+        names(private$.validation_flow),
+        names(state)
+      )
+      private$.try_validation(state, managed_flows, call)
+    },
     .check_timeout = function(start_time, timeout, call) {
       wait <- difftime(Sys.time(), start_time, units = "secs")
       if (wait > timeout) {
@@ -43,8 +54,16 @@ BatchOrchestrator <- R6::R6Class(
         )
       }
     },
-
-    # Block until the transaction is resolved, then clean up.
+    .is_resolved = function() {
+      if (!length(private$.target_state)) {
+        # covr doesn't see us hit this but of course we do, or we'd time out.
+        return(TRUE) # nocov
+      }
+      current_values <- isolate(
+        lapply(private$.managed_vals, function(v) v$get_rv_value())
+      )
+      return(identical(current_values, private$.target_state))
+    },
     .resolve_transaction = function(timeout, call) {
       start_time <- Sys.time()
       while (!private$.is_resolved()) {
@@ -54,28 +73,17 @@ BatchOrchestrator <- R6::R6Class(
       private$.is_in_transaction <- FALSE
       private$.target_state <- NULL
     },
-
-    # Apply the validation rules to a set of proposed values.
-    .apply_validation_rules = function(new_values, managed_flows) {
-      for (name in managed_flows) {
-        validation_fun <- private$.validation_flow[[name]]
-        validated_value <- validation_fun(new_values[[name]], new_values)
-        new_values[[name]] <- validated_value
-      }
+    .start_transaction = function(trigger_name, proposed_value) {
+      # We must request the values *before* setting `.is_in_transaction`, or we
+      # get stuck. But use the `get()` methods rather than a workaround, because
+      # that way we're forced to wait for any previous changes.
+      new_values <- shiny::isolate(
+        lapply(private$.managed_vals, function(v) v$get())
+      )
+      private$.is_in_transaction <- TRUE
+      new_values[[trigger_name]] <- proposed_value
       new_values
     },
-
-    # Run the validation cascade over a set of proposed values.
-    .cascade_validation = function(state, call) {
-      managed_flows <- intersect(
-        names(private$.validation_flow),
-        names(state)
-      )
-      private$.try_validation(state, managed_flows, call)
-    },
-
-    # Try to apply validation rules, catching errors and rolling back the
-    # transaction on failure
     .try_validation = function(new_values, managed_flows, call) {
       with_error_handling(
         private$.apply_validation_rules(new_values, managed_flows),
@@ -87,29 +95,9 @@ BatchOrchestrator <- R6::R6Class(
         subclass = "validation",
         call = call
       )
-    },
-
-    # Apply a new state to the managed reactive values.
-    .apply_state = function(state) {
-      private$.target_state <- state
-      for (name in names(private$.managed_vals)) {
-        private$.managed_vals[[name]]$set(state[[name]])
-      }
-    },
-
-    # Get current state and set transaction flag.
-    .start_transaction = function(trigger_name, proposed_value) {
-      # We must request the values *before* setting `.is_in_transaction`, or we
-      # get stuck. But use the `get()` methods rather than a workaround, because
-      # that way we're forced to wait for any previous changes.
-      new_values <- shiny::isolate(
-        lapply(private$.managed_vals, function(v) v$get())
-      )
-      private$.is_in_transaction <- TRUE
-      new_values[[trigger_name]] <- proposed_value
-      new_values
     }
   ),
+  ## Public ----
   public = list(
     #' @description Initialize the transaction manager.
     #' @param validation_flow (named `list` of `function`s) Each function takes
@@ -179,6 +167,8 @@ BatchOrchestrator <- R6::R6Class(
     }
   )
 )
+
+# batch_orchestrator ----
 
 #' Create a manager for a batch of reactive values
 #'

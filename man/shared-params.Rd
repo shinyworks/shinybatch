@@ -4,8 +4,11 @@
 \alias{shared-params}
 \title{Parameters used in multiple functions}
 \arguments{
-\item{call}{(\code{environment}) The execution environment to use for error
-messages.}
+\item{call}{(\code{environment}) The execution environment to mention as the
+source of error messages.}
+
+\item{message_env}{(\code{environment}) The execution environment to use to
+evaluate variables in error messages.}
 
 \item{timeout}{(length-1 \code{integer}) The maximum number of seconds to wait for
 a transaction to complete.}
