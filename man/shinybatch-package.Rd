@@ -6,7 +6,7 @@
 \alias{shinybatch-package}
 \title{shinybatch: Batch Shiny Reactive Updates}
 \description{
-A new type of reactive objects for tightly coupled variables in `shiny` apps.
+A new type of reactive object for tightly coupled variables in 'shiny' apps.
 }
 \seealso{
 Useful links:
