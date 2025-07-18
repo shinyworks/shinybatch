@@ -14,7 +14,7 @@ coverage](https://codecov.io/gh/shinyworks/shinybatch/graph/badge.svg)](https://
 [![R-CMD-check](https://github.com/shinyworks/shinybatch/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/shinyworks/shinybatch/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-A new type of reactive objects for tightly coupled variables in `shiny`
+A new type of reactive object for tightly coupled variables in {shiny}
 apps.
 
 ## Installation
@@ -23,13 +23,9 @@ You can install the development version of shinybatch from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("shinyworks/shinybatch")
+# install.packages("pak")
+pak::pak("shinyworks/shinybatch")
 ```
-
-## Usage
-
-Add usage information and examples here.
 
 ## Code of Conduct
 
