@@ -4,9 +4,9 @@
 \name{shinybatch-package}
 \alias{shinybatch}
 \alias{shinybatch-package}
-\title{shinybatch: Batch Shiny Reactive Updates}
+\title{shinybatch: Create Validated Reactive Values in 'shiny'}
 \description{
-A new type of reactive object for tightly coupled variables in 'shiny' apps.
+Create a hybrid reactive object that can be set imperatively but is validated reactively, ensuring its state is always consistent with its dependencies.
 }
 \seealso{
 Useful links:
