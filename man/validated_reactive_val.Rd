@@ -14,8 +14,8 @@ validated_reactive_val(
 \arguments{
 \item{validation_expr}{(\code{expression}) A reactive expression that defines the
 authoritative state of this \code{validated_reactive_value}, This expression can
-access the \code{validated_reactive_value}'s own current value via a \code{self()}
-\code{\link[shiny:reactiveVal]{shiny::reactiveVal()}} to reconcile it with upstream dependencies.}
+access the \code{validated_reactive_value}'s own current value via the \code{.vrv()}
+pronoun to reconcile it with upstream dependencies.}
 
 \item{value}{(various) The initial value.}
 
@@ -55,8 +55,8 @@ its reactive dependencies before any downstream dependents are re-evaluated.
         } else {
           c("B1", "B2")
         }
-        if (self() \%in\% valid_groups) {
-          self()
+        if (.vrv() \%in\% valid_groups) {
+          .vrv()
         } else {
           valid_groups[[1]]
         }

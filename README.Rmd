@@ -39,8 +39,8 @@ group_val <- validated_reactive_val(
     } else {
       c("B1", "B2")
     }
-    if (self() %in% valid_groups) {
-      self()
+    if (.vrv() %in% valid_groups) {
+      .vrv()
     } else {
       valid_groups[[1]]
     }
@@ -62,4 +62,3 @@ pak::pak("shinyworks/shinybatch")
 ## Code of Conduct
 
 Please note that the shinybatch project is released with a [Contributor Code of Conduct](https://shinyworks.github.io/shinybatch/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
-

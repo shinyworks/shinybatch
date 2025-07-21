@@ -5,82 +5,71 @@ test_that("Categorical dependency works as expected", {
     "C" = list("A1" = 5, "B2" = 6)
   )
 
-  testServer(
-    function(input, output, session) {
-      level <- shiny::reactiveVal("A")
-      group <- validated_reactive_val(
-        value = "A1",
-        validation_expr = {
-          valid_groups <- names(mock_data[[level()]])
-          if (self() %in% valid_groups) {
-            self()
-          } else {
-            valid_groups[[1]]
-          }
-        }
-      )
-    },
-    {
-      # Test 1: Change level, group should be reset
-      level("B")
-      expect_equal(level(), "B")
-      expect_equal(group(), "B1")
-
-      # Test 2: Change level, group should remain valid
-      level("C")
-      expect_equal(level(), "C")
-      expect_equal(group(), "A1")
-
-      # Test 3: Set group to a valid value
-      group("B2")
-      expect_equal(level(), "C")
-      expect_equal(group(), "B2")
-
-      # Test 4: Attempt to set group to an invalid value
-      level("A")
-      expect_equal(group(), "A1")
-      group("B1")
-      expect_equal(group(), "A1")
+  level <- shiny::reactiveVal("A")
+  group <- validated_reactive_val(
+    value = "A1",
+    validation_expr = {
+      valid_groups <- names(mock_data[[level()]])
+      if (.vrv() %in% valid_groups) {
+        .vrv()
+      } else {
+        valid_groups[[1]]
+      }
     }
   )
+  # Group should be reset
+  level("B")
+  expect_equal(isolate(level()), "B")
+  expect_equal(isolate(group()), "B1")
+
+  # Group should remain valid
+  level("C")
+  expect_equal(isolate(level()), "C")
+  expect_equal(isolate(group()), "A1")
+
+  # Set group to a valid value
+  group("B2")
+  expect_equal(isolate(level()), "C")
+  expect_equal(isolate(group()), "B2")
+
+  # Group corrects itself when invalid
+  level("A")
+  expect_equal(isolate(group()), "A1")
+  group("B1")
+  expect_equal(isolate(group()), "A1")
 })
 
 test_that("Range-based dependency works as expected", {
-  testServer(
-    function(input, output, session) {
-      min_val <- shiny::reactiveVal(0)
-      max_val <- shiny::reactiveVal(10)
-      value_in_range <- validated_reactive_val(
-        value = 5,
-        validation_expr = {
-          min_v <- min_val()
-          max_v <- max_val()
-          if (is.numeric(self()) && self() >= min_v && self() <= max_v) {
-            self()
-          } else {
-            min_v
-          }
-        }
-      )
-    },
-    {
-      expect_equal(value_in_range(), 5)
-
-      max_val(4)
-      expect_equal(value_in_range(), 0)
-
-      min_val(6)
-      max_val(10)
-      value_in_range(5)
-      min_val(6)
-      expect_equal(value_in_range(), 6)
-
-      min_val(0)
-      max_val(10)
-      value_in_range(12)
-      expect_equal(value_in_range(), 0)
+  min_val <- shiny::reactiveVal(0)
+  max_val <- shiny::reactiveVal(10)
+  value_in_range <- validated_reactive_val(
+    value = 5,
+    validation_expr = {
+      min_v <- min_val()
+      max_v <- max_val()
+      if (is.numeric(.vrv()) && .vrv() >= min_v && .vrv() <= max_v) {
+        .vrv()
+      } else {
+        min_v
+      }
     }
   )
+
+  expect_equal(isolate(value_in_range()), 5)
+
+  max_val(4)
+  expect_equal(isolate(value_in_range()), 0)
+
+  min_val(6)
+  max_val(10)
+  value_in_range(5)
+  min_val(6)
+  expect_equal(isolate(value_in_range()), 6)
+
+  min_val(0)
+  max_val(10)
+  value_in_range(12)
+  expect_equal(isolate(value_in_range()), 0)
 })
 
 test_that("validated_reactive_val enforces consistency", {
@@ -96,7 +85,7 @@ test_that("validated_reactive_val enforces consistency", {
         value = "A1",
         validation_expr = {
           valid_groups <- names(mock_data[[level()]])
-          if (self() %in% valid_groups) self() else valid_groups[[1]]
+          if (.vrv() %in% valid_groups) .vrv() else valid_groups[[1]]
         }
       )
       consistency_check <- shiny::reactiveVal()
@@ -124,54 +113,36 @@ test_that("validated_reactive_val enforces consistency", {
 
 test_that("`env` parameter is respected", {
   test_env <- rlang::env(sentinel = 10)
-  testServer(
-    function(input, output, session) {
-      vrv <- validated_reactive_val(
-        value = 5,
-        validation_expr = {
-          self() + sentinel
-        },
-        env = test_env
-      )
+  vrv <- validated_reactive_val(
+    value = 5,
+    validation_expr = {
+      .vrv() + sentinel
     },
-    {
-      expect_equal(vrv(), 15)
-    }
+    env = test_env
   )
+  expect_equal(isolate(vrv()), 15)
 })
 
 test_that("`value` defaults to NULL", {
-  testServer(
-    function(input, output, session) {
-      vrv <- validated_reactive_val(
-        validation_expr = {
-          if (is.null(self())) "was null" else "not null"
-        }
-      )
-    },
-    {
-      expect_equal(vrv(), "was null")
+  vrv <- validated_reactive_val(
+    validation_expr = {
+      if (is.null(.vrv())) "was null" else "not null"
     }
   )
+  expect_equal(isolate(vrv()), "was null")
 })
 
 test_that("`label` parameter does not cause errors", {
-  testServer(
-    function(input, output, session) {
-      vrv <- validated_reactive_val(
-        value = 1,
-        label = "my_vrv",
-        validation_expr = {
-          self()
-        }
-      )
-    },
-    {
-      expect_equal(vrv(), 1)
-      vrv(2)
-      expect_equal(vrv(), 2)
+  vrv <- validated_reactive_val(
+    value = 1,
+    label = "my_vrv",
+    validation_expr = {
+      .vrv()
     }
   )
+  expect_equal(isolate(vrv()), 1)
+  vrv(2)
+  expect_equal(isolate(vrv()), 2)
 })
 
 test_that("`label` appears in error messages", {
@@ -181,13 +152,11 @@ test_that("`label` appears in error messages", {
       stop("force error")
     }
   )
-  error_call <- tryCatch(
-    isolate(vrv()),
-    error = function(cnd) {
-      rlang::call_name(cnd$call)
-    }
+  cnd <- expect_error(isolate(vrv()))
+  expect_equal(
+    rlang::call_name(cnd$call),
+    "<reactive:my-label-test-validation>"
   )
-  expect_equal(error_call, "<reactive:my-label-test-validation>")
 })
 
 test_that("validation errors are informative", {
@@ -204,4 +173,25 @@ test_that("validation errors are informative", {
     isolate(vrv()),
     error = TRUE
   )
+})
+
+test_that("pronoun doesn't conflict with user-defined variables", {
+  # User names their validated reactive value `.vrv`, which could
+  # conflict with the pronoun.
+  .vrv <- validated_reactive_val(
+    value = 1,
+    validation_expr = {
+      # Inside the validation expression, `.vrv()` should refer to the
+      # pronoun, not the object itself, preventing an infinite loop.
+      .vrv() + 1
+    }
+  )
+  # The initial value is 1. The validation expression adds 1.
+  # So the first reactive read should be 2.
+  expect_equal(isolate(.vrv()), 2)
+
+  # Now, let's set it imperatively.
+  .vrv(5)
+  # The next reactive read should be 5 + 1 = 6.
+  expect_equal(isolate(.vrv()), 6)
 })

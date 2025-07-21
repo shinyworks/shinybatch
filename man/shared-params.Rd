@@ -4,30 +4,30 @@
 \alias{shared-params}
 \title{Parameters used in multiple functions}
 \arguments{
-\item{validation_expr}{(\code{expression}) A reactive expression that defines the
-authoritative state of this \code{validated_reactive_value}, This expression can
-access the \code{validated_reactive_value}'s own current value via a \code{self()}
-\code{\link[shiny:reactiveVal]{shiny::reactiveVal()}} to reconcile it with upstream dependencies.}
-
-\item{value}{(various) The initial value.}
-
-\item{label}{(length-1 \code{character} or \code{NULL}) An optional label for the
-\code{validated_reactive_value}, used for debugging.}
+\item{call}{(\code{environment}) The execution environment to mention as the
+source of error messages.}
 
 \item{env}{(\code{environment}) The environment in which to evaluate the
 \code{validation_expr}.}
 
+\item{label}{(length-1 \code{character} or \code{NULL}) An optional label for the
+\code{validated_reactive_value}, used for debugging.}
+
+\item{message_env}{(\code{environment}) The execution environment to use to
+evaluate variables in error messages.}
+
 \item{state_rv}{(\code{reactiveVal}) The \code{\link[shiny:reactiveVal]{shiny::reactiveVal()}} that holds the
 state.}
+
+\item{validation_expr}{(\code{expression}) A reactive expression that defines the
+authoritative state of this \code{validated_reactive_value}, This expression can
+access the \code{validated_reactive_value}'s own current value via the \code{.vrv()}
+pronoun to reconcile it with upstream dependencies.}
 
 \item{validation_rctv}{(\code{reactive}) The \code{\link[shiny:reactive]{shiny::reactive()}} that performs the
 validation.}
 
-\item{call}{(\code{environment}) The execution environment to mention as the
-source of error messages.}
-
-\item{message_env}{(\code{environment}) The execution environment to use to
-evaluate variables in error messages.}
+\item{value}{(various) The initial value.}
 }
 \description{
 Reused parameter definitions are gathered here for easier editing. R6 methods
