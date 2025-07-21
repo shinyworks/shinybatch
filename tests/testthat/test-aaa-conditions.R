@@ -1,44 +1,44 @@
-test_that("shinybatch_abort throws classed errors", {
+test_that(".shinybatch_abort throws classed errors", {
   expect_error(
     {
-      shinybatch_abort("Test message", subclass = "test")
+      .shinybatch_abort("Test message", subclass = "test")
     },
     class = c("shinybatch-error-test")
   )
 
   expect_error(
     {
-      shinybatch_abort("Test message", subclass = c("test", "test2"))
+      .shinybatch_abort("Test message", subclass = c("test", "test2"))
     },
     class = c("shinybatch-error-test")
   )
 
   expect_error(
     {
-      shinybatch_abort("Test message", subclass = c("test", "test2"))
+      .shinybatch_abort("Test message", subclass = c("test", "test2"))
     },
     class = c("shinybatch-error-test2")
   )
 
   expect_error(
     {
-      shinybatch_abort("Test message", subclass = "test")
+      .shinybatch_abort("Test message", subclass = "test")
     },
     class = "shinybatch-error"
   )
 
   expect_error(
     {
-      shinybatch_abort("Test message", subclass = "test")
+      .shinybatch_abort("Test message", subclass = "test")
     },
     class = "shinybatch-condition"
   )
 })
 
-test_that("shinybatch_abort message formatting is correct", {
+test_that(".shinybatch_abort message formatting is correct", {
   expect_snapshot(
     {
-      shinybatch_abort("This is a test message.", subclass = "snapshot")
+      .shinybatch_abort("This is a test message.", subclass = "snapshot")
     },
     error = TRUE
   )
@@ -46,7 +46,7 @@ test_that("shinybatch_abort message formatting is correct", {
   expect_snapshot(
     {
       bad_variable <- "bad"
-      shinybatch_abort(
+      .shinybatch_abort(
         c(
           "This is a test message with a variable: {bad_variable}",
           i = "This is some additional info."
@@ -58,9 +58,9 @@ test_that("shinybatch_abort message formatting is correct", {
   )
 })
 
-test_that("shinybatch_abort messages mention the parent function", {
+test_that(".shinybatch_abort messages mention the parent function", {
   wrapper <- function() {
-    shinybatch_abort("This is a test message.", subclass = "snapshot")
+    .shinybatch_abort("This is a test message.", subclass = "snapshot")
   }
   expect_snapshot(
     {
@@ -70,8 +70,8 @@ test_that("shinybatch_abort messages mention the parent function", {
   )
 })
 
-test_that("with_error_handling returns value on success", {
-  result <- with_error_handling(
+test_that(".with_error_handling returns value on success", {
+  result <- .with_error_handling(
     expr = {
       1 + 1
     },
@@ -81,10 +81,10 @@ test_that("with_error_handling returns value on success", {
   expect_equal(result, 2)
 })
 
-test_that("with_error_handling throws classed error on failure", {
+test_that(".with_error_handling throws classed error on failure", {
   expect_error(
     {
-      with_error_handling(
+      .with_error_handling(
         expr = {
           stop("Original error")
         },
@@ -96,10 +96,10 @@ test_that("with_error_handling throws classed error on failure", {
   )
 })
 
-test_that("with_error_handling throws an error that looks how we expect", {
+test_that(".with_error_handling throws an error that looks how we expect", {
   expect_snapshot(
     {
-      with_error_handling(
+      .with_error_handling(
         expr = {
           stop("Original error")
         },
@@ -111,10 +111,10 @@ test_that("with_error_handling throws an error that looks how we expect", {
   )
 })
 
-test_that("with_error_handling executes before_error expression", {
+test_that(".with_error_handling executes before_error expression", {
   x <- 1
   expect_error({
-    with_error_handling(
+    .with_error_handling(
       expr = {
         stop("Original error")
       },

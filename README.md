@@ -14,8 +14,46 @@ coverage](https://codecov.io/gh/shinyworks/shinybatch/graph/badge.svg)](https://
 [![R-CMD-check](https://github.com/shinyworks/shinybatch/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/shinyworks/shinybatch/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-A new type of reactive object for tightly coupled variables in {shiny}
-apps.
+{shinybatch} provides `validated_reactive_val()`, a hybrid reactive
+object that acts like a `shiny::reactiveVal()` but with a validation
+expression like a `shiny::reactive()`. This allows for the creation of
+self-validating reactive values, useful for managing complex,
+interdependent state in ‘shiny’ applications.
+
+## Motivation
+
+In a standard Shiny app, you might have two inputs that depend on each
+other, like a “category” and “sub-category” selector. When the user
+changes the category, you need an `observeEvent()` to update the
+sub-category’s value to something valid. `validated_reactive_val()`
+simplifies this pattern by building the validation logic directly into
+the reactive object itself. We also ensure that the changes happen in
+the correct order, and prevent observers from “seeing” the inconsistent
+state.
+
+``` r
+# `group_val` depends on `input$level`.
+group_val <- validated_reactive_val(
+  value = "A1",
+  validation_expr = {
+    # If the current value is not valid for the new level, reset it.
+    valid_groups <- if (input$level == "A") {
+      c("A1", "A2")
+    } else {
+      c("B1", "B2")
+    }
+    if (self() %in% valid_groups) {
+      self()
+    } else {
+      valid_groups[[1]]
+    }
+  }
+)
+```
+
+Now, any time `input$level` changes, `group_val()` will automatically
+re-validate its own state. When you read `group_val()`, you are
+guaranteed to get a value that is consistent with its dependencies.
 
 ## Installation
 
