@@ -47,20 +47,9 @@ methods.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-validation-expr">validation_expr<a class="anchor" aria-label="anchor" href="#arg-validation-expr"></a></dt>
-<dd><p>(<code>expression</code>) A reactive expression that defines the
-authoritative state of this <code>validated_reactive_value</code>, This expression can
-access the <code>validated_reactive_value</code>'s own current value via a <code>self()</code>
-<code><a href="https://rdrr.io/pkg/shiny/man/reactiveVal.html" class="external-link">shiny::reactiveVal()</a></code> to reconcile it with upstream dependencies.</p></dd>
-
-
-<dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
-<dd><p>(various) The initial value.</p></dd>
-
-
-<dt id="arg-label">label<a class="anchor" aria-label="anchor" href="#arg-label"></a></dt>
-<dd><p>(length-1 <code>character</code> or <code>NULL</code>) An optional label for the
-<code>validated_reactive_value</code>, used for debugging.</p></dd>
+<dl><dt id="arg-call">call<a class="anchor" aria-label="anchor" href="#arg-call"></a></dt>
+<dd><p>(<code>environment</code>) The execution environment to mention as the
+source of error messages.</p></dd>
 
 
 <dt id="arg-env">env<a class="anchor" aria-label="anchor" href="#arg-env"></a></dt>
@@ -68,9 +57,26 @@ access the <code>validated_reactive_value</code>'s own current value via a <code
 <code>validation_expr</code>.</p></dd>
 
 
+<dt id="arg-label">label<a class="anchor" aria-label="anchor" href="#arg-label"></a></dt>
+<dd><p>(length-1 <code>character</code> or <code>NULL</code>) An optional label for the
+<code>validated_reactive_value</code>, used for debugging.</p></dd>
+
+
+<dt id="arg-message-env">message_env<a class="anchor" aria-label="anchor" href="#arg-message-env"></a></dt>
+<dd><p>(<code>environment</code>) The execution environment to use to
+evaluate variables in error messages.</p></dd>
+
+
 <dt id="arg-state-rv">state_rv<a class="anchor" aria-label="anchor" href="#arg-state-rv"></a></dt>
 <dd><p>(<code>reactiveVal</code>) The <code><a href="https://rdrr.io/pkg/shiny/man/reactiveVal.html" class="external-link">shiny::reactiveVal()</a></code> that holds the
 state.</p></dd>
+
+
+<dt id="arg-validation-expr">validation_expr<a class="anchor" aria-label="anchor" href="#arg-validation-expr"></a></dt>
+<dd><p>(<code>expression</code>) A reactive expression that defines the
+authoritative state of this <code>validated_reactive_value</code>, This expression can
+access the <code>validated_reactive_value</code>'s own current value via the <code><a href="dot-vrv.html">.vrv()</a></code>
+pronoun to reconcile it with upstream dependencies.</p></dd>
 
 
 <dt id="arg-validation-rctv">validation_rctv<a class="anchor" aria-label="anchor" href="#arg-validation-rctv"></a></dt>
@@ -78,14 +84,8 @@ state.</p></dd>
 validation.</p></dd>
 
 
-<dt id="arg-call">call<a class="anchor" aria-label="anchor" href="#arg-call"></a></dt>
-<dd><p>(<code>environment</code>) The execution environment to mention as the
-source of error messages.</p></dd>
-
-
-<dt id="arg-message-env">message_env<a class="anchor" aria-label="anchor" href="#arg-message-env"></a></dt>
-<dd><p>(<code>environment</code>) The execution environment to use to
-evaluate variables in error messages.</p></dd>
+<dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
+<dd><p>(various) The initial value.</p></dd>
 
 </dl></div>
 
