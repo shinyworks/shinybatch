@@ -22,7 +22,7 @@
     },
     message = c(
       "Function {.code .vrv()} not found.",
-      i = "The {.code vrv()} pronoun must only be used inside the {.arg validation_expr} of a {.fn shinybatch::validated_reactive_val}."
+      i = "The {.code .vrv()} pronoun must only be used inside the {.arg validation_expr} of a {.fn shinybatch::validated_reactive_val}."
     ),
     subclass = "pronoun-not-found",
     call = env,
