@@ -10,7 +10,8 @@
   subclass,
   before_error = NULL,
   call = rlang::caller_env(),
-  message_env = call
+  message_env = call,
+  pass_parent = TRUE
 )
 }
 \arguments{
@@ -30,6 +31,9 @@ source of error messages.}
 
 \item{message_env}{(\code{environment}) The execution environment to use to
 evaluate variables in error messages.}
+
+\item{pass_parent}{(length-1 \code{logical}) Whether the triggering condition
+should be included in the error message.}
 }
 \value{
 The result of \code{expr} if successful.

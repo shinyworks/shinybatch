@@ -42,8 +42,8 @@ group_val <- validated_reactive_val(
     } else {
       c("B1", "B2")
     }
-    if (self() %in% valid_groups) {
-      self()
+    if (.vrv() %in% valid_groups) {
+      .vrv()
     } else {
       valid_groups[[1]]
     }

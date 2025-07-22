@@ -7,6 +7,8 @@
 #' @param expr (`expression`) The expression to evaluate.
 #' @param before_error (`expression` or `NULL`) An expression to run before
 #'   aborting, typically for cleanup.
+#' @param pass_parent (length-1 `logical`) Whether the triggering condition
+#'   should be included in the error message.
 #'
 #' @returns The result of `expr` if successful.
 #' @keywords internal
@@ -15,14 +17,15 @@
                                  subclass,
                                  before_error = NULL,
                                  call = rlang::caller_env(),
-                                 message_env = call) {
+                                 message_env = call,
+                                 pass_parent = TRUE) {
   rlang::try_fetch(
     expr,
     error = function(cnd) {
       rlang::inject(before_error)
       .shinybatch_abort(
         message,
-        parent = cnd,
+        parent = if (pass_parent) cnd,
         subclass = subclass,
         call = call,
         message_env = message_env

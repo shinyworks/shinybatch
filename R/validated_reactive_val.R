@@ -28,8 +28,8 @@
 #'         } else {
 #'           c("B1", "B2")
 #'         }
-#'         if (self() %in% valid_groups) {
-#'           self()
+#'         if (.vrv() %in% valid_groups) {
+#'           .vrv()
 #'         } else {
 #'           valid_groups[[1]]
 #'         }
@@ -90,9 +90,11 @@ validated_reactive_val <- function(validation_expr,
 #' @keywords internal
 .create_validation_reactive <- function(validation_expr, state_rv, label, env) {
   validation_label <- .paste_if_defined(label, "validation", sep = "-")
-  validation_expr_quo <- rlang::enquo(validation_expr)
-  env$self <- function() state_rv()
-  validation_expr_quo <- rlang::quo_set_env(validation_expr_quo, env)
+  validation_expr_quo <- .enquo_validation_expr(
+    {{ validation_expr }},
+    state_rv,
+    env
+  )
   reactive({
     new_val <- .with_error_handling(
       rlang::eval_tidy(validation_expr_quo),
@@ -128,4 +130,23 @@ validated_reactive_val <- function(validation_expr,
       state_rv(value)
     }
   }
+}
+
+#' Prepare the validation quosure
+#'
+#' Capture the user-provided validation expression and set its environment to a
+#' new child environment containing the `.vrv` pronoun.
+#'
+#' @inheritParams shared-params
+#'
+#' @returns The `validation_expr` enclosed in an environment that is a child of
+#'   `env`, with a `.vrv()` pronoun function.
+#' @keywords internal
+.enquo_validation_expr <- function(validation_expr, state_rv, env) {
+  validation_expr_quo <- rlang::enquo(validation_expr)
+  new_env <- rlang::env(
+    .vrv = function() state_rv(),
+    env
+  )
+  rlang::quo_set_env(validation_expr_quo, new_env)
 }
