@@ -1,0 +1,39 @@
+---
+title: "Cascading inputs"
+filters:
+  - shinylive
+---
+
+In Shiny applications, it's common to have inputs that depend on one another. For example, a user might first select a state, and a second dropdown is then populated with cities from that state. This is often called "cascading inputs".
+
+While this is a powerful feature, it can introduce subtle bugs related to timing. When the first input changes, there is a brief moment where the second input still holds its old value, which may now be invalid. If a downstream reactive calculation depends on both inputs, it can briefly receive an inconsistent state, potentially leading to errors or triggering slow, unnecessary computations.
+
+## The Problem
+
+Consider the following application. It has two `selectInput` controls: "Level" and "Group". The available choices for "Group" depend on the selected "Level". When you change the "Level", the "Group" input becomes temporarily invalid before it is updated with new choices.
+
+In this example, we've added a `Sys.sleep(5)` to simulate a long-running operation that gets triggered when the app receives an inconsistent state. Try changing the "Level" from "A" to "B". You will see a modal dialog appear for 5 seconds, demonstrating the problem.
+
+```{shinylive-r}
+#| label: motivating-example
+#| standalone: true
+#| viewerHeight: 300
+{{< include ../../inst/apps/cascading_filters/shiny/app.R >}}
+```
+
+## The Solution: `validated_reactive_val()`
+
+The `shinybatch` package provides `validated_reactive_val()` to solve this exact problem. It works like a standard `shiny::reactiveVal()` but with an added validation expression. When you try to set its value, it only accepts the new value if it passes the validation. Otherwise, it reverts to `NULL`.
+
+This ensures that the reactive value can never hold an invalid state. Downstream calculations that use `shiny::req()` on this value will be correctly paused during the brief transient period, preventing the error.
+
+In the updated app below, we've replaced `shiny::reactiveVal()` with `shinybatch::validated_reactive_val()`. Notice how the core logic changes very little. However, if you try to invalidate the "Group" by changing the "Level", the error modal no longer appears. The application remains responsive and correctly waits until a valid state is available.
+
+```{shinylive-r}
+#| label: solution-example
+#| standalone: true
+#| viewerHeight: 300
+webr::install("shinybatch", repos = "https://shinyworks.r-universe.dev/")
+
+{{< include ../../inst/apps/cascading_filters/shinybatch/app.R >}}
+```

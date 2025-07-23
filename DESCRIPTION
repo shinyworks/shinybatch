@@ -8,7 +8,7 @@ Description: Create a hybrid reactive object that can be set imperatively
     but is validated reactively, ensuring its state is always consistent
     with its dependencies.
 License: MIT + file LICENSE
-URL: https://shinyworks.github.io/shinybatch/,
+URL: https://shinybatch.shinyworks.org,
     https://github.com/shinyworks/shinybatch
 BugReports: https://github.com/shinyworks/shinybatch/issues
 Imports:
@@ -18,6 +18,7 @@ Imports:
 Suggests: 
     covr,
     knitr,
+    quarto,
     rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
@@ -25,3 +26,4 @@ Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+Config/Needs/website: rmarkdown, quarto

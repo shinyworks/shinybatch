@@ -11,7 +11,7 @@ Create a hybrid reactive object that can be set imperatively but is validated re
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://shinyworks.github.io/shinybatch/}
+  \item \url{https://shinybatch.shinyworks.org}
   \item \url{https://github.com/shinyworks/shinybatch}
   \item Report bugs at \url{https://github.com/shinyworks/shinybatch/issues}
 }
