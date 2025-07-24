@@ -18,9 +18,7 @@ Imports:
 Suggests: 
     covr,
     knitr,
-    quarto,
     rmarkdown,
-    shinylive,
     testthat (>= 3.0.0)
 Config/Needs/website: rmarkdown, quarto, shinylive
 Config/testthat/edition: 3
