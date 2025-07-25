@@ -3,7 +3,7 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   articles/cascading_inputs: cascading_inputs.html
-last_built: 2025-07-25T15:24Z
+last_built: 2025-07-25T15:31Z
 urls:
   reference: https://shinybatch.shinyworks.org/reference
   article: https://shinybatch.shinyworks.org/articles
