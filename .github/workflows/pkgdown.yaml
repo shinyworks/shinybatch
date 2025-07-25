@@ -4,6 +4,7 @@ on:
   push:
     branches: [main, master]
   pull_request:
+    types: [opened, synchronize, reopened]
   release:
     types: [published]
   workflow_dispatch:
@@ -47,3 +48,14 @@ jobs:
           clean: false
           branch: gh-pages
           folder: docs
+
+      - name: Deploy PR preview 🧪
+        if: github.event_name == 'pull_request'
+        uses: JamesIves/github-pages-deploy-action@v4.5.0
+        with:
+          # Don't clean the whole branch, just the target folder
+          clean: false
+          branch: gh-pages
+          folder: docs
+          # Deploy to a subdirectory named after the PR number
+          target-folder: pr/${{ github.event.number }}
