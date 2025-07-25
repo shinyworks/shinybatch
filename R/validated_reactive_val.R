@@ -96,7 +96,7 @@ validated_reactive_val <- function(validation_expr,
     env
   )
   reactive({
-    new_val <- .with_error_handling(
+    .with_error_handling(
       rlang::eval_tidy(validation_expr_quo),
       message = c(
         "Validation of {.fn shinybatch::validated_reactive_val} failed.",
@@ -104,8 +104,6 @@ validated_reactive_val <- function(validation_expr,
       ),
       subclass = "validation"
     )
-    state_rv(new_val)
-    state_rv()
   }, label = validation_label)
 }
 
