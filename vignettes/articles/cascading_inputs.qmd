@@ -1,5 +1,9 @@
 ---
 title: "Cascading inputs"
+format:
+  html:
+    resources: 
+      - shinylive-sw.js
 filters:
   - shinylive
 ---
