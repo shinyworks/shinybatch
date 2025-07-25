@@ -2,8 +2,11 @@ url: https://shinybatch.shinyworks.org
 template:
   bootstrap: 5
   includes:
-    in_header:
-      - shinylive-head.html
+    # This meta tag is required for shinylive to find its service worker.
+    # It is injected by pkgdown into the <head> of all pages.
+    # See https://github.com/shinyworks/shinybatch/issues/12 for details.
+    in_header: |
+      <meta name="shinylive:serviceworker_dir" content=".">
 development:
   mode: auto
 lang: en-US
