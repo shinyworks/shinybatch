@@ -1,6 +1,9 @@
 url: https://shinybatch.shinyworks.org
 template:
   bootstrap: 5
+  includes:
+    in_header:
+      - shinylive-head.html
 development:
   mode: auto
 lang: en-US
