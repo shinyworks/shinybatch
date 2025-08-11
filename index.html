@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Complex Reactive Values for shiny">
-<meta name="description" content="Create a hybrid reactive object that can be set imperatively but is validated reactively, ensuring its state is always consistent with its dependencies.">
-<meta property="og:description" content="Create a hybrid reactive object that can be set imperatively but is validated reactively, ensuring its state is always consistent with its dependencies.">
+<meta name="description" content="Create hybrid reactive objects that can be set imperatively but are validated reactively, ensuring their state is always consistent with their dependencies.">
+<meta property="og:description" content="Create hybrid reactive objects that can be set imperatively but are validated reactively, ensuring their state is always consistent with their dependencies.">
 <meta name="shinylive:serviceworker_dir" content=".">
 </head>
 <body>
@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">shinybatch</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.0.0.9002</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.0.0.9003</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,22 +64,19 @@
 <p>In a standard Shiny app, you might have two inputs that depend on each other, like a “category” and “sub-category” selector. When the user changes the category, you need an <code>observeEvent()</code> to update the sub-category’s value to something valid. <code><a href="reference/validated_reactive_val.html">validated_reactive_val()</a></code> simplifies this pattern by building the validation logic directly into the reactive object itself. We also ensure that the changes happen in the correct order, and prevent observers from “seeing” the inconsistent state.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># `group_val` depends on `input$level`.</span></span>
-<span><span class="va">group_val</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/validated_reactive_val.html">validated_reactive_val</a></span><span class="op">(</span></span>
-<span>  value <span class="op">=</span> <span class="st">"A1"</span>,</span>
-<span>  validation_expr <span class="op">=</span> <span class="op">{</span></span>
-<span>    <span class="co"># If the current value is not valid for the new level, reset it.</span></span>
-<span>    <span class="va">valid_groups</span> <span class="op">&lt;-</span> <span class="kw">if</span> <span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">level</span> <span class="op">==</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A1"</span>, <span class="st">"A2"</span><span class="op">)</span></span>
-<span>    <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B1"</span>, <span class="st">"B2"</span><span class="op">)</span></span>
-<span>    <span class="op">}</span></span>
-<span>    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="reference/dot-vrv.html">.vrv</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">valid_groups</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="fu"><a href="reference/dot-vrv.html">.vrv</a></span><span class="op">(</span><span class="op">)</span></span>
-<span>    <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>      <span class="va">valid_groups</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span>    <span class="op">}</span></span>
+<span><span class="va">group_val</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/validated_reactive_val.html">validated_reactive_val</a></span><span class="op">(</span>value <span class="op">=</span> <span class="st">"A1"</span>, validation_expr <span class="op">=</span> <span class="op">{</span></span>
+<span>  <span class="co"># If the current value is not valid for the new level, reset it.</span></span>
+<span>  <span class="va">valid_groups</span> <span class="op">&lt;-</span> <span class="kw">if</span> <span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">level</span> <span class="op">==</span> <span class="st">"A"</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A1"</span>, <span class="st">"A2"</span><span class="op">)</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B1"</span>, <span class="st">"B2"</span><span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="reference/dot-vrv.html">.vrv</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">valid_groups</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="reference/dot-vrv.html">.vrv</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>    <span class="va">valid_groups</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 <p>Now, any time <code>input$level</code> changes, <code>group_val()</code> will automatically re-validate its own state. When you read <code>group_val()</code>, you are guaranteed to get a value that is consistent with its dependencies.</p>
 </div>
 <div class="section level2">
@@ -140,7 +137,7 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
-<li><a href="https://CRAN.R-project.org/package=shinybatch" class="external-link"><img src="https://www.r-pkg.org/badges/version/shinybatch" alt="CRAN status"></a></li>
+<li><a href="https://CRAN.R-project.org/package=shinybatch" class="external-link"><img src="https://www.r-pkg.org/badges/version/shinybatch.png" alt="CRAN status"></a></li>
 <li><a href="https://app.codecov.io/gh/shinyworks/shinybatch" class="external-link"><img src="https://codecov.io/gh/shinyworks/shinybatch/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://github.com/shinyworks/shinybatch/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/shinyworks/shinybatch/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
