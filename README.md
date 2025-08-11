@@ -1,5 +1,6 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+<!-- README.md is generated from README.qmd. Please edit that file -->
 
 # shinybatch
 
@@ -8,7 +9,7 @@
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/shinybatch)](https://CRAN.R-project.org/package=shinybatch)
+status](https://www.r-pkg.org/badges/version/shinybatch.png)](https://CRAN.R-project.org/package=shinybatch)
 [![Codecov test
 coverage](https://codecov.io/gh/shinyworks/shinybatch/graph/badge.svg)](https://app.codecov.io/gh/shinyworks/shinybatch)
 [![R-CMD-check](https://github.com/shinyworks/shinybatch/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/shinyworks/shinybatch/actions/workflows/R-CMD-check.yaml)
@@ -33,22 +34,19 @@ state.
 
 ``` r
 # `group_val` depends on `input$level`.
-group_val <- validated_reactive_val(
-  value = "A1",
-  validation_expr = {
-    # If the current value is not valid for the new level, reset it.
-    valid_groups <- if (input$level == "A") {
-      c("A1", "A2")
-    } else {
-      c("B1", "B2")
-    }
-    if (.vrv() %in% valid_groups) {
-      .vrv()
-    } else {
-      valid_groups[[1]]
-    }
+group_val <- validated_reactive_val(value = "A1", validation_expr = {
+  # If the current value is not valid for the new level, reset it.
+  valid_groups <- if (input$level == "A") {
+    c("A1", "A2")
+  } else {
+    c("B1", "B2")
   }
-)
+  if (.vrv() %in% valid_groups) {
+    .vrv()
+  } else {
+    valid_groups[[1]]
+  }
+})
 ```
 
 Now, any time `input$level` changes, `group_val()` will automatically

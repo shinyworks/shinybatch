@@ -12,13 +12,15 @@
 #'
 #' @returns The result of `expr` if successful.
 #' @keywords internal
-.with_error_handling <- function(expr,
-                                 message,
-                                 subclass,
-                                 before_error = NULL,
-                                 call = rlang::caller_env(),
-                                 message_env = call,
-                                 pass_parent = TRUE) {
+.with_error_handling <- function(
+  expr,
+  message,
+  subclass,
+  before_error = NULL,
+  call = rlang::caller_env(),
+  message_env = call,
+  pass_parent = TRUE
+) {
   rlang::try_fetch(
     expr,
     error = function(cnd) {
@@ -52,12 +54,14 @@
 #'   [rlang::abort()].
 #'
 #' @keywords internal
-.shinybatch_abort <- function(message,
-                              subclass,
-                              call = rlang::caller_env(),
-                              message_env = call,
-                              parent = NULL,
-                              ...) {
+.shinybatch_abort <- function(
+  message,
+  subclass,
+  call = rlang::caller_env(),
+  message_env = call,
+  parent = NULL,
+  ...
+) {
   cli::cli_abort(
     message,
     class = c(

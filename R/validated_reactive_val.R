@@ -53,10 +53,12 @@
 #'   }
 #'
 #'   shinyApp(ui, server)
-validated_reactive_val <- function(validation_expr,
-                                   value = NULL,
-                                   label = NULL,
-                                   env = rlang::caller_env()) {
+validated_reactive_val <- function(
+  validation_expr,
+  value = NULL,
+  label = NULL,
+  env = rlang::caller_env()
+) {
   state_rv <- .initialize_state_rv(value, label)
   validation_rctv <- .create_validation_reactive(
     {{ validation_expr }},
@@ -95,16 +97,19 @@ validated_reactive_val <- function(validation_expr,
     state_rv,
     env
   )
-  reactive({
-    .with_error_handling(
-      rlang::eval_tidy(validation_expr_quo),
-      message = c(
-        "Validation of {.fn shinybatch::validated_reactive_val} failed.",
-        x = "Could not evaluate {.arg validation_expr}."
-      ),
-      subclass = "validation"
-    )
-  }, label = validation_label)
+  reactive(
+    {
+      .with_error_handling(
+        rlang::eval_tidy(validation_expr_quo),
+        message = c(
+          "Validation of {.fn shinybatch::validated_reactive_val} failed.",
+          x = "Could not evaluate {.arg validation_expr}."
+        ),
+        subclass = "validation"
+      )
+    },
+    label = validation_label
+  )
 }
 
 #' Create the User-Facing Getter/Setter Function

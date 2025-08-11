@@ -1,45 +1,62 @@
-test_that("Categorical dependency works as expected", {
-  mock_data <- list(
-    "A" = list("A1" = 1, "A2" = 2),
-    "B" = list("B1" = 3, "B2" = 4),
-    "C" = list("A1" = 5, "B2" = 6)
-  )
+# Categorical Dependency Tests ----
 
+test_that("vrv with categorical dependency initializes correctly", {
+  mock_data <- list("A" = c("A1", "A2"))
   level <- shiny::reactiveVal("A")
-  group <- validated_reactive_val(
-    value = "A1",
-    validation_expr = {
-      valid_groups <- names(mock_data[[level()]])
-      if (.vrv() %in% valid_groups) {
-        .vrv()
-      } else {
-        valid_groups[[1]]
-      }
-    }
-  )
-  # Group should be reset
-  level("B")
-  expect_equal(isolate(level()), "B")
-  expect_equal(isolate(group()), "B1")
-
-  # Group should remain valid
-  level("C")
-  expect_equal(isolate(level()), "C")
-  expect_equal(isolate(group()), "A1")
-
-  # Set group to a valid value
-  group("B2")
-  expect_equal(isolate(level()), "C")
-  expect_equal(isolate(group()), "B2")
-
-  # Group corrects itself when invalid
-  level("A")
-  expect_equal(isolate(group()), "A1")
-  group("B1")
+  group <- validated_reactive_val(value = "A1", validation_expr = {
+    valid_groups <- mock_data[[level()]]
+    if (.vrv() %in% valid_groups) .vrv() else valid_groups[[1]]
+  })
   expect_equal(isolate(group()), "A1")
 })
 
-test_that("Range-based dependency works as expected", {
+test_that("vrv with categorical dependency can be set to a valid value", {
+  mock_data <- list("A" = c("A1", "A2"))
+  level <- shiny::reactiveVal("A")
+  group <- validated_reactive_val(value = "A1", validation_expr = {
+    valid_groups <- mock_data[[level()]]
+    if (.vrv() %in% valid_groups) .vrv() else valid_groups[[1]]
+  })
+  group("A2")
+  expect_equal(isolate(group()), "A2")
+})
+
+test_that("vrv with categorical dependency resets when invalid", {
+  mock_data <- list("A" = "A1", "B" = "B1")
+  level <- shiny::reactiveVal("A")
+  group <- validated_reactive_val(value = "A1", validation_expr = {
+    valid_groups <- mock_data[[level()]]
+    if (.vrv() %in% valid_groups) .vrv() else valid_groups[[1]]
+  })
+  level("B")
+  expect_equal(isolate(group()), "B1")
+})
+
+test_that("vrv with categorical dependency remains valid with overlapping groups", {
+  mock_data <- list("A" = "A1", "B" = c("A1", "B1"))
+  level <- shiny::reactiveVal("A")
+  group <- validated_reactive_val(value = "A1", validation_expr = {
+    valid_groups <- mock_data[[level()]]
+    if (.vrv() %in% valid_groups) .vrv() else valid_groups[[1]]
+  })
+  level("B")
+  expect_equal(isolate(group()), "A1")
+})
+
+test_that("vrv with categorical dependency corrects an invalid imperative set", {
+  mock_data <- list("A" = "A1", "B" = "B1")
+  level <- shiny::reactiveVal("A")
+  group <- validated_reactive_val(value = "A1", validation_expr = {
+    valid_groups <- mock_data[[level()]]
+    if (.vrv() %in% valid_groups) .vrv() else valid_groups[[1]]
+  })
+  group("B1") # Invalid for level "A"
+  expect_equal(isolate(group()), "A1")
+})
+
+# Range-based Dependency Tests ----
+
+test_that("vrv with range dependency initializes correctly", {
   min_val <- shiny::reactiveVal(0)
   max_val <- shiny::reactiveVal(10)
   value_in_range <- validated_reactive_val(
@@ -54,23 +71,68 @@ test_that("Range-based dependency works as expected", {
       }
     }
   )
-
   expect_equal(isolate(value_in_range()), 5)
+})
 
+test_that("vrv with range dependency resets when max changes", {
+  min_val <- shiny::reactiveVal(0)
+  max_val <- shiny::reactiveVal(10)
+  value_in_range <- validated_reactive_val(
+    value = 5,
+    validation_expr = {
+      min_v <- min_val()
+      max_v <- max_val()
+      if (is.numeric(.vrv()) && .vrv() >= min_v && .vrv() <= max_v) {
+        .vrv()
+      } else {
+        min_v
+      }
+    }
+  )
   max_val(4)
   expect_equal(isolate(value_in_range()), 0)
+})
 
-  min_val(6)
-  max_val(10)
-  value_in_range(5)
+test_that("vrv with range dependency resets when min changes", {
+  min_val <- shiny::reactiveVal(0)
+  max_val <- shiny::reactiveVal(10)
+  value_in_range <- validated_reactive_val(
+    value = 5,
+    validation_expr = {
+      min_v <- min_val()
+      max_v <- max_val()
+      if (is.numeric(.vrv()) && .vrv() >= min_v && .vrv() <= max_v) {
+        .vrv()
+      } else {
+        min_v
+      }
+    }
+  )
   min_val(6)
   expect_equal(isolate(value_in_range()), 6)
+})
 
-  min_val(0)
-  max_val(10)
+test_that("vrv with range dependency corrects an invalid imperative set", {
+  min_val <- shiny::reactiveVal(0)
+  max_val <- shiny::reactiveVal(10)
+  value_in_range <- validated_reactive_val(
+    value = 5,
+    validation_expr = {
+      min_v <- min_val()
+      max_v <- max_val()
+      if (is.numeric(.vrv()) && .vrv() >= min_v && .vrv() <= max_v) {
+        .vrv()
+      } else {
+        min_v
+      }
+    }
+  )
   value_in_range(12)
   expect_equal(isolate(value_in_range()), 0)
 })
+
+
+# Other Tests ----
 
 test_that("validated_reactive_val enforces consistency", {
   mock_data <- list(
@@ -81,13 +143,10 @@ test_that("validated_reactive_val enforces consistency", {
   testServer(
     function(input, output, session) {
       level <- shiny::reactiveVal("A")
-      group <- validated_reactive_val(
-        value = "A1",
-        validation_expr = {
-          valid_groups <- names(mock_data[[level()]])
-          if (.vrv() %in% valid_groups) .vrv() else valid_groups[[1]]
-        }
-      )
+      group <- validated_reactive_val(value = "A1", validation_expr = {
+        valid_groups <- names(mock_data[[level()]])
+        if (.vrv() %in% valid_groups) .vrv() else valid_groups[[1]]
+      })
       consistency_check <- shiny::reactiveVal()
 
       # This "sensor" observer should now return TRUE. The reactive system
@@ -146,12 +205,9 @@ test_that("`label` parameter does not cause errors", {
 })
 
 test_that("`label` appears in error messages", {
-  vrv <- validated_reactive_val(
-    label = "my-label-test",
-    validation_expr = {
-      stop("force error")
-    }
-  )
+  vrv <- validated_reactive_val(label = "my-label-test", validation_expr = {
+    stop("force error")
+  })
   cnd <- expect_error(isolate(vrv()))
   expect_equal(
     rlang::call_name(cnd$call),

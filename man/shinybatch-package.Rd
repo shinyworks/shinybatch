@@ -6,7 +6,7 @@
 \alias{shinybatch-package}
 \title{shinybatch: Complex Reactive Values for 'shiny'}
 \description{
-Create a hybrid reactive object that can be set imperatively but is validated reactively, ensuring its state is always consistent with its dependencies.
+Create hybrid reactive objects that can be set imperatively but are validated reactively, ensuring their state is always consistent with their dependencies.
 }
 \seealso{
 Useful links:
