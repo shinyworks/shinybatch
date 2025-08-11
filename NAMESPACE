@@ -2,4 +2,5 @@
 
 export(.vrv)
 export(validated_reactive_val)
+export(vrv_factor)
 import(shiny)

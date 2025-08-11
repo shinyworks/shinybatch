@@ -1,8 +1,7 @@
 ---
-output: github_document
+format: gfm
 ---
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- README.md is generated from README.qmd. Please edit that file -->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -30,22 +29,19 @@ In a standard Shiny app, you might have two inputs that depend on each other, li
 
 ```{r, eval = FALSE}
 # `group_val` depends on `input$level`.
-group_val <- validated_reactive_val(
-  value = "A1",
-  validation_expr = {
-    # If the current value is not valid for the new level, reset it.
-    valid_groups <- if (input$level == "A") {
-      c("A1", "A2")
-    } else {
-      c("B1", "B2")
-    }
-    if (.vrv() %in% valid_groups) {
-      .vrv()
-    } else {
-      valid_groups[[1]]
-    }
+group_val <- validated_reactive_val(value = "A1", validation_expr = {
+  # If the current value is not valid for the new level, reset it.
+  valid_groups <- if (input$level == "A") {
+    c("A1", "A2")
+  } else {
+    c("B1", "B2")
   }
-)
+  if (.vrv() %in% valid_groups) {
+    .vrv()
+  } else {
+    valid_groups[[1]]
+  }
+})
 ```
 
 Now, any time `input$level` changes, `group_val()` will automatically re-validate its own state. When you read `group_val()`, you are guaranteed to get a value that is consistent with its dependencies.
