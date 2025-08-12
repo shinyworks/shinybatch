@@ -3,7 +3,8 @@ format: gfm
 ---
 <!-- README.md is generated from README.qmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -27,7 +28,8 @@ knitr::opts_chunk$set(
 
 In a standard Shiny app, you might have two inputs that depend on each other, like a "category" and "sub-category" selector. When the user changes the category, you need an `observeEvent()` to update the sub-category's value to something valid. `validated_reactive_val()` simplifies this pattern by building the validation logic directly into the reactive object itself. We also ensure that the changes happen in the correct order, and prevent observers from "seeing" the inconsistent state.
 
-```{r, eval = FALSE}
+```{r}
+#| eval: false
 # `group_val` depends on `input$level`.
 group_val <- validated_reactive_val(value = "A1", validation_expr = {
   # If the current value is not valid for the new level, reset it.
