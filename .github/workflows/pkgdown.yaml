@@ -45,7 +45,9 @@ jobs:
       - name: Build Wasm R packages
         uses: r-wasm/actions/build-rwasm@v2
         with:
-          packages: "."
+          packages: |
+            shiny
+            "."
           repo-path: "docs"
   
       # Upload an artifact that will work with GitHub Pages
