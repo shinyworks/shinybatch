@@ -18,6 +18,8 @@ In this example, we've added a `Sys.sleep(5)` to simulate a long-running operati
 #| label: motivating-example
 #| standalone: true
 #| viewerHeight: 300
+#| components: [editor, viewer]
+#| layout: vertical
 {{< include ../../inst/apps/cascading_filters/shiny/app.R >}}
 ```
 
@@ -33,6 +35,8 @@ In the updated app below, we've replaced `shiny::reactiveVal()` with `shinybatch
 #| label: solution-example
 #| standalone: true
 #| viewerHeight: 300
+#| components: [editor, viewer]
+#| layout: vertical
 webr::install("shinybatch", repos = "https://shinyworks.r-universe.dev/")
 
 {{< include ../../inst/apps/cascading_filters/shinybatch/app.R >}}
