@@ -38,12 +38,13 @@ jobs:
           extra-packages: any::pkgdown, local::.
           needs: website
 
-      - name: Set Environment Variable for Repo URL
+      - name: Update Repo URL in QMD
         run: |
+          QMD_FILE="vignettes/example.qmd"
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            echo "SHINYBATCH_REPO_URL=https://shinybatch.shinyworks.io/pr/${{ github.event.number }}" >> $GITHUB_ENV
+            sed -i "s|__SHINYBATCH_REPO_URL__|https://shinybatch.shinyworks.io/pr/${{ github.event.number }}|g" $QMD_FILE
           else
-            echo "SHINYBATCH_REPO_URL=https://shinybatch.shinyworks.io/" >> $GITHUB_ENV
+            sed -i "s|__SHINYBATCH_REPO_URL__|https://shinybatch.shinyworks.io/|g" $QMD_FILE
           fi
 
       - name: Build site
