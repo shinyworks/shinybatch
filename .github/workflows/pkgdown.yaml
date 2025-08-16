@@ -41,6 +41,22 @@ jobs:
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
         shell: Rscript {0}
 
+      # Build the local R package and structure the CRAN repository
+      - name: Build Wasm R packages
+        uses: r-wasm/actions/build-rwasm@v2
+        with:
+          packages: |
+            shiny
+            "."
+          repo-path: "docs"
+  
+      # Upload an artifact that will work with GitHub Pages
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "docs"
+          
       - name: Deploy to GitHub pages 🚀
         if: github.event_name != 'pull_request'
         uses: JamesIves/github-pages-deploy-action@v4.5.0
