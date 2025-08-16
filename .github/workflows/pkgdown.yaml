@@ -30,12 +30,21 @@ jobs:
 
       - uses: r-lib/actions/setup-r@v2
         with:
+          r-version: '4.4'
           use-public-rspm: true
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::pkgdown, local::.
           needs: website
+
+      - name: Set Environment Variable for Repo URL
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "SHINYBATCH_REPO_URL=https://shinybatch.shinyworks.io/pr/${{ github.event.number }}" >> $GITHUB_ENV
+          else
+            echo "SHINYBATCH_REPO_URL=https://shinybatch.shinyworks.io/" >> $GITHUB_ENV
+          fi
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
@@ -45,6 +54,7 @@ jobs:
       - name: Build Wasm R packages
         uses: r-wasm/actions/build-rwasm@v2
         with:
+          r-version: '4.4'
           packages: |
             shiny
             "."
