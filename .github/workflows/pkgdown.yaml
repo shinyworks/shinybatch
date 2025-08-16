@@ -38,14 +38,11 @@ jobs:
           extra-packages: any::pkgdown, local::.
           needs: website
 
-      - name: Update Repo URL in QMD
+      - name: Update Repo URL for PR Preview
+        if: github.event_name == 'pull_request'
         run: |
           QMD_FILE="vignettes/articles/cascading_inputs.qmd"
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            sed -i "s|__SHINYBATCH_REPO_URL__|https://shinybatch.shinyworks.io/pr/${{ github.event.number }}|g" $QMD_FILE
-          else
-            sed -i "s|__SHINYBATCH_REPO_URL__|https://shinybatch.shinyworks.io/|g" $QMD_FILE
-          fi
+          sed -i 's|repos = "https://shinybatch.github.io/"|repos = "https://shinybatch.github.io/pr/${{ github.event.number }}"|' $QMD_FILE
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
