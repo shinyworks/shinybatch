@@ -40,7 +40,7 @@ jobs:
 
       - name: Update Repo URL in QMD
         run: |
-          QMD_FILE="vignettes/example.qmd"
+          QMD_FILE="vignettes/articles/cascading_inputs.qmd"
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             sed -i "s|__SHINYBATCH_REPO_URL__|https://shinybatch.shinyworks.io/pr/${{ github.event.number }}|g" $QMD_FILE
           else
