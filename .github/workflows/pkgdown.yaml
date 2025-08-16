@@ -50,9 +50,8 @@ jobs:
 
       # Build the local R package and structure the CRAN repository
       - name: Build Wasm R packages
-        uses: r-wasm/actions/build-rwasm@v2
+        uses: docker://ghcr.io/r-wasm/r-wasm-build:v2-r4.4
         with:
-          r-version: '4.4'
           packages: |
             shiny
             "."
