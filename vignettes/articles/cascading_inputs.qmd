@@ -37,5 +37,6 @@ In the updated app below, we've replaced `shiny::reactiveVal()` with `shinybatch
 #| viewerHeight: 300
 #| components: [editor, viewer]
 #| layout: vertical
+webr::install("shinybatch", repos = "https://shinybatch.shinyworks.io/")
 {{< include ../../inst/apps/cascading_filters/shinybatch/app.R >}}
 ```
