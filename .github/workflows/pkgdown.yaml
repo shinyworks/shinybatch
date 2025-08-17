@@ -38,11 +38,11 @@ jobs:
           extra-packages: any::pkgdown, local::.
           needs: website
 
-      - name: Update Repo URL for PR Preview
-        if: github.event_name == 'pull_request'
-        run: |
-          QMD_FILE="vignettes/articles/cascading_inputs.qmd"
-          sed -i 's|repos = "https://shinybatch.shinyworks.org/"|repos = "https://shinybatch.shinyworks.org/pr/${{ github.event.number }}"|' $QMD_FILE
+      # - name: Update Repo URL for PR Preview
+      #   if: github.event_name == 'pull_request'
+      #   run: |
+      #     QMD_FILE="vignettes/articles/cascading_inputs.qmd"
+      #     sed -i 's|repos = "https://shinybatch.shinyworks.org/"|repos = "https://shinybatch.shinyworks.org/pr/${{ github.event.number }}"|' $QMD_FILE
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
@@ -57,12 +57,12 @@ jobs:
             "."
           repo-path: "docs"
   
-      # Upload an artifact that will work with GitHub Pages
-      # - name: Upload Pages artifact
-      #   if: github.event_name != 'pull_request'
-      #   uses: actions/upload-pages-artifact@v3
-      #   with:
-      #     path: "docs"
+      Upload an artifact that will work with GitHub Pages
+      - name: Upload Pages artifact
+        # if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: "docs"
           
       - name: Deploy to GitHub pages 🚀
         if: github.event_name != 'pull_request'
