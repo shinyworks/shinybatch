@@ -42,7 +42,7 @@ jobs:
       - name: Build Wasm R packages
         uses: r-wasm/actions/build-rwasm@v2
         with:
-          webr-image: ghcr.io/r-wasm/webr:v0.4.0
+          webr-image: ghcr.io/r-wasm/webr:v0.4.2
           packages: "."
           repo-path: "_site"
 
