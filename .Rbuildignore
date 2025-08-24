@@ -1,6 +1,7 @@
 ^shinybatch\.Rproj$
 ^\.Rproj\.user$
 ^README\.Rmd$
+^README\.qmd$
 ^LICENSE\.md$
 ^cran-comments\.md$
 ^\.github$

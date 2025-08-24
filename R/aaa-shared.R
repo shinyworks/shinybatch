@@ -6,6 +6,8 @@
 #'
 #' @param call (`environment`) The execution environment to mention as the
 #'   source of error messages.
+#' @param default A value to use when the current value is not valid according
+#'   to the rules. Can be a reactive expression. Defaults to `NULL`.
 #' @param env (`environment`) The environment in which to evaluate the
 #'   `validation_expr`.
 #' @param label (length-1 `character` or `NULL`) An optional label for the
