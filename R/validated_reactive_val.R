@@ -6,9 +6,14 @@
 #' its reactive dependencies before any downstream dependents are re-evaluated.
 #'
 #' @inheritParams shared-params
-#' @returns A function. Call with no arguments to (reactively) read the
-#'   validated value. Call with a single argument to imperatively set the value;
-#'   it will be automatically validated on the next read.
+#' @param default The value to use when the `validation_expr` throws an error.
+#'   Can be a reactive expression. Defaults to `NULL`.
+#' @returns A `vrv` object, which is a function with a custom class. Call it
+#'   with no arguments to (reactively) read the validated value. Call it with a
+#'   single argument to imperatively set the value; it will be automatically
+#'   validated on the next read. You can access the most recent validation error
+#'   (if any) with `my_vrv$error()` and check if the current value is the default
+#'   with `my_vrv$is_default()`.
 #' @export
 #' @examplesIf interactive()
 #'
@@ -56,30 +61,55 @@
 validated_reactive_val <- function(
   validation_expr,
   value = NULL,
+  default = NULL,
   label = NULL,
   env = rlang::caller_env()
 ) {
-  state_rv <- .initialize_state_rv(value, label)
+  rvs <- .initialize_rvs(value, label)
   validation_rctv <- .create_validation_reactive(
     {{ validation_expr }},
-    state_rv,
+    rvs$value,
     label,
     env
   )
-  .create_vrv_function(state_rv, validation_rctv)
+  .create_vrv_function(rvs, validation_rctv, rlang::enquo(default))
 }
 
-#' Create and Label the Internal `reactiveVal`
+#' @export
+#' @rdname validated_reactive_val
+`$.vrv` <- function(x, name) {
+  env <- rlang::fn_env(x)
+  switch(
+    name,
+    "error" = env$rvs$error,
+    "is_default" = env$rvs$is_default,
+    NULL
+  )
+}
+
+#' Create and Label the Internal `reactiveVal`s
 #'
-#' Create the internal [shiny::reactiveVal()] that holds the state for a
+#' Create the internal [shiny::reactiveVal()]s that hold the state for a
 #' `validated_reactive_val()`.
 #'
 #' @inheritParams shared-params
-#' @returns A [shiny::reactiveVal()].
+#' @returns A list of [shiny::reactiveVal()]s.
 #' @keywords internal
-.initialize_state_rv <- function(value = NULL, label = NULL) {
-  state_label <- .paste_if_defined(label, "state", sep = "-")
-  reactiveVal(value, label = state_label)
+.initialize_rvs <- function(value = NULL, label = NULL) {
+  list(
+    value = reactiveVal(
+      value,
+      label = .paste_if_defined(label, "value", sep = "-")
+    ),
+    error = reactiveVal(
+      NULL,
+      label = .paste_if_defined(label, "error", sep = "-")
+    ),
+    is_default = reactiveVal(
+      FALSE,
+      label = .paste_if_defined(label, "is_default", sep = "-")
+    )
+  )
 }
 
 #' Create the Core Validation Reactive
@@ -90,23 +120,16 @@ validated_reactive_val <- function(
 #' @inheritParams shared-params
 #' @returns A [shiny::reactive()].
 #' @keywords internal
-.create_validation_reactive <- function(validation_expr, state_rv, label, env) {
+.create_validation_reactive <- function(validation_expr, value_rv, label, env) {
   validation_label <- .paste_if_defined(label, "validation", sep = "-")
   validation_expr_quo <- .enquo_validation_expr(
     {{ validation_expr }},
-    state_rv,
+    value_rv,
     env
   )
   reactive(
     {
-      .with_error_handling(
-        rlang::eval_tidy(validation_expr_quo),
-        message = c(
-          "Validation of {.fn shinybatch::validated_reactive_val} failed.",
-          x = "Could not evaluate {.arg validation_expr}."
-        ),
-        subclass = "validation"
-      )
+      .catch_vrv_error(rlang::eval_tidy(validation_expr_quo))
     },
     label = validation_label
   )
@@ -121,18 +144,24 @@ validated_reactive_val <- function(
 #' @inheritParams shared-params
 #' @returns A function that acts as a getter and setter.
 #' @keywords internal
-.create_vrv_function <- function(state_rv, validation_rctv) {
-  force(state_rv)
+.create_vrv_function <- function(rvs, validation_rctv, default_quo) {
+  force(rvs)
   force(validation_rctv)
-  function(value) {
+  force(default_quo)
+
+  vrv_fun <- function(value) {
     if (missing(value)) {
-      validation_rctv()
+      # Getter: validate the current value and return the result.
+      result <- validation_rctv()
+      .handle_validation_result(result, rvs, default_quo)
     } else {
-      # The setter imperatively updates the internal value. The value will be
+      # Setter: imperatively update the internal value. The value will be
       # automatically validated on the next read.
-      state_rv(value)
+      rvs$value(value)
     }
   }
+
+  structure(vrv_fun, class = c("vrv", "function"))
 }
 
 #' Prepare the validation quosure
@@ -145,11 +174,77 @@ validated_reactive_val <- function(
 #' @returns The `validation_expr` enclosed in an environment that is a child of
 #'   `env`, with a `.vrv()` pronoun function.
 #' @keywords internal
-.enquo_validation_expr <- function(validation_expr, state_rv, env) {
+.enquo_validation_expr <- function(validation_expr, value_rv, env) {
   validation_expr_quo <- rlang::enquo(validation_expr)
   new_env <- rlang::env(
-    .vrv = function() state_rv(),
+    .vrv = function() value_rv(),
     env
   )
   rlang::quo_set_env(validation_expr_quo, new_env)
+}
+
+#' Capture a vrv error without re-throwing it
+#'
+#' @param expr The expression to evaluate.
+#' @returns The result of the expression, or the "defused" condition if an
+#'   error is thrown.
+#' @keywords internal
+.catch_vrv_error <- function(expr) {
+  rlang::try_fetch(
+    expr,
+    error = function(cnd) {
+      class(cnd) <- paste("captured", class(cnd), sep = "-")
+      cnd
+    }
+  )
+}
+
+#' Handle the result of a validation expression
+#'
+#' Check if the validation result is an error, update the internal state
+#' `reactiveVal`s accordingly, and return the final value (either the validated
+#' result or the default).
+#'
+#' @param result The value returned from the validation reactive.
+#' @param rvs A list of the internal `reactiveVal`s.
+#' @param default_quo The quosure for the default value.
+#' @returns The validated value or the default value.
+#' @keywords internal
+.handle_validation_result <- function(result, rvs, default_quo) {
+  if (inherits(result, "captured-error")) {
+    return(.handle_validation_error(result, rvs, default_quo))
+  }
+  return(.handle_validation_success(result, rvs))
+}
+
+#' Handle a validation error
+#'
+#' Sets the internal state `reactiveVal`s to reflect a validation failure.
+#'
+#' @param result The captured error condition.
+#' @param rvs A list of the internal `reactiveVal`s.
+#' @param default_quo The quosure for the default value.
+#' @returns The evaluated default value.
+#' @keywords internal
+.handle_validation_error <- function(result, rvs, default_quo) {
+  default_val <- rlang::eval_tidy(default_quo)
+  rvs$value(default_val)
+  rvs$error(result)
+  rvs$is_default(TRUE)
+  return(default_val)
+}
+
+#' Handle a validation success
+#'
+#' Sets the internal state `reactiveVal`s to reflect a validation success.
+#'
+#' @param result The validated value.
+#' @param rvs A list of the internal `reactiveVal`s.
+#' @returns The validated value.
+#' @keywords internal
+.handle_validation_success <- function(result, rvs) {
+  rvs$value(result)
+  rvs$error(NULL)
+  rvs$is_default(FALSE)
+  return(result)
 }

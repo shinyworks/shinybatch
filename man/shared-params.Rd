@@ -31,6 +31,9 @@ pronoun to reconcile it with upstream dependencies.}
 validation.}
 
 \item{value}{(various) The initial value.}
+
+\item{value_rv}{(\code{reactiveVal}) The \code{\link[shiny:reactiveVal]{shiny::reactiveVal()}} that holds the
+current value.}
 }
 \description{
 Reused parameter definitions are gathered here for easier editing. R6 methods

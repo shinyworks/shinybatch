@@ -23,6 +23,8 @@
 #' @param validation_rctv (`reactive`) The [shiny::reactive()] that performs the
 #'   validation.
 #' @param value (various) The initial value.
+#' @param value_rv (`reactiveVal`) The [shiny::reactiveVal()] that holds the
+#'   current value.
 #'
 #' @name shared-params
 #' @keywords internal
