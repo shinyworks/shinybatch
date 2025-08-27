@@ -1,4 +1,4 @@
-#' Create a validated reactive factor-like expression
+#' Create a validated reactive factor-like character vector
 #'
 #' A wrapper around [validated_reactive_val()] to help manage factor-like
 #' values, especially in a cascading / dependent manner. This is a convenience
