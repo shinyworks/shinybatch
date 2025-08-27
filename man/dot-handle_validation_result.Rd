@@ -4,21 +4,18 @@
 \alias{.handle_validation_result}
 \title{Handle the result of a validation expression}
 \usage{
-.handle_validation_result(result, rvs, default_quo)
+.handle_validation_result(result, default_quo)
 }
 \arguments{
 \item{result}{The value returned from the validation reactive.}
 
-\item{rvs}{A list of the internal \code{reactiveVal}s.}
-
 \item{default_quo}{The quosure for the default value.}
 }
 \value{
-The validated value or the default value.
+A list with elements \code{value}, \code{error}, and \code{is_default}.
 }
 \description{
-Check if the validation result is an error, update the internal state
-\code{reactiveVal}s accordingly, and return the final value (either the validated
-result or the default).
+Check if the validation result is an error, and return a list containing the
+final value and its status.
 }
 \keyword{internal}

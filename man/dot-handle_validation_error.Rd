@@ -4,19 +4,17 @@
 \alias{.handle_validation_error}
 \title{Handle a validation error}
 \usage{
-.handle_validation_error(result, rvs, default_quo)
+.handle_validation_error(result, default_quo)
 }
 \arguments{
 \item{result}{The captured error condition.}
 
-\item{rvs}{A list of the internal \code{reactiveVal}s.}
-
 \item{default_quo}{The quosure for the default value.}
 }
 \value{
-The evaluated default value.
+A list with elements \code{value}, \code{error}, and \code{is_default}.
 }
 \description{
-Sets the internal state \code{reactiveVal}s to reflect a validation failure.
+Constructs the result list for a validation failure.
 }
 \keyword{internal}

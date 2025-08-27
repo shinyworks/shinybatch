@@ -4,17 +4,15 @@
 \alias{.handle_validation_success}
 \title{Handle a validation success}
 \usage{
-.handle_validation_success(result, rvs)
+.handle_validation_success(result)
 }
 \arguments{
 \item{result}{The validated value.}
-
-\item{rvs}{A list of the internal \code{reactiveVal}s.}
 }
 \value{
-The validated value.
+A list with elements \code{value}, \code{error}, and \code{is_default}.
 }
 \description{
-Sets the internal state \code{reactiveVal}s to reflect a validation success.
+Constructs the result list for a validation success.
 }
 \keyword{internal}

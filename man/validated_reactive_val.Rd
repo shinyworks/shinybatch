@@ -33,17 +33,18 @@ valid according to the rules. Can be a reactive expression. Defaults to
 \item{env}{(\code{environment}) The environment in which to evaluate the
 \code{validation_expr}.}
 
-\item{x}{A \code{vrv} object.}
+\item{x}{(\code{vrv}) A \code{vrv} object.}
 
-\item{name}{The name of the helper function to access, either \code{error} or
-\code{is_default}. Other values return \code{NULL}.}
+\item{name}{(length-1 \code{character}) The name of the helper function to access.
+Expects one of \code{value}, \code{error}, or \code{is_default}. Other values return
+\code{NULL}.}
 }
 \value{
 A \code{vrv} object, which is a function with a custom class. Call it
 with no arguments to (reactively) read the validated value. Call it with a
 single argument to imperatively set the value; it will be automatically
-validated on the next read. You can access the most recent validation error
-(if any) with \code{my_vrv$error()} and check if the current value is the default
+validated on the next read. You can also access the most recent validation
+error with \code{my_vrv$error()} and check if the current value is the default
 with \code{my_vrv$is_default()}.
 }
 \description{
