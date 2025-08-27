@@ -6,8 +6,6 @@
 #' its reactive dependencies before any downstream dependents are re-evaluated.
 #'
 #' @inheritParams shared-params
-#' @param default The value to use when the `validation_expr` throws an error.
-#'   Can be a reactive expression. Defaults to `NULL`.
 #' @returns A `vrv` object, which is a function with a custom class. Call it
 #'   with no arguments to (reactively) read the validated value. Call it with a
 #'   single argument to imperatively set the value; it will be automatically

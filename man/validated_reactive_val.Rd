@@ -23,8 +23,9 @@ pronoun to reconcile it with upstream dependencies.}
 
 \item{value}{(various) The initial value.}
 
-\item{default}{The value to use when the \code{validation_expr} throws an error.
-Can be a reactive expression. Defaults to \code{NULL}.}
+\item{default}{(\code{expression}) A value to use when the current value is not
+valid according to the rules. Can be a reactive expression. Defaults to
+\code{NULL}.}
 
 \item{label}{(length-1 \code{character} or \code{NULL}) An optional label for the
 \code{validated_reactive_value}, used for debugging.}

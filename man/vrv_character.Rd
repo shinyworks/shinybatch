@@ -29,8 +29,9 @@ vrv_character_scalar(
 )
 }
 \arguments{
-\item{default}{A value to use when the current value is not valid according
-to the rules. Can be a reactive expression. Defaults to \code{NULL}.}
+\item{default}{(\code{expression}) A value to use when the current value is not
+valid according to the rules. Can be a reactive expression. Defaults to
+\code{NULL}.}
 
 \item{value}{(various) The initial value.}
 
