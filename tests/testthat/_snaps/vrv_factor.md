@@ -4,6 +4,6 @@
       signalCondition(error)
     Condition
       Error:
-      ! `.vrv()` must match the regex pattern [34m"^[a-z]+$"[39m
-      x [34m"123"[39m does not match.
+      ! All values of `.vrv()` must be present in `levels` or `to_na`.
+      * Bad values: A1.
 

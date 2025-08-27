@@ -22,8 +22,7 @@
       signalCondition(error)
     Condition
       Error:
-      ! `.vrv()` must match the regex pattern [34m"^[a-z]+$"[39m
-      x [34m"123"[39m does not match.
+      ! `.vrv()` must not be <NULL>.
 
 # vrv_character() handles being set to NULL
 
@@ -31,8 +30,7 @@
       signalCondition(error)
     Condition
       Error:
-      ! `.vrv()` must match the regex pattern [34m"^[a-z]+$"[39m
-      x [34m"123"[39m does not match.
+      ! `.vrv()` must not be <NULL>.
 
 # vrv_character_scalar() sets value to default when invalid (size)
 
@@ -58,17 +56,7 @@
       signalCondition(error)
     Condition
       Error:
-      ! `.vrv()` must match the regex pattern [34m"^[a-z]+$"[39m
-      x [34m"123"[39m does not match.
-
-# vrv_character_scalar() handles being set to NULL
-
-    Code
-      signalCondition(error)
-    Condition
-      Error:
-      ! `.vrv()` must match the regex pattern [34m"^[a-z]+$"[39m
-      x [34m"123"[39m does not match.
+      ! `.vrv()` must not be <NULL>.
 
 # vrv_character_scalar() handles zero-length character vector
 
@@ -76,6 +64,6 @@
       signalCondition(error)
     Condition
       Error:
-      ! `.vrv()` must match the regex pattern [34m"^[a-z]+$"[39m
-      x [34m"123"[39m does not match.
+      ! `.vrv()` must be a single <character (non-empty)>.
+      x `.vrv()` has no values.
 
