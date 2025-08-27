@@ -51,7 +51,20 @@ test_that("vrv_factor() sets value to default when invalid", {
   expect_equal(isolate(level()), "B")
   expect_equal(isolate(group()), "B1")
   expect_true(isolate(group$is_default()))
-  expect_s3_class(isolate(group$error()), "captured-error")
+  error <- isolate(char_vrv$error())
+  class(error) <- sub("captured-", "", class(error))
+  expect_error(
+    {
+      signalCondition(error)
+    },
+    class = "stbl_error_must"
+  )
+  expect_snapshot(
+    {
+      signalCondition(error)
+    },
+    error = TRUE
+  )
 })
 
 test_that("vrv_factor() doesn't break with overlapping groups", {
