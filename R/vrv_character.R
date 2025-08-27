@@ -7,23 +7,20 @@
 #' @inheritParams shared-params
 #' @inheritParams stbl::stabilize_chr
 #'
-#' @returns A `validated_reactive_val` object.
+#' @returns A `vrv` object which returns a validated character vector.
 #' @export
 vrv_character <- function(
-  default = NULL,
   value = NULL,
-  label = NULL,
+  default = NULL,
   allow_null = TRUE,
   allow_na = TRUE,
   min_size = NULL,
   max_size = NULL,
   regex = NULL,
+  label = NULL,
   env = rlang::caller_env()
 ) {
-  default_quo <- rlang::enquo(default)
-
   new_env <- rlang::env(
-    default_quo = default_quo,
     allow_null = allow_null,
     allow_na = allow_na,
     min_size = min_size,
@@ -33,18 +30,13 @@ vrv_character <- function(
   )
 
   validation_expr <- rlang::quo({
-    tryCatch(
-      stbl::stabilize_chr(
-        .vrv(),
-        allow_null = !!allow_null,
-        allow_na = !!allow_na,
-        min_size = !!min_size,
-        max_size = !!max_size,
-        regex = !!regex
-      ),
-      error = function(e) {
-        !!default_quo
-      }
+    stbl::stabilize_chr(
+      .vrv(),
+      allow_null = !!allow_null,
+      allow_na = !!allow_na,
+      min_size = !!min_size,
+      max_size = !!max_size,
+      regex = !!regex
     )
   })
   rlang::quo_set_env(validation_expr, new_env)
@@ -52,6 +44,7 @@ vrv_character <- function(
   validated_reactive_val(
     validation_expr = !!validation_expr,
     value = value,
+    default = {{ default }},
     label = label,
     env = new_env
   )
@@ -60,8 +53,8 @@ vrv_character <- function(
 #' @export
 #' @rdname vrv_character
 vrv_character_scalar <- function(
-  default = NULL,
   value = NULL,
+  default = NULL,
   label = NULL,
   allow_null = TRUE,
   allow_zero_length = TRUE,
@@ -69,10 +62,7 @@ vrv_character_scalar <- function(
   regex = NULL,
   env = rlang::caller_env()
 ) {
-  default_quo <- rlang::enquo(default)
-
   new_env <- rlang::env(
-    default_quo = default_quo,
     allow_null = allow_null,
     allow_zero_length = allow_zero_length,
     allow_na = allow_na,
@@ -81,17 +71,12 @@ vrv_character_scalar <- function(
   )
 
   validation_expr <- rlang::quo({
-    tryCatch(
-      stbl::stabilize_chr_scalar(
-        .vrv(),
-        allow_null = !!allow_null,
-        allow_zero_length = !!allow_zero_length,
-        allow_na = !!allow_na,
-        regex = !!regex
-      ),
-      error = function(e) {
-        !!default_quo
-      }
+    stbl::stabilize_chr_scalar(
+      .vrv(),
+      allow_null = !!allow_null,
+      allow_zero_length = !!allow_zero_length,
+      allow_na = !!allow_na,
+      regex = !!regex
     )
   })
   rlang::quo_set_env(validation_expr, new_env)
@@ -99,6 +84,7 @@ vrv_character_scalar <- function(
   validated_reactive_val(
     validation_expr = !!validation_expr,
     value = value,
+    default = {{ default }},
     label = label,
     env = new_env
   )

@@ -4,11 +4,11 @@
 \alias{.create_vrv_function}
 \title{Create the User-Facing Getter/Setter Function}
 \usage{
-.create_vrv_function(state_rv, validation_rctv)
+.create_vrv_function(value_rv, validation_rctv)
 }
 \arguments{
-\item{state_rv}{(\code{reactiveVal}) The \code{\link[shiny:reactiveVal]{shiny::reactiveVal()}} that holds the
-state.}
+\item{value_rv}{(\code{reactiveVal}) The \code{\link[shiny:reactiveVal]{shiny::reactiveVal()}} that holds the
+current value.}
 
 \item{validation_rctv}{(\code{reactive}) The \code{\link[shiny:reactive]{shiny::reactive()}} that performs the
 validation.}

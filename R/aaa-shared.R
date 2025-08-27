@@ -6,8 +6,9 @@
 #'
 #' @param call (`environment`) The execution environment to mention as the
 #'   source of error messages.
-#' @param default A value to use when the current value is not valid according
-#'   to the rules. Can be a reactive expression. Defaults to `NULL`.
+#' @param default (`expression`) A value to use when the current value is not
+#'   valid according to the rules. Can be a reactive expression. Defaults to
+#'   `NULL`.
 #' @param env (`environment`) The environment in which to evaluate the
 #'   `validation_expr`.
 #' @param label (length-1 `character` or `NULL`) An optional label for the
@@ -23,6 +24,8 @@
 #' @param validation_rctv (`reactive`) The [shiny::reactive()] that performs the
 #'   validation.
 #' @param value (various) The initial value.
+#' @param value_rv (`reactiveVal`) The [shiny::reactiveVal()] that holds the
+#'   current value.
 #'
 #' @name shared-params
 #' @keywords internal

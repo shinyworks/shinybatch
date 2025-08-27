@@ -2,25 +2,42 @@
 % Please edit documentation in R/vrv_factor.R
 \name{vrv_factor}
 \alias{vrv_factor}
-\title{Create a validated reactive factor}
+\title{Create a validated reactive factor-like character vector}
 \usage{
 vrv_factor(
   levels,
-  default,
   value = NULL,
+  default = NULL,
+  allow_null = TRUE,
+  allow_na = TRUE,
+  min_size = NULL,
+  max_size = NULL,
+  to_na = character(),
   label = NULL,
   env = rlang::caller_env()
 )
 }
 \arguments{
-\item{levels}{(\code{expression}) A reactive expression that returns a \code{character}
-vector of valid levels.}
-
-\item{default}{(\code{expression}) A reactive expression that returns a
-length-1 \code{character} vector to use as the default value when the current
-value is not in \code{levels}.}
+\item{levels}{(\code{expression}) An expression that returns a \code{character} vector
+of valid levels. Can be a reactive expression.}
 
 \item{value}{(various) The initial value.}
+
+\item{default}{(\code{expression}) A value to use when the current value is not
+valid according to the rules. Can be a reactive expression. Defaults to
+\code{NULL}.}
+
+\item{allow_null}{\verb{(length-1 logical)} Is NULL an acceptable value?}
+
+\item{allow_na}{\verb{(length-1 logical)} Are NA values ok?}
+
+\item{min_size}{\verb{(length-1 integer)} The minimum size of the object. Object
+size will be tested using \code{\link[vctrs:vec_size]{vctrs::vec_size()}}.}
+
+\item{max_size}{\verb{(length-1 integer)} The maximum size of the object. Object
+size will be tested using \code{\link[vctrs:vec_size]{vctrs::vec_size()}}.}
+
+\item{to_na}{\code{(character)} Values to coerce to \code{NA}.}
 
 \item{label}{(length-1 \code{character} or \code{NULL}) An optional label for the
 \code{validated_reactive_value}, used for debugging.}
@@ -29,10 +46,13 @@ value is not in \code{levels}.}
 \code{validation_expr}.}
 }
 \value{
-A \code{validated_reactive_val} object.
+A \code{vrv} object which returns a factor-like \code{character} vector.
 }
 \description{
-A wrapper around \code{\link[=validated_reactive_val]{validated_reactive_val()}} to help manage factors,
-especially in a cascading / dependent manner. This is a convenience function
-that constructs the \code{validation_expr} for you.
+A wrapper around \code{\link[=validated_reactive_val]{validated_reactive_val()}} to help manage factor-like
+values, especially in a cascading / dependent manner. This is a convenience
+function that constructs the \code{validation_expr} for you by wrapping
+\code{\link[stbl:stabilize_fct]{stbl::stabilize_fct()}}. Note that the objects returned by the resulting
+\code{vrv} are \code{character} vectors, not \code{factor}s, to allow values to remain
+unchanged when the allowed levels change but the value is still valid.
 }

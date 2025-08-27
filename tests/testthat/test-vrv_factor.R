@@ -12,6 +12,8 @@ test_that("vrv_factor() initializes as expected", {
   )
   expect_equal(isolate(level()), "A")
   expect_equal(isolate(group()), "A1")
+  expect_false(isolate(group$is_default()))
+  expect_null(isolate(group$error()))
 })
 
 test_that("vrv_factor() allows setting within valid levels", {
@@ -29,6 +31,8 @@ test_that("vrv_factor() allows setting within valid levels", {
   group("A2")
   expect_equal(isolate(level()), "A")
   expect_equal(isolate(group()), "A2")
+  expect_false(isolate(group$is_default()))
+  expect_null(isolate(group$error()))
 })
 
 test_that("vrv_factor() sets value to default when invalid", {
@@ -46,6 +50,19 @@ test_that("vrv_factor() sets value to default when invalid", {
   level("B")
   expect_equal(isolate(level()), "B")
   expect_equal(isolate(group()), "B1")
+  expect_true(isolate(group$is_default()))
+  error <- isolate(group$error())
+  expect_s3_class(error, "captured-stbl_error_fct_levels")
+  class(error) <- sub("captured-", "", class(error))
+  expect_error({
+    signalCondition(error)
+  })
+  expect_snapshot(
+    {
+      signalCondition(error)
+    },
+    error = TRUE
+  )
 })
 
 test_that("vrv_factor() doesn't break with overlapping groups", {
@@ -64,9 +81,11 @@ test_that("vrv_factor() doesn't break with overlapping groups", {
   level("C")
   expect_equal(isolate(level()), "C")
   expect_equal(isolate(group()), "B2")
+  expect_false(isolate(group$is_default()))
+  expect_null(isolate(group$error()))
 })
 
-test_that("vrv_factor handles NULL initialization", {
+test_that("vrv_factor handles NULL initialization when NULL isn't allowed", {
   mock_data <- list("A" = "A1", "B" = "B1")
   level <- shiny::reactiveVal("A")
   factor_vrv <- vrv_factor(
@@ -76,17 +95,20 @@ test_that("vrv_factor handles NULL initialization", {
     default = {
       mock_data[[level()]][[1]]
     },
-    value = NULL # Explicitly start with NULL
+    value = NULL,
+    allow_null = FALSE
   )
   # Should immediately be set to the default value for "A"
   expect_equal(isolate(factor_vrv()), "A1")
+  expect_true(isolate(factor_vrv$is_default()))
 
   # Change level, should switch to the new default
   level("B")
   expect_equal(isolate(factor_vrv()), "B1")
+  expect_true(isolate(factor_vrv$is_default()))
 })
 
-test_that("vrv_factor handles being set to NULL", {
+test_that("vrv_factor handles being set to NULL when NULL isn't allowed", {
   mock_data <- list("A" = c("A1", "A2"), "B" = "B1")
   level <- shiny::reactiveVal("A")
   factor_vrv <- vrv_factor(
@@ -96,7 +118,8 @@ test_that("vrv_factor handles being set to NULL", {
     default = {
       mock_data[[level()]][[1]]
     },
-    value = "A2" # Start with a valid value
+    value = "A2",
+    allow_null = FALSE
   )
   expect_equal(isolate(factor_vrv()), "A2")
 
@@ -104,4 +127,5 @@ test_that("vrv_factor handles being set to NULL", {
   factor_vrv(NULL)
   # On the next read, it should be validated and revert to the default
   expect_equal(isolate(factor_vrv()), "A1")
+  expect_true(isolate(factor_vrv$is_default()))
 })

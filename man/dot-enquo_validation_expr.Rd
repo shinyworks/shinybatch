@@ -4,7 +4,7 @@
 \alias{.enquo_validation_expr}
 \title{Prepare the validation quosure}
 \usage{
-.enquo_validation_expr(validation_expr, state_rv, env)
+.enquo_validation_expr(validation_expr, value_rv, env)
 }
 \arguments{
 \item{validation_expr}{(\code{expression}) A reactive expression that defines the
@@ -12,8 +12,8 @@ authoritative state of this \code{validated_reactive_value}, This expression can
 access the \code{validated_reactive_value}'s own current value via the \code{.vrv()}
 pronoun to reconcile it with upstream dependencies.}
 
-\item{state_rv}{(\code{reactiveVal}) The \code{\link[shiny:reactiveVal]{shiny::reactiveVal()}} that holds the
-state.}
+\item{value_rv}{(\code{reactiveVal}) The \code{\link[shiny:reactiveVal]{shiny::reactiveVal()}} that holds the
+current value.}
 
 \item{env}{(\code{environment}) The environment in which to evaluate the
 \code{validation_expr}.}

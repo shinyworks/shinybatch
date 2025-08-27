@@ -4,7 +4,7 @@
 \alias{.create_validation_reactive}
 \title{Create the Core Validation Reactive}
 \usage{
-.create_validation_reactive(validation_expr, state_rv, label, env)
+.create_validation_reactive(validation_expr, value_rv, default_quo, label, env)
 }
 \arguments{
 \item{validation_expr}{(\code{expression}) A reactive expression that defines the
@@ -12,8 +12,8 @@ authoritative state of this \code{validated_reactive_value}, This expression can
 access the \code{validated_reactive_value}'s own current value via the \code{.vrv()}
 pronoun to reconcile it with upstream dependencies.}
 
-\item{state_rv}{(\code{reactiveVal}) The \code{\link[shiny:reactiveVal]{shiny::reactiveVal()}} that holds the
-state.}
+\item{value_rv}{(\code{reactiveVal}) The \code{\link[shiny:reactiveVal]{shiny::reactiveVal()}} that holds the
+current value.}
 
 \item{label}{(length-1 \code{character} or \code{NULL}) An optional label for the
 \code{validated_reactive_value}, used for debugging.}

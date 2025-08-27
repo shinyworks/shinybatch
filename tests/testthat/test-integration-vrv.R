@@ -1,3 +1,5 @@
+skip_on_covr()
+
 test_that("vrv doesn't enter unexpected state (#13)", {
   skip_if_not_installed("shinytest2")
   app <- AppDriver$new(

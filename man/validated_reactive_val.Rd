@@ -2,14 +2,18 @@
 % Please edit documentation in R/validated_reactive_val.R
 \name{validated_reactive_val}
 \alias{validated_reactive_val}
+\alias{$.vrv}
 \title{Create a validated reactive value}
 \usage{
 validated_reactive_val(
   validation_expr,
   value = NULL,
+  default = NULL,
   label = NULL,
   env = rlang::caller_env()
 )
+
+\method{$}{vrv}(x, name)
 }
 \arguments{
 \item{validation_expr}{(\code{expression}) A reactive expression that defines the
@@ -19,16 +23,29 @@ pronoun to reconcile it with upstream dependencies.}
 
 \item{value}{(various) The initial value.}
 
+\item{default}{(\code{expression}) A value to use when the current value is not
+valid according to the rules. Can be a reactive expression. Defaults to
+\code{NULL}.}
+
 \item{label}{(length-1 \code{character} or \code{NULL}) An optional label for the
 \code{validated_reactive_value}, used for debugging.}
 
 \item{env}{(\code{environment}) The environment in which to evaluate the
 \code{validation_expr}.}
+
+\item{x}{(\code{vrv}) A \code{vrv} object.}
+
+\item{name}{(length-1 \code{character}) The name of the helper function to access.
+Expects one of \code{value}, \code{error}, or \code{is_default}. Other values return
+\code{NULL}.}
 }
 \value{
-A function. Call with no arguments to (reactively) read the
-validated value. Call with a single argument to imperatively set the value;
-it will be automatically validated on the next read.
+A \code{vrv} object, which is a function with a custom class. Call it
+with no arguments to (reactively) read the validated value. Call it with a
+single argument to imperatively set the value; it will be automatically
+validated on the next read. You can also access the most recent validation
+error with \code{my_vrv$error()} and check if the current value is the default
+with \code{my_vrv$is_default()}.
 }
 \description{
 Create a reactive value that can be updated imperatively (like a

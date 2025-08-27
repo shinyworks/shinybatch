@@ -7,8 +7,9 @@
 \item{call}{(\code{environment}) The execution environment to mention as the
 source of error messages.}
 
-\item{default}{A value to use when the current value is not valid according
-to the rules. Can be a reactive expression. Defaults to \code{NULL}.}
+\item{default}{(\code{expression}) A value to use when the current value is not
+valid according to the rules. Can be a reactive expression. Defaults to
+\code{NULL}.}
 
 \item{env}{(\code{environment}) The environment in which to evaluate the
 \code{validation_expr}.}
@@ -31,6 +32,9 @@ pronoun to reconcile it with upstream dependencies.}
 validation.}
 
 \item{value}{(various) The initial value.}
+
+\item{value_rv}{(\code{reactiveVal}) The \code{\link[shiny:reactiveVal]{shiny::reactiveVal()}} that holds the
+current value.}
 }
 \description{
 Reused parameter definitions are gathered here for easier editing. R6 methods

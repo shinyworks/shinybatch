@@ -6,20 +6,20 @@
 \title{Create a validated reactive character vector}
 \usage{
 vrv_character(
-  default = NULL,
   value = NULL,
-  label = NULL,
+  default = NULL,
   allow_null = TRUE,
   allow_na = TRUE,
   min_size = NULL,
   max_size = NULL,
   regex = NULL,
+  label = NULL,
   env = rlang::caller_env()
 )
 
 vrv_character_scalar(
-  default = NULL,
   value = NULL,
+  default = NULL,
   label = NULL,
   allow_null = TRUE,
   allow_zero_length = TRUE,
@@ -29,13 +29,11 @@ vrv_character_scalar(
 )
 }
 \arguments{
-\item{default}{A value to use when the current value is not valid according
-to the rules. Can be a reactive expression. Defaults to \code{NULL}.}
-
 \item{value}{(various) The initial value.}
 
-\item{label}{(length-1 \code{character} or \code{NULL}) An optional label for the
-\code{validated_reactive_value}, used for debugging.}
+\item{default}{(\code{expression}) A value to use when the current value is not
+valid according to the rules. Can be a reactive expression. Defaults to
+\code{NULL}.}
 
 \item{allow_null}{\verb{(length-1 logical)} Is NULL an acceptable value?}
 
@@ -58,6 +56,9 @@ message that should be displayed. To check that a pattern is \emph{not} matched,
 attach a \code{negate} attribute set to \code{TRUE}. If a complex regex pattern
 throws an error, try installing the stringi package.}
 
+\item{label}{(length-1 \code{character} or \code{NULL}) An optional label for the
+\code{validated_reactive_value}, used for debugging.}
+
 \item{env}{(\code{environment}) The environment in which to evaluate the
 \code{validation_expr}.}
 
@@ -65,7 +66,7 @@ throws an error, try installing the stringi package.}
 acceptable?}
 }
 \value{
-A \code{validated_reactive_val} object.
+A \code{vrv} object which returns a validated character vector.
 }
 \description{
 A wrapper around \code{\link[=validated_reactive_val]{validated_reactive_val()}} that uses \code{\link[stbl:stabilize_chr]{stbl::stabilize_chr()}}
