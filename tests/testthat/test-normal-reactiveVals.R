@@ -1,3 +1,5 @@
+skip_on_covr()
+
 test_that("Normal reactiveVals fail in the way we're watching", {
   # This test is here to make sure this package is still doing something useful.
   mock_data <- list(

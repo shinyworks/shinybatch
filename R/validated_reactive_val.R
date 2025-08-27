@@ -74,6 +74,9 @@ validated_reactive_val <- function(
 }
 
 #' @export
+#' @param x A `vrv` object.
+#' @param name The name of the helper function to access, either `error` or
+#'   `is_default`. Other values return `NULL`.
 #' @rdname validated_reactive_val
 `$.vrv` <- function(x, name) {
   env <- rlang::fn_env(x)

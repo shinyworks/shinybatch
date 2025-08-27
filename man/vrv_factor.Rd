@@ -2,7 +2,7 @@
 % Please edit documentation in R/vrv_factor.R
 \name{vrv_factor}
 \alias{vrv_factor}
-\title{Create a validated reactive factor-like expression}
+\title{Create a validated reactive factor-like character vector}
 \usage{
 vrv_factor(
   levels,
