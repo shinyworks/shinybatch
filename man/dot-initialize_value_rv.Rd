@@ -7,7 +7,8 @@
 .initialize_value_rv(value = NULL, label = NULL)
 }
 \arguments{
-\item{value}{(various) The initial value.}
+\item{value}{(various) The initial value. This value will be coerced via the
+validation expression when accessed.}
 
 \item{label}{(length-1 \code{character} or \code{NULL}) An optional label for the
 \code{validated_reactive_value}, used for debugging.}

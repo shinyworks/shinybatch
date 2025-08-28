@@ -9,8 +9,9 @@
 #'
 #' @param levels (`expression`) An expression that returns a `character` vector
 #'   of valid levels. Can be a reactive expression.
+#' @param to_na (`expression`) Values to coerce to `NA`. Can be a reactive
+#'   expression.
 #' @inheritParams shared-params
-#' @inheritParams stbl::stabilize_fct
 #'
 #' @returns A `vrv` object which returns a factor-like `character` vector.
 #' @export
@@ -26,37 +27,50 @@ vrv_factor <- function(
   label = NULL,
   env = rlang::caller_env()
 ) {
-  levels_quo <- rlang::enquo(levels)
-  new_env <- rlang::env(
-    levels_quo = levels_quo,
-    allow_null = allow_null,
-    allow_na = allow_na,
-    min_size = min_size,
-    max_size = max_size,
-    to_na = to_na,
-    env
-  )
-
-  validation_expr <- rlang::quo({
-    as.character(
-      stbl::stabilize_fct(
-        .vrv(),
-        levels = !!levels_quo,
-        allow_null = !!allow_null,
-        allow_na = !!allow_na,
-        min_size = !!min_size,
-        max_size = !!max_size,
-        to_na = !!to_na
-      )
-    )
-  })
-  rlang::quo_set_env(validation_expr, new_env)
-
-  validated_reactive_val(
-    validation_expr = !!validation_expr,
+  vrv_from_function(
+    validation_fn = function(...) {
+      as.character(stbl::stabilize_fct(...))
+    },
     value = value,
     default = {{ default }},
     label = label,
-    env = new_env
+    env = env,
+    levels = {{ levels }},
+    allow_null = {{ allow_null }},
+    allow_na = {{ allow_na }},
+    min_size = {{ min_size }},
+    max_size = {{ max_size }},
+    to_na = {{ to_na }}
+  )
+}
+
+#' @export
+#' @rdname vrv_factor
+#' @param allow_zero_length (`expression`) Is a zero-length vector acceptable?
+#'   Can be a reactive expression.
+vrv_factor_scalar <- function(
+  levels,
+  value = NULL,
+  default = NULL,
+  allow_null = TRUE,
+  allow_zero_length = TRUE,
+  allow_na = TRUE,
+  to_na = character(),
+  label = NULL,
+  env = rlang::caller_env()
+) {
+  vrv_from_function(
+    validation_fn = function(...) {
+      as.character(stbl::stabilize_fct_scalar(...))
+    },
+    value = value,
+    default = {{ default }},
+    label = label,
+    env = env,
+    levels = {{ levels }},
+    allow_null = {{ allow_null }},
+    allow_zero_length = {{ allow_zero_length }},
+    allow_na = {{ allow_na }},
+    to_na = {{ to_na }}
   )
 }

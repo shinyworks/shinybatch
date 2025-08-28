@@ -2,6 +2,7 @@
 % Please edit documentation in R/vrv_factor.R
 \name{vrv_factor}
 \alias{vrv_factor}
+\alias{vrv_factor_scalar}
 \title{Create a validated reactive factor-like character vector}
 \usage{
 vrv_factor(
@@ -16,34 +17,52 @@ vrv_factor(
   label = NULL,
   env = rlang::caller_env()
 )
+
+vrv_factor_scalar(
+  levels,
+  value = NULL,
+  default = NULL,
+  allow_null = TRUE,
+  allow_zero_length = TRUE,
+  allow_na = TRUE,
+  to_na = character(),
+  label = NULL,
+  env = rlang::caller_env()
+)
 }
 \arguments{
 \item{levels}{(\code{expression}) An expression that returns a \code{character} vector
 of valid levels. Can be a reactive expression.}
 
-\item{value}{(various) The initial value.}
+\item{value}{(various) The initial value. This value will be coerced via the
+validation expression when accessed.}
 
-\item{default}{(\code{expression}) A value to use when the current value is not
-valid according to the rules. Can be a reactive expression. Defaults to
-\code{NULL}.}
+\item{default}{(various, including \code{expression} or \verb{reactive expression}) A
+value to use when the current value is not valid according to the defined
+rules. Defaults to \code{NULL}.}
 
-\item{allow_null}{\verb{(length-1 logical)} Is NULL an acceptable value?}
+\item{allow_null}{(length-1 \code{logical}, \code{expression}, or \verb{reactive expression}) Is \code{NULL} an acceptable value?}
 
-\item{allow_na}{\verb{(length-1 logical)} Are NA values ok?}
+\item{allow_na}{(length-1 \code{logical}, \code{expression}, or \verb{reactive expression})
+Are \code{NA} values okay?}
 
-\item{min_size}{\verb{(length-1 integer)} The minimum size of the object. Object
-size will be tested using \code{\link[vctrs:vec_size]{vctrs::vec_size()}}.}
+\item{min_size}{(length-1 \code{integer}, \code{expression}, or \verb{reactive expression})
+The minimum size of the vector.}
 
-\item{max_size}{\verb{(length-1 integer)} The maximum size of the object. Object
-size will be tested using \code{\link[vctrs:vec_size]{vctrs::vec_size()}}.}
+\item{max_size}{(length-1 \code{integer}, \code{expression}, or \verb{reactive expression})
+The maximum size of the vector.}
 
-\item{to_na}{\code{(character)} Values to coerce to \code{NA}.}
+\item{to_na}{(\code{expression}) Values to coerce to \code{NA}. Can be a reactive
+expression.}
 
 \item{label}{(length-1 \code{character} or \code{NULL}) An optional label for the
 \code{validated_reactive_value}, used for debugging.}
 
 \item{env}{(\code{environment}) The environment in which to evaluate the
 \code{validation_expr}.}
+
+\item{allow_zero_length}{(\code{expression}) Is a zero-length vector acceptable?
+Can be a reactive expression.}
 }
 \value{
 A \code{vrv} object which returns a factor-like \code{character} vector.

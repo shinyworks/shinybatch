@@ -4,8 +4,10 @@
 #' to validate and coerce its value. This is a convenience function that
 #' constructs the `validation_expr` for you.
 #'
+#' @param regex (`character`, `expression`, or `reactive expression`) One or
+#'   more regular expressions to test against the values. See
+#'   [stbl::stabilize_chr()] for details.
 #' @inheritParams shared-params
-#' @inheritParams stbl::stabilize_chr
 #'
 #' @returns A `vrv` object which returns a validated character vector.
 #' @export
@@ -20,33 +22,17 @@ vrv_character <- function(
   label = NULL,
   env = rlang::caller_env()
 ) {
-  new_env <- rlang::env(
-    allow_null = allow_null,
-    allow_na = allow_na,
-    min_size = min_size,
-    max_size = max_size,
-    regex = regex,
-    env
-  )
-
-  validation_expr <- rlang::quo({
-    stbl::stabilize_chr(
-      .vrv(),
-      allow_null = !!allow_null,
-      allow_na = !!allow_na,
-      min_size = !!min_size,
-      max_size = !!max_size,
-      regex = !!regex
-    )
-  })
-  rlang::quo_set_env(validation_expr, new_env)
-
-  validated_reactive_val(
-    validation_expr = !!validation_expr,
+  vrv_from_function(
+    validation_fn = stbl::stabilize_chr,
     value = value,
     default = {{ default }},
     label = label,
-    env = new_env
+    env = env,
+    allow_null = {{ allow_null }},
+    allow_na = {{ allow_na }},
+    min_size = {{ min_size }},
+    max_size = {{ max_size }},
+    regex = {{ regex }}
   )
 }
 
@@ -62,30 +48,15 @@ vrv_character_scalar <- function(
   regex = NULL,
   env = rlang::caller_env()
 ) {
-  new_env <- rlang::env(
-    allow_null = allow_null,
-    allow_zero_length = allow_zero_length,
-    allow_na = allow_na,
-    regex = regex,
-    env
-  )
-
-  validation_expr <- rlang::quo({
-    stbl::stabilize_chr_scalar(
-      .vrv(),
-      allow_null = !!allow_null,
-      allow_zero_length = !!allow_zero_length,
-      allow_na = !!allow_na,
-      regex = !!regex
-    )
-  })
-  rlang::quo_set_env(validation_expr, new_env)
-
-  validated_reactive_val(
-    validation_expr = !!validation_expr,
+  vrv_from_function(
+    validation_fn = stbl::stabilize_chr_scalar,
     value = value,
     default = {{ default }},
     label = label,
-    env = new_env
+    env = env,
+    allow_null = {{ allow_null }},
+    allow_zero_length = {{ allow_zero_length }},
+    allow_na = {{ allow_na }},
+    regex = {{ regex }}
   )
 }

@@ -4,12 +4,19 @@
 \alias{shared-params}
 \title{Parameters used in multiple functions}
 \arguments{
+\item{allow_na}{(length-1 \code{logical}, \code{expression}, or \verb{reactive expression})
+Are \code{NA} values okay?}
+
+\item{allow_null}{(length-1 \code{logical}, \code{expression}, or \verb{reactive expression}) Is \code{NULL} an acceptable value?}
+
+\item{allow_zero_length}{(length-1 \code{logical}, \code{expression}, or \verb{reactive expression}) Is a zero-length vector acceptable?}
+
 \item{call}{(\code{environment}) The execution environment to mention as the
 source of error messages.}
 
-\item{default}{(\code{expression}) A value to use when the current value is not
-valid according to the rules. Can be a reactive expression. Defaults to
-\code{NULL}.}
+\item{default}{(various, including \code{expression} or \verb{reactive expression}) A
+value to use when the current value is not valid according to the defined
+rules. Defaults to \code{NULL}.}
 
 \item{env}{(\code{environment}) The environment in which to evaluate the
 \code{validation_expr}.}
@@ -17,11 +24,14 @@ valid according to the rules. Can be a reactive expression. Defaults to
 \item{label}{(length-1 \code{character} or \code{NULL}) An optional label for the
 \code{validated_reactive_value}, used for debugging.}
 
+\item{max_size}{(length-1 \code{integer}, \code{expression}, or \verb{reactive expression})
+The maximum size of the vector.}
+
 \item{message_env}{(\code{environment}) The execution environment to use to
 evaluate variables in error messages.}
 
-\item{state_rv}{(\code{reactiveVal}) The \code{\link[shiny:reactiveVal]{shiny::reactiveVal()}} that holds the
-state.}
+\item{min_size}{(length-1 \code{integer}, \code{expression}, or \verb{reactive expression})
+The minimum size of the vector.}
 
 \item{validation_expr}{(\code{expression}) A reactive expression that defines the
 authoritative state of this \code{validated_reactive_value}, This expression can
@@ -31,7 +41,8 @@ pronoun to reconcile it with upstream dependencies.}
 \item{validation_rctv}{(\code{reactive}) The \code{\link[shiny:reactive]{shiny::reactive()}} that performs the
 validation.}
 
-\item{value}{(various) The initial value.}
+\item{value}{(various) The initial value. This value will be coerced via the
+validation expression when accessed.}
 
 \item{value_rv}{(\code{reactiveVal}) The \code{\link[shiny:reactiveVal]{shiny::reactiveVal()}} that holds the
 current value.}
