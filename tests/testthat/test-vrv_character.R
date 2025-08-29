@@ -1,3 +1,5 @@
+# vrv_character ----
+
 test_that("vrv_character() initializes as expected", {
   char_vrv <- vrv_character(value = "a")
   expect_equal(isolate(char_vrv()), "a")

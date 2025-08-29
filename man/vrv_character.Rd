@@ -29,32 +29,27 @@ vrv_character_scalar(
 )
 }
 \arguments{
-\item{value}{(various) The initial value.}
+\item{value}{(various) The initial value. This value will be coerced via the
+validation expression when accessed.}
 
-\item{default}{(\code{expression}) A value to use when the current value is not
-valid according to the rules. Can be a reactive expression. Defaults to
-\code{NULL}.}
+\item{default}{(various, including \code{expression} or \verb{reactive expression}) A
+value to use when the current value is not valid according to the defined
+rules. Defaults to \code{NULL}.}
 
-\item{allow_null}{\verb{(length-1 logical)} Is NULL an acceptable value?}
+\item{allow_null}{(length-1 \code{logical}, \code{expression}, or \verb{reactive expression}) Is \code{NULL} an acceptable value?}
 
-\item{allow_na}{\verb{(length-1 logical)} Are NA values ok?}
+\item{allow_na}{(length-1 \code{logical}, \code{expression}, or \verb{reactive expression})
+Are \code{NA} values okay?}
 
-\item{min_size}{\verb{(length-1 integer)} The minimum size of the object. Object
-size will be tested using \code{\link[vctrs:vec_size]{vctrs::vec_size()}}.}
+\item{min_size}{(length-1 \code{integer}, \code{expression}, or \verb{reactive expression})
+The minimum size of the vector.}
 
-\item{max_size}{\verb{(length-1 integer)} The maximum size of the object. Object
-size will be tested using \code{\link[vctrs:vec_size]{vctrs::vec_size()}}.}
+\item{max_size}{(length-1 \code{integer}, \code{expression}, or \verb{reactive expression})
+The maximum size of the vector.}
 
-\item{regex}{\verb{(character, list, or stringr_pattern)} One or more optional
-regular expressions to test against the values of \code{x}. This can be a
-character vector, a list of character vectors, or a pattern object from the
-\{stringr\} package (e.g., \code{stringr::fixed("a.b")}). The default error
-message for non-matching values will include the pattern itself (see
-\code{\link[stbl:regex_must_match]{regex_must_match()}}). To provide a custom message, supply a named
-character vector where the value is the regex pattern and the name is the
-message that should be displayed. To check that a pattern is \emph{not} matched,
-attach a \code{negate} attribute set to \code{TRUE}. If a complex regex pattern
-throws an error, try installing the stringi package.}
+\item{regex}{(\code{character}, \code{expression}, or \verb{reactive expression}) One or
+more regular expressions to test against the values. See
+\code{\link[stbl:stabilize_chr]{stbl::stabilize_chr()}} for details.}
 
 \item{label}{(length-1 \code{character} or \code{NULL}) An optional label for the
 \code{validated_reactive_value}, used for debugging.}
@@ -62,8 +57,7 @@ throws an error, try installing the stringi package.}
 \item{env}{(\code{environment}) The environment in which to evaluate the
 \code{validation_expr}.}
 
-\item{allow_zero_length}{\verb{(length-1 logical)} Are zero-length vectors
-acceptable?}
+\item{allow_zero_length}{(length-1 \code{logical}, \code{expression}, or \verb{reactive expression}) Is a zero-length vector acceptable?}
 }
 \value{
 A \code{vrv} object which returns a validated character vector.
