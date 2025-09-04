@@ -65,9 +65,9 @@
   cli::cli_abort(
     message,
     class = c(
-      "shinybatch-condition",
+      paste("shinybatch-error", subclass, sep = "-"),
       "shinybatch-error",
-      paste("shinybatch-error", subclass, sep = "-")
+      "shinybatch-condition"
     ),
     call = call,
     .envir = message_env,
