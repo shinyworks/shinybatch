@@ -25,7 +25,7 @@ test_that("vrv_character() sets value to default when invalid (size)", {
   expect_equal(isolate(char_vrv()), "default")
   expect_true(isolate(char_vrv$is_default()))
   error <- isolate(char_vrv$error())
-  expect_s3_class(error, "captured-stbl_error_size_too_large")
+  expect_s3_class(error, "captured-stbl-error-size_too_large")
   class(error) <- sub("captured-", "", class(error))
   expect_error({
     signalCondition(error)
@@ -48,7 +48,7 @@ test_that("vrv_character() sets value to default when invalid (regex)", {
   expect_equal(isolate(char_vrv()), "default")
   expect_true(isolate(char_vrv$is_default()))
   error <- isolate(char_vrv$error())
-  expect_s3_class(error, "captured-stbl_error_must")
+  expect_s3_class(error, "captured-stbl-error-must")
   class(error) <- sub("captured-", "", class(error))
   expect_error({
     signalCondition(error)
@@ -79,7 +79,7 @@ test_that("vrv_character() handles NULL initialization", {
   expect_equal(isolate(char_vrv_null_bad()), "default")
   expect_true(isolate(char_vrv_null_bad$is_default()))
   error <- isolate(char_vrv_null_bad$error())
-  expect_s3_class(error, "captured-stbl_error_bad_null")
+  expect_s3_class(error, "captured-stbl-error-bad_null")
   class(error) <- sub("captured-", "", class(error))
   expect_error({
     signalCondition(error)
@@ -112,7 +112,7 @@ test_that("vrv_character() handles being set to NULL", {
   expect_equal(isolate(char_vrv_null_bad()), "default")
   expect_true(isolate(char_vrv_null_bad$is_default()))
   error <- isolate(char_vrv_null_bad$error())
-  expect_s3_class(error, "captured-stbl_error_bad_null")
+  expect_s3_class(error, "captured-stbl-error-bad_null")
   class(error) <- sub("captured-", "", class(error))
   expect_error({
     signalCondition(error)
@@ -152,7 +152,7 @@ test_that("vrv_character_scalar() sets value to default when invalid (size)", {
   expect_equal(isolate(char_vrv()), "default")
   expect_true(isolate(char_vrv$is_default()))
   error <- isolate(char_vrv$error())
-  expect_s3_class(error, "captured-stbl_error_non_scalar")
+  expect_s3_class(error, "captured-stbl-error-non_scalar")
   class(error) <- sub("captured-", "", class(error))
   expect_error({
     signalCondition(error)
@@ -175,7 +175,7 @@ test_that("vrv_character_scalar() sets value to default when invalid (regex)", {
   expect_equal(isolate(char_vrv()), "default")
   expect_true(isolate(char_vrv$is_default()))
   error <- isolate(char_vrv$error())
-  expect_s3_class(error, "captured-stbl_error_must")
+  expect_s3_class(error, "captured-stbl-error-must")
   class(error) <- sub("captured-", "", class(error))
   expect_error({
     signalCondition(error)
@@ -206,7 +206,7 @@ test_that("vrv_character_scalar() handles NULL initialization", {
   expect_equal(isolate(char_vrv_null_bad()), "default")
   expect_true(isolate(char_vrv_null_bad$is_default()))
   error <- isolate(char_vrv_null_bad$error())
-  expect_s3_class(error, "captured-stbl_error_bad_null")
+  expect_s3_class(error, "captured-stbl-error-bad_null")
   class(error) <- sub("captured-", "", class(error))
   expect_error({
     signalCondition(error)
@@ -239,7 +239,7 @@ test_that("vrv_character_scalar() handles zero-length character vector", {
   expect_equal(isolate(char_vrv_zero_bad()), "default")
   expect_true(isolate(char_vrv_zero_bad$is_default()))
   error <- isolate(char_vrv_zero_bad$error())
-  expect_s3_class(error, "captured-stbl_error_bad_empty")
+  expect_s3_class(error, "captured-stbl-error-bad_empty")
   class(error) <- sub("captured-", "", class(error))
   expect_error({
     signalCondition(error)

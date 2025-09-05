@@ -54,7 +54,7 @@ test_that("vrv_factor() sets value to default when invalid", {
   expect_equal(isolate(group()), "B1")
   expect_true(isolate(group$is_default()))
   error <- isolate(group$error())
-  expect_s3_class(error, "captured-stbl_error_fct_levels")
+  expect_s3_class(error, "captured-stbl-error-fct_levels")
   class(error) <- sub("captured-", "", class(error))
   expect_error({
     signalCondition(error)
@@ -187,7 +187,7 @@ test_that("vrv_factor_scalar() sets value to default when invalid (levels)", {
   expect_equal(isolate(group()), "B1")
   expect_true(isolate(group$is_default()))
   error <- isolate(group$error())
-  expect_s3_class(error, "captured-stbl_error_fct_levels")
+  expect_s3_class(error, "captured-stbl-error-fct_levels")
   class(error) <- sub("captured-", "", class(error))
   expect_error({
     signalCondition(error)
@@ -216,7 +216,7 @@ test_that("vrv_factor_scalar() sets value to default when invalid (size)", {
   expect_equal(isolate(group()), "A1")
   expect_true(isolate(group$is_default()))
   error <- isolate(group$error())
-  expect_s3_class(error, "captured-stbl_error_non_scalar")
+  expect_s3_class(error, "captured-stbl-error-non_scalar")
   class(error) <- sub("captured-", "", class(error))
   expect_error({
     signalCondition(error)
