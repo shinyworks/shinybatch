@@ -33,8 +33,6 @@ jobs:
       - name: Build site
         shell: Rscript {0}
         run: |
-          pak::pak("posit-dev/r-shinylive")
-          install.packages('stbl', repos = c('https://jonthegeek.r-universe.dev', 'https://cloud.r-project.org'))
           pkgdown::build_site_github_pages(
             new_process = FALSE,
             install = FALSE,
@@ -46,7 +44,7 @@ jobs:
         uses: r-wasm/actions/build-rwasm@v2
         with:
           webr-image: ghcr.io/r-wasm/webr:v0.5.5
-          packages: "."
+          packages: "stbl=url::https://jonthegeek.r-universe.dev/bin/emscripten/contrib/4.5/stbl_0.1.1.9002.tgz, ."
           repo-path: "_site"
 
       # Upload an artifact that will work with GitHub Pages
