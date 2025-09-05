@@ -44,7 +44,7 @@ jobs:
         uses: r-wasm/actions/build-rwasm@v2
         with:
           webr-image: ghcr.io/r-wasm/webr:v0.5.5
-          packages: "stbl=url::https://jonthegeek.r-universe.dev/bin/emscripten/contrib/4.5/stbl_0.1.1.9002.tgz, ."
+          packages: "."
           repo-path: "_site"
 
       # Upload an artifact that will work with GitHub Pages
