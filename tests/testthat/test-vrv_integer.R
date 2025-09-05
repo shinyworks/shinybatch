@@ -25,7 +25,7 @@ test_that("vrv_integer() sets value to default when invalid (size)", {
   expect_equal(isolate(int_vrv()), 99L)
   expect_true(isolate(int_vrv$is_default()))
   error <- isolate(int_vrv$error())
-  expect_s3_class(error, "captured-stbl_error_size_too_large")
+  expect_s3_class(error, "captured-stbl-error-size_too_large")
   class(error) <- sub("captured-", "", class(error))
   expect_error({
     signalCondition(error)
@@ -135,7 +135,7 @@ test_that("vrv_integer() handles NULL initialization", {
   expect_equal(isolate(int_vrv_null_bad()), 99L)
   expect_true(isolate(int_vrv_null_bad$is_default()))
   error <- isolate(int_vrv_null_bad$error())
-  expect_s3_class(error, "captured-stbl_error_bad_null")
+  expect_s3_class(error, "captured-stbl-error-bad_null")
   class(error) <- sub("captured-", "", class(error))
   expect_error({
     signalCondition(error)
@@ -168,7 +168,7 @@ test_that("vrv_integer() handles being set to NULL", {
   expect_equal(isolate(int_vrv_null_bad()), 99L)
   expect_true(isolate(int_vrv_null_bad$is_default()))
   error <- isolate(int_vrv_null_bad$error())
-  expect_s3_class(error, "captured-stbl_error_bad_null")
+  expect_s3_class(error, "captured-stbl-error-bad_null")
   class(error) <- sub("captured-", "", class(error))
   expect_error({
     signalCondition(error)
@@ -207,7 +207,7 @@ test_that("vrv_integer_scalar() sets value to default when invalid (size)", {
   expect_equal(isolate(int_vrv()), 99L)
   expect_true(isolate(int_vrv$is_default()))
   error <- isolate(int_vrv$error())
-  expect_s3_class(error, "captured-stbl_error_non_scalar")
+  expect_s3_class(error, "captured-stbl-error-non_scalar")
   class(error) <- sub("captured-", "", class(error))
   expect_error({
     signalCondition(error)
@@ -261,7 +261,7 @@ test_that("vrv_integer_scalar() handles NULL initialization", {
   expect_equal(isolate(int_vrv_null_bad()), 99L)
   expect_true(isolate(int_vrv_null_bad$is_default()))
   error <- isolate(int_vrv_null_bad$error())
-  expect_s3_class(error, "captured-stbl_error_bad_null")
+  expect_s3_class(error, "captured-stbl-error-bad_null")
   class(error) <- sub("captured-", "", class(error))
   expect_error({
     signalCondition(error)
@@ -294,7 +294,7 @@ test_that("vrv_integer_scalar() handles zero-length integer vector", {
   expect_equal(isolate(int_vrv_zero_bad()), 99L)
   expect_true(isolate(int_vrv_zero_bad$is_default()))
   error <- isolate(int_vrv_zero_bad$error())
-  expect_s3_class(error, "captured-stbl_error_bad_empty")
+  expect_s3_class(error, "captured-stbl-error-bad_empty")
   class(error) <- sub("captured-", "", class(error))
   expect_error({
     signalCondition(error)
