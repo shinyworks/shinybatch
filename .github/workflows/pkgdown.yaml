@@ -33,6 +33,7 @@ jobs:
       - name: Build site
         shell: Rscript {0}
         run: |
+          pak::pak("posit-dev/r-shinylive")
           pkgdown::build_site_github_pages(
             new_process = FALSE,
             install = FALSE,
@@ -43,7 +44,7 @@ jobs:
       - name: Build Wasm R packages
         uses: r-wasm/actions/build-rwasm@v2
         with:
-          webr-image: ghcr.io/r-wasm/webr:v0.4.2
+          webr-image: ghcr.io/r-wasm/webr:v0.5.5
           packages: "."
           repo-path: "_site"
 
