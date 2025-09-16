@@ -15,7 +15,7 @@ Imports:
     cli,
     rlang,
     shiny,
-    stbl (>= 0.1.1.9005)
+    stbl (>= 0.2.0)
 Suggests: 
     covr,
     knitr,
@@ -28,5 +28,3 @@ Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-Remotes: 
-    stbl=url::https://api2r.r-universe.dev/src/contrib/stbl_0.1.1.9009.tar.gz
