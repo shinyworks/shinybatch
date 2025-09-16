@@ -14,7 +14,7 @@
     Condition
       Error:
       ! `.vrv()` must match the regex pattern "^[a-z]+$"
-      x "123" does not match.
+      x "123" fails the check.
 
 # vrv_character() handles NULL initialization
 
@@ -48,7 +48,7 @@
     Condition
       Error:
       ! `.vrv()` must match the regex pattern "^[a-z]+$"
-      x "123" does not match.
+      x "123" fails the check.
 
 # vrv_character_scalar() handles NULL initialization
 

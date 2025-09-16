@@ -5,7 +5,8 @@
     Condition
       Error in `validation_fn()`:
       ! All values of `.vrv()` must be present in `levels` or `to_na`.
-      * Bad values: A1.
+      i Disallowed values: A1
+      i Allowed values: B1
 
 # vrv_factor_scalar() sets value to default when invalid (levels)
 
@@ -14,7 +15,8 @@
     Condition
       Error in `validation_fn()`:
       ! All values of `.vrv()` must be present in `levels` or `to_na`.
-      * Bad values: A1.
+      i Disallowed values: A1
+      i Allowed values: B1
 
 # vrv_factor_scalar() sets value to default when invalid (size)
 
