@@ -1,0 +1,139 @@
+{
+  "_metadata": {
+    "description": "A collection of GitHub issues for the shinybatch repository.",
+    "lookup_key": "issue_number",
+    "comment": "Each key in the 'issues' object is a string representation of the GitHub issue number. Empty objects are placeholders so that positions and ids match. Empty objects should be ignored."
+  },
+  "issues": {
+    "1": [],
+    "2": [],
+    "3": [],
+    "4": [],
+    "5": [],
+    "6": {
+      "title": "Create `logged_reactive_val()` to trace value history",
+      "type": {
+        "id": 20895326,
+        "node_id": "IT_kwDOCPuvuM4BPtZe",
+        "name": "Feature",
+        "description": "A request, idea, or new functionality",
+        "color": "blue",
+        "created_at": "2024-02-20T11:23:07Z",
+        "updated_at": "2024-10-08T22:29:37Z",
+        "is_enabled": true
+      },
+      "milestone": {},
+      "body": "In order to easily debug how a value changes over time, as a Shiny developer, I would like a `logged_reactive_val()` that automatically records its history.\n\nIn order to optimize my app and identify unnecessary invalidations, as a Shiny developer, I would like a `logged_reactive()` that records when it re-evaluates and what its historical values were.",
+      "comments": "Logging during invalidation will give a warning in the console, but I think that's probably ok in this case. Consider splitting this or putting the \"on read\" thing behind an argument (and/or option). Huh, possibly an argument to the reactive (and have it default to the value of an option)."
+    },
+    "7": {
+      "title": "Create `debounced_reactive_val()` to handle rapid inputs",
+      "type": {
+        "id": 20895326,
+        "node_id": "IT_kwDOCPuvuM4BPtZe",
+        "name": "Feature",
+        "description": "A request, idea, or new functionality",
+        "color": "blue",
+        "created_at": "2024-02-20T11:23:07Z",
+        "updated_at": "2024-10-08T22:29:37Z",
+        "is_enabled": true
+      },
+      "milestone": {},
+      "body": "In order to prevent slow calculations from running on every keystroke from a text input, as a Shiny developer, I would like a `debounced_reactive_val()` that only updates after the user has paused.\n\nIn order to improve my app's performance when dealing with rapidly changing upstream reactives, as a Shiny developer, I would like a `debounced_reactive()` to control how frequently a downstream calculation is performed.\n\n",
+      "comments": {}
+    },
+    "8": {
+      "title": "Create `async_reactive()` to manage async operations",
+      "type": {
+        "id": 20895326,
+        "node_id": "IT_kwDOCPuvuM4BPtZe",
+        "name": "Feature",
+        "description": "A request, idea, or new functionality",
+        "color": "blue",
+        "created_at": "2024-02-20T11:23:07Z",
+        "updated_at": "2024-10-08T22:29:37Z",
+        "is_enabled": true
+      },
+      "milestone": {},
+      "body": "In order to easily manage the state of a long-running, non-blocking process (e.g., pending, success, error) within my reactive graph, as a Shiny developer, I would like an `async_reactive()`.\n\nIn order to imperatively trigger an async operation (like an API call) and reactively track its state without complex boilerplate, as a Shiny developer, I would like an `async_reactive_val()`.\n\n",
+      "comments": {}
+    },
+    "9": {
+      "title": "Provide async-aware wrappers for core package functions",
+      "type": {
+        "id": 20895326,
+        "node_id": "IT_kwDOCPuvuM4BPtZe",
+        "name": "Feature",
+        "description": "A request, idea, or new functionality",
+        "color": "blue",
+        "created_at": "2024-02-20T11:23:07Z",
+        "updated_at": "2024-10-08T22:29:37Z",
+        "is_enabled": true
+      },
+      "milestone": {},
+      "body": "In order to ensure my user interface remains responsive while complex calculations are running, as a Shiny developer building a highly interactive application, I would like async-aware versions of the package's core functions (e.g., `async_validated_reactive_val()`).\n",
+      "comments": {}
+    },
+    "10": [],
+    "11": [],
+    "12": [],
+    "13": [],
+    "14": [],
+    "15": [],
+    "16": [],
+    "17": [],
+    "18": [],
+    "19": [],
+    "20": [],
+    "21": [],
+    "22": [],
+    "23": [],
+    "24": [],
+    "25": [],
+    "26": [],
+    "27": {
+      "title": "Build pkgdown + wasm for PRs",
+      "type": {
+        "id": 28471956,
+        "node_id": "IT_kwDOCPuvuM4BsnKU",
+        "name": "Infra",
+        "description": "Infrastructure of a project, like GitHub Actions",
+        "color": "gray",
+        "created_at": "2025-08-19T11:09:02Z",
+        "updated_at": "2025-08-19T11:09:02Z",
+        "is_enabled": true
+      },
+      "milestone": {},
+      "body": "While fixing the wasm build thing for #24, I broke the PR deployments. That's what I get for taking AI advice. Go back to roughly what I had before all that (but with proper pathing), but keep the part where I point to the proper webr build.",
+      "comments": {}
+    },
+    "28": {
+      "title": "Use `vrv_factor()` in README",
+      "type": {
+        "id": 28471907,
+        "node_id": "IT_kwDOCPuvuM4BsnJj",
+        "name": "Docs",
+        "description": "Expanations of how or why to do things",
+        "color": "purple",
+        "created_at": "2025-08-19T11:07:20Z",
+        "updated_at": "2025-08-19T11:09:09Z",
+        "is_enabled": true
+      },
+      "milestone": {},
+      "body": "The main README example can be simplified with `vrv_factor()`.",
+      "comments": {}
+    },
+    "29": [],
+    "30": [],
+    "31": [],
+    "32": [],
+    "33": [],
+    "34": {
+      "title": "Integration tests use installed package version instead of development version",
+      "type": {},
+      "milestone": {},
+      "body": "The integration test located at `tests/testthat/test-integration-vrv.R` uses `shinytest2` to launch a test application from `inst/apps/cascading_filters/shinybatch/app.R`.\n\n#### Problem\nThe test application's `app.R` file contains the line `library(shinybatch)`. When `shinytest2` runs this application, it loads the version of `{shinybatch}` that is installed in the main R library. It does **not** use the current, in-development version of the code that is loaded via `devtools::load_all()` or `testthat::test_file()`.\n\n#### Impact\nThis behavior means the integration test is not actually testing the changes being made in the current development branch. A bug could be introduced, pass all unit tests, and only be caught after the package has been re-installed, as the integration test would be running against an older, stable version of the code. This significantly reduces the value of the integration test.\n\n#### Goal\nThe integration testing setup needs to be refactored to ensure that the application run by `shinytest2` uses the development version of the package code. We probably need to make a duplicate of the app for testing, explicitly using pkgload::load_all() rather than library().",
+      "comments": {}
+    }
+  }
+}
