@@ -23,13 +23,13 @@ In this example, we've added a `Sys.sleep(5)` to simulate a long-running operati
 {{< include ../../inst/apps/cascading_filters/shiny/app.R >}}
 ```
 
-## The Solution: `validated_reactive_val()`
+## The Solution: `vrv_factor()`
 
-The `shinybatch` package provides `validated_reactive_val()` to solve this exact problem. It works like a standard `shiny::reactiveVal()` but with an added validation expression. When you try to set its value, it only accepts the new value if it passes the validation. Otherwise, it reverts to `NULL`.
+The `shinybatch` package provides `vrv_factor()` to solve this exact problem. It's a specialized wrapper around the more general `validated_reactive_val()` that is designed for cascading inputs. You provide it an (optionally reactive) expression for the valid `levels`, and `vrv_factor()` guarantees that its value is always one of those levels. If its current value becomes invalid (either because the `levels` change or you attempt to set an invalid value), it returns a default value (which can also be calculated via a reactive expression) instead.
 
-This ensures that the reactive value can never hold an invalid state. Downstream calculations that use `shiny::req()` on this value will be correctly paused during the brief transient period, preventing the error.
+By guaranteeing a valid state, `vrv_factor()` prevents downstream reactives from ever observing an inconsistent set of inputs. When the `vrv_factor()`'s value is invalid, it returns its default (`NULL` if not otherwise specified). A downstream reactive using `shiny::req()` will then correctly halt execution, preventing errors or unnecessary calculations until a consistent state is restored.
 
-In the updated app below, we've replaced `shiny::reactiveVal()` with `shinybatch::validated_reactive_val()`. Notice how the core logic changes very little. However, if you try to invalidate the "Group" by changing the "Level", the error modal no longer appears. The application remains responsive and correctly waits until a valid state is available.
+In the updated app below, we use `shinybatch::vrv_factor()` to manage the state of the "Group" input. Notice how this simplifies the server function significantly. When you invalidate the "Group" by changing the "Level", the downstream calculation never sees the inconsistent state, so the error modal no longer appears. The application remains responsive and proceeds with the consistent inputs.
 
 ```{shinylive-r}
 #| label: solution-example
