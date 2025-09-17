@@ -26,32 +26,35 @@ interdependent state in ‘shiny’ applications.
 In a standard Shiny app, you might have two inputs that depend on each
 other, like a “category” and “sub-category” selector. When the user
 changes the category, you need an `observeEvent()` to update the
-sub-category’s value to something valid. `validated_reactive_val()`
-simplifies this pattern by building the validation logic directly into
-the reactive object itself. We also ensure that the changes happen in
-the correct order, and prevent observers from “seeing” the inconsistent
-state.
+sub-category’s value to something valid. `validated_reactive_val()` and
+its wrappers like `vrv_factor()` simplify this pattern by building the
+validation logic directly into the reactive object itself. We also
+ensure that the changes happen in the correct order, and prevent
+observers from “seeing” the inconsistent state.
 
 ``` r
-# `group_val` depends on `input$level`.
-group_val <- validated_reactive_val(value = "A1", validation_expr = {
-  # If the current value is not valid for the new level, reset it.
-  valid_groups <- if (input$level == "A") {
+# The allowed groups depend on the selected "level".
+allowed_groups <- shiny::reactive({
+  if (shiny::req(input$level) == "A") {
     c("A1", "A2")
   } else {
     c("B1", "B2")
   }
-  if (.vrv() %in% valid_groups) {
-    .vrv()
-  } else {
-    valid_groups[[1]]
-  }
 })
+
+# The group_val is validated to make sure it is always one of the allowed groups, returning "bad group" if not.
+group_val <- vrv_factor(
+  levels = allowed_groups(),
+  value = "A1",
+  default = "bad group"
+)
 ```
 
 Now, any time `input$level` changes, `group_val()` will automatically
 re-validate its own state. When you read `group_val()`, you are
 guaranteed to get a value that is consistent with its dependencies.
+Also, if you set `group_val` to a bad value (such as `group_val("C1")`),
+it will return `"bad group"` anywhere that it is used.
 
 ## Installation
 

@@ -10,7 +10,7 @@ all_data <- data.frame(
 )
 
 ui <- fluidPage(
-  titlePanel("With validated_reactive_val()"),
+  titlePanel("With vrv_factor()"),
   sidebarLayout(
     sidebarPanel(
       selectInput(
@@ -37,14 +37,12 @@ server <- function(input, output, session) {
     unique(all_data$group[all_data$level == input$level])
   })
 
-  # This is the core change: validated_reactive_val() ensures that its value
-  # is always valid. The validation_expr uses the .vrv() pronoun to refer
-  # to selected_group's current value (before any update).
-  selected_group <- shinybatch::validated_reactive_val({
-    groups <- valid_groups()
-    current_group <- .vrv()
-    if (isTRUE(current_group %in% groups)) current_group
-  })
+  # This is the core change: vrv_factor() ensures that its value is
+  # always one of the valid_groups.
+  selected_group <- vrv_factor(
+    levels = valid_groups(),
+    value = "A1"
+  )
 
   # Keep the validated_reactive_val in sync with the input.
   observe({
