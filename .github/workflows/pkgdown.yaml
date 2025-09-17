@@ -3,8 +3,14 @@
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - '.github/ai/issues.json'
   pull_request:
     branches: [main]
+    paths-ignore:
+      - '.github/ai/issues.json'
+  release:
+    types: [published]
   workflow_dispatch:
 
 name: R Wasm & pkgdown deploy
