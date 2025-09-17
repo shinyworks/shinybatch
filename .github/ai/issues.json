@@ -107,22 +107,7 @@
       "body": "While fixing the wasm build thing for #24, I broke the PR deployments. That's what I get for taking AI advice. Go back to roughly what I had before all that (but with proper pathing), but keep the part where I point to the proper webr build.",
       "comments": {}
     },
-    "28": {
-      "title": "Use `vrv_factor()` in README",
-      "type": {
-        "id": 28471907,
-        "node_id": "IT_kwDOCPuvuM4BsnJj",
-        "name": "Docs",
-        "description": "Expanations of how or why to do things",
-        "color": "purple",
-        "created_at": "2025-08-19T11:07:20Z",
-        "updated_at": "2025-08-19T11:09:09Z",
-        "is_enabled": true
-      },
-      "milestone": {},
-      "body": "The main README example can be simplified with `vrv_factor()`.",
-      "comments": {}
-    },
+    "28": [],
     "29": [],
     "30": [],
     "31": [],
