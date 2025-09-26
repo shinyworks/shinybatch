@@ -39,7 +39,7 @@ server <- function(input, output, session) {
 
   # When the level changes, the selected group may no longer be valid.
   selected_group <- reactive({
-    if (isTRUE(current_group %in% groups)) {
+    if (isTRUE(input$group %in% valid_groups())) {
       input$group
     } # Returns NULL if invalid
   })
