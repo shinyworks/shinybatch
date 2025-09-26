@@ -24,7 +24,7 @@ vrv_character <- function(
 ) {
   vrv_from_function(
     validation_fn = stbl::stabilize_chr,
-    value = value,
+    value = {{ value }},
     default = {{ default }},
     label = label,
     env = env,
@@ -50,7 +50,7 @@ vrv_character_scalar <- function(
 ) {
   vrv_from_function(
     validation_fn = stbl::stabilize_chr_scalar,
-    value = value,
+    value = {{ value }},
     default = {{ default }},
     label = label,
     env = env,

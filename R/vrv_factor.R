@@ -31,7 +31,7 @@ vrv_factor <- function(
     validation_fn = function(...) {
       as.character(stbl::stabilize_fct(...))
     },
-    value = value,
+    value = {{ value }},
     default = {{ default }},
     label = label,
     env = env,
@@ -63,7 +63,7 @@ vrv_factor_scalar <- function(
     validation_fn = function(...) {
       as.character(stbl::stabilize_fct_scalar(...))
     },
-    value = value,
+    value = {{ value }},
     default = {{ default }},
     label = label,
     env = env,

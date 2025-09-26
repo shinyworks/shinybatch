@@ -8,7 +8,9 @@
 }
 \arguments{
 \item{value}{(various) The initial value. This value will be coerced via the
-validation expression when accessed.}
+validation expression when accessed. If this value is reactive, an observer
+with \code{priority = Inf} will be created to attempt to keep the validated
+value in sync with that reactive.}
 
 \item{label}{(length-1 \code{character} or \code{NULL}) An optional label for the
 \code{validated_reactive_value}, used for debugging.}

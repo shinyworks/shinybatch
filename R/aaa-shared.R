@@ -32,9 +32,13 @@
 #' @param validation_rctv (`reactive`) The [shiny::reactive()] that performs the
 #'   validation.
 #' @param value (various) The initial value. This value will be coerced via the
-#'   validation expression when accessed.
+#'   validation expression when accessed. If this value is reactive, an observer
+#'   with `priority = Inf` will be created to attempt to keep the validated
+#'   value in sync with that reactive.
 #' @param value_rv (`reactiveVal`) The [shiny::reactiveVal()] that holds the
 #'   current value.
+#' @param vrv_fun (`vrv`, `function`) A function to get and set validated reactive
+#'   values.
 #'
 #' @name shared-params
 #' @keywords internal

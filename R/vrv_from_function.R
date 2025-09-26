@@ -34,7 +34,7 @@ vrv_from_function <- function(
 
   validated_reactive_val(
     validation_expr = !!validation_expr,
-    value = value,
+    value = {{ value }},
     default = {{ default }},
     label = label,
     env = new_env
