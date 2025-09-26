@@ -176,12 +176,14 @@ validated_reactive_val <- function(
 #'   `vrv_fun()` with the value of `value` whenever `value` changes.
 #' @keywords internal
 .sync_vrv_to_value <- function(vrv_fun, value) {
-  observe(
-    {
-      vrv_fun(.get_value_maybe_reactive(value))
-    },
-    priority = Inf
-  )
+  if (shiny::is.reactive(value)) {
+    observe(
+      {
+        vrv_fun(.get_value_maybe_reactive(value))
+      },
+      priority = Inf
+    )
+  }
 }
 
 #' Prepare the validation quosure
