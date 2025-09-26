@@ -42,10 +42,15 @@ pronoun to reconcile it with upstream dependencies.}
 validation.}
 
 \item{value}{(various) The initial value. This value will be coerced via the
-validation expression when accessed.}
+validation expression when accessed. If this value is reactive, an observer
+with \code{priority = Inf} will be created to attempt to keep the validated
+value in sync with that reactive.}
 
 \item{value_rv}{(\code{reactiveVal}) The \code{\link[shiny:reactiveVal]{shiny::reactiveVal()}} that holds the
 current value.}
+
+\item{vrv_fun}{(\code{vrv}, \code{function}) A function to get and set validated reactive
+values.}
 }
 \description{
 Reused parameter definitions are gathered here for easier editing. R6 methods

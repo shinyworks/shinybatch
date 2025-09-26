@@ -37,7 +37,7 @@ vrv_integer <- function(
 ) {
   vrv_from_function(
     validation_fn = stbl::stabilize_int,
-    value = value,
+    value = {{ value }},
     default = {{ default }},
     label = label,
     env = env,
@@ -69,7 +69,7 @@ vrv_integer_scalar <- function(
 ) {
   vrv_from_function(
     validation_fn = stbl::stabilize_int_scalar,
-    value = value,
+    value = {{ value }},
     default = {{ default }},
     label = label,
     env = env,

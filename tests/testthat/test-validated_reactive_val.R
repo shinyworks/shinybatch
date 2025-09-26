@@ -268,6 +268,30 @@ test_that("`value` defaults to NULL", {
   expect_equal(isolate(vrv()), "was null")
 })
 
+test_that("`value` can be reactive", {
+  testServer(
+    function(input, output, session) {
+      rctv <- reactiveVal()
+      vrv <- validated_reactive_val(
+        value = rctv,
+        validation_expr = {
+          if (is.null(.vrv())) {
+            rlang::abort("is null")
+          }
+          "not null"
+        },
+        default = "was null"
+      )
+    },
+    {
+      expect_equal(vrv(), "was null")
+      rctv("set a value")
+      session$flushReact()
+      expect_equal(vrv(), "not null")
+    }
+  )
+})
+
 test_that("`label` parameter does not cause errors", {
   vrv <- validated_reactive_val(
     value = 1,

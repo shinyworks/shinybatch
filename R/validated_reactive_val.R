@@ -72,7 +72,8 @@ validated_reactive_val <- function(
     env
   )
   vrv_fun <- .create_vrv_function(value_rv, validation_rctv)
-  structure(vrv_fun, class = c("vrv", "function"))
+  .sync_vrv_to_value(vrv_fun, value)
+  return(vrv_fun)
 }
 
 #' @export
@@ -100,8 +101,13 @@ validated_reactive_val <- function(
 #' @returns A [shiny::reactiveVal()].
 #' @keywords internal
 .initialize_value_rv <- function(value = NULL, label = NULL) {
+  to_set <- value
+  if (is.reactive(value)) {
+    # We initialize to NULL but set up an observer.
+    to_set <- NULL
+  }
   reactiveVal(
-    value,
+    to_set,
     label = .paste_if_defined(label, "value", sep = "-")
   )
 }
@@ -149,7 +155,7 @@ validated_reactive_val <- function(
   force(value_rv)
   force(validation_rctv)
 
-  function(value, get = "value") {
+  vrv_fun <- function(value, get = "value") {
     if (missing(value)) {
       # Getter: return the requested piece of the validation result.
       result <- validation_rctv()
@@ -160,6 +166,22 @@ validated_reactive_val <- function(
       value_rv(value)
     }
   }
+  return(structure(vrv_fun, class = c("vrv", "function")))
+}
+
+#' Update vrv when value changes
+#'
+#' @inheritParams shared-params
+#' @returns A [shiny::observe()] with `priority = Inf` to reactively call
+#'   `vrv_fun()` with the value of `value` whenever `value` changes.
+#' @keywords internal
+.sync_vrv_to_value <- function(vrv_fun, value) {
+  observe(
+    {
+      vrv_fun(.get_value_maybe_reactive(value))
+    },
+    priority = Inf
+  )
 }
 
 #' Prepare the validation quosure

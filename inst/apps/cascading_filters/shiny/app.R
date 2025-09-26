@@ -37,37 +37,30 @@ server <- function(input, output, session) {
     unique(all_data$group[all_data$level == input$level])
   })
 
-  # Track the current selection via a reactiveVal, which can also be updated by
-  # other modules, etc.
-  selected_group <- reactiveVal(NULL)
-
-  # Keep the reactiveVal in sync with the input.
-  observe({
-    selected_group(input$group)
+  # When the level changes, the selected group may no longer be valid.
+  selected_group <- reactive({
+    if (isTRUE(current_group %in% groups)) {
+      input$group
+    } # Returns NULL if invalid
   })
 
   # Update the input when the reactiveVal or the valid values change.
   observe({
-    groups <- valid_groups()
-    current_group <- selected_group()
-
-    selected <- if (isTRUE(current_group %in% groups)) current_group
-
     updateSelectInput(
       session,
       "group",
-      choices = groups,
-      selected = selected
+      choices = valid_groups(),
+      selected = selected_group()
     )
   })
 
   # Display the members of the selected group. We pause the operation when it
   # encounters an invalid state to emphasize the potential issue.
   output$members_out <- renderPrint({
-    req(input$level, selected_group())
+    req(input$level, input$group)
 
     filtered_data <- all_data[
-      all_data$level == input$level & all_data$group == selected_group(),
+      all_data$level == input$level & all_data$group == input$group,
     ]
     if (nrow(filtered_data)) {
       return(filtered_data)

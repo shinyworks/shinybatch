@@ -1,4 +1,4 @@
-# shiny App to demonstrate the effect of validated_reactive_val()
+# shiny App to demonstrate vrv_factor_scalar()
 
 library(shiny)
 library(shinybatch)
@@ -10,7 +10,7 @@ all_data <- data.frame(
 )
 
 ui <- fluidPage(
-  titlePanel("With vrv_factor()"),
+  titlePanel("With vrv_factor_scalar()"),
   sidebarLayout(
     sidebarPanel(
       selectInput(
@@ -37,17 +37,12 @@ server <- function(input, output, session) {
     unique(all_data$group[all_data$level == input$level])
   })
 
-  # This is the core change: vrv_factor() ensures that its value is
+  # This is the core change: vrv_factor_scalar() ensures that its value is
   # always one of the valid_groups.
-  selected_group <- vrv_factor(
+  selected_group <- vrv_factor_scalar(
     levels = valid_groups(),
-    value = "A1"
+    value = reactive(input$group)
   )
-
-  # Keep the validated_reactive_val in sync with the input.
-  observe({
-    selected_group(input$group)
-  })
 
   # Update the input when the validated_reactive_val or the valid values change.
   observe({
@@ -71,11 +66,11 @@ server <- function(input, output, session) {
       return(filtered_data)
     }
 
-    # This block should now be unreachable, as req(selected_group()) will
-    # prevent execution when the inputs are inconsistent.
+    # This block is now unreachable, since we returned filtered_data and we will
+    # never execute this render with an invalid selected group.
     showModal(modalDialog(
       title = "Error",
-      p("This modal should not appear!"),
+      p("This modal will not appear!"),
       easyClose = FALSE,
       footer = NULL
     ))

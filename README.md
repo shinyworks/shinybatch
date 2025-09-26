@@ -27,9 +27,9 @@ In a standard Shiny app, you might have two inputs that depend on each
 other, like a “category” and “sub-category” selector. When the user
 changes the category, you need an `observeEvent()` to update the
 sub-category’s value to something valid. `validated_reactive_val()` and
-its wrappers like `vrv_factor()` simplify this pattern by building the
-validation logic directly into the reactive object itself. We also
-ensure that the changes happen in the correct order, and prevent
+its wrappers like `vrv_factor_scalar()` simplify this pattern by
+building the validation logic directly into the reactive object itself.
+We also ensure that the changes happen in the correct order, and prevent
 observers from “seeing” the inconsistent state.
 
 ``` r
@@ -42,10 +42,11 @@ allowed_groups <- shiny::reactive({
   }
 })
 
-# The group_val is validated to make sure it is always one of the allowed groups, returning "bad group" if not.
-group_val <- vrv_factor(
+# The group_val is validated to make sure it is always one of the allowed groups,
+# returning "bad group" if not. It is also synchronize with the input$group.
+group_val <- vrv_factor_scalar(
   levels = allowed_groups(),
-  value = "A1",
+  value = shiny::reactive(input$group),
   default = "bad group"
 )
 ```
