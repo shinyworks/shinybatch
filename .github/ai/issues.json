@@ -119,6 +119,23 @@
       "milestone": {},
       "body": "The integration test located at `tests/testthat/test-integration-vrv.R` uses `shinytest2` to launch a test application from `inst/apps/cascading_filters/shinybatch/app.R`.\n\n#### Problem\nThe test application's `app.R` file contains the line `library(shinybatch)`. When `shinytest2` runs this application, it loads the version of `{shinybatch}` that is installed in the main R library. It does **not** use the current, in-development version of the code that is loaded via `devtools::load_all()` or `testthat::test_file()`.\n\n#### Impact\nThis behavior means the integration test is not actually testing the changes being made in the current development branch. A bug could be introduced, pass all unit tests, and only be caught after the package has been re-installed, as the integration test would be running against an older, stable version of the code. This significantly reduces the value of the integration test.\n\n#### Goal\nThe integration testing setup needs to be refactored to ensure that the application run by `shinytest2` uses the development version of the package code. We probably need to make a duplicate of the app for testing, explicitly using pkgload::load_all() rather than library().",
       "comments": {}
+    },
+    "35": [],
+    "36": [],
+    "37": [],
+    "38": [],
+    "39": [],
+    "40": [],
+    "41": [],
+    "42": [],
+    "43": [],
+    "44": [],
+    "45": {
+      "title": "Reactive `value` in `validated_reactive_val()` family",
+      "type": {},
+      "milestone": {},
+      "body": "We could remove an `observe()` in a lot of cases by allowing the user to pass in a reactive (or, ideally, an `input` directly) as the `value` of a vrv. When `value` is reactive, we should set up an observer to update the rv of the vrv when that value changes. We can probably implement this by always setting up the observer, which would never trigger if the value isn't reactive. Be careful that this doesn't create reactive loops if the value is changed externally to the input.",
+      "comments": {}
     }
   }
 }
