@@ -22,6 +22,6 @@ reconcile the object's current state with its reactive dependencies.
 }
 \details{
 To reference \code{.vrv()} in a package and avoid \verb{R CMD check} notes, you can
-either import this function with \verb{#' @importFrom shinybatch .vrv} or call it
-with the \code{shinybatch::.vrv()} namespace.
+either import this function with \verb{#' @importFrom chains .vrv} or call it
+with the \code{chains::.vrv()} namespace.
 }

@@ -13,16 +13,16 @@ knitr::opts_chunk$set(
 )
 ```
 
-# shinybatch
+# chains
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![CRAN status](https://www.r-pkg.org/badges/version/shinybatch)](https://CRAN.R-project.org/package=shinybatch)
-[![Codecov test coverage](https://codecov.io/gh/shinyworks/shinybatch/graph/badge.svg)](https://app.codecov.io/gh/shinyworks/shinybatch)
-[![R-CMD-check](https://github.com/shinyworks/shinybatch/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/shinyworks/shinybatch/actions/workflows/R-CMD-check.yaml)
+[![CRAN status](https://www.r-pkg.org/badges/version/chains)](https://CRAN.R-project.org/package=chains)
+[![Codecov test coverage](https://codecov.io/gh/shinyworks/chains/graph/badge.svg)](https://app.codecov.io/gh/shinyworks/chains)
+[![R-CMD-check](https://github.com/shinyworks/chains/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/shinyworks/chains/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-{shinybatch} provides `validated_reactive_val()`, a hybrid reactive object that acts like a `shiny::reactiveVal()` but with a validation expression like a `shiny::reactive()`. This allows for the creation of self-validating reactive values, useful for managing complex, interdependent state in 'shiny' applications.
+{chains} provides `validated_reactive_val()`, a hybrid reactive object that acts like a `shiny::reactiveVal()` but with a validation expression like a `shiny::reactive()`. This allows for the creation of self-validating reactive values, useful for managing complex, interdependent state in 'shiny' applications.
 
 ## Motivation
 
@@ -52,13 +52,13 @@ Now, any time `input$level` changes, `group_val()` will automatically re-validat
 
 ## Installation
 
-You can install the development version of shinybatch from [GitHub](https://github.com/) with:
+You can install the development version of chains from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("pak")
-pak::pak("shinyworks/shinybatch")
+pak::pak("shinyworks/chains")
 ```
 
 ## Code of Conduct
 
-Please note that the shinybatch project is released with a [Contributor Code of Conduct](https://shinyworks.github.io/shinybatch/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+Please note that the chains project is released with a [Contributor Code of Conduct](https://shinyworks.github.io/chains/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.

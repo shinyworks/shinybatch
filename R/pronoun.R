@@ -6,8 +6,8 @@
 #' reconcile the object's current state with its reactive dependencies.
 #'
 #' To reference `.vrv()` in a package and avoid `R CMD check` notes, you can
-#' either import this function with `#' @importFrom shinybatch .vrv` or call it
-#' with the `shinybatch::.vrv()` namespace.
+#' either import this function with `#' @importFrom chains .vrv` or call it
+#' with the `chains::.vrv()` namespace.
 #'
 #' @param env (`environment`) The environment in which to find the `.vrv`
 #'   pronoun. This should generally not be changed from the default of
@@ -22,7 +22,7 @@
     },
     message = c(
       "Function {.code .vrv()} not found.",
-      i = "The {.code .vrv()} pronoun must only be used inside the {.arg validation_expr} of a {.fn shinybatch::validated_reactive_val}."
+      i = "The {.code .vrv()} pronoun must only be used inside the {.arg validation_expr} of a {.fn chains::validated_reactive_val}."
     ),
     subclass = "pronoun-not-found",
     call = env,

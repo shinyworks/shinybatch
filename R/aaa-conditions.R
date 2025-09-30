@@ -1,9 +1,9 @@
 #' Wrap an expression with error handling
 #'
 #' A wrapper around [rlang::try_fetch()] that allows for cleanup code to be run
-#' before re-throwing an error with [.shinybatch_abort()].
+#' before re-throwing an error with [.chains_abort()].
 #'
-#' @inheritParams .shinybatch_abort
+#' @inheritParams .chains_abort
 #' @param expr (`expression`) The expression to evaluate.
 #' @param before_error (`expression` or `NULL`) An expression to run before
 #'   aborting, typically for cleanup.
@@ -25,7 +25,7 @@
     expr,
     error = function(cnd) {
       rlang::inject(before_error)
-      .shinybatch_abort(
+      .chains_abort(
         message,
         parent = if (pass_parent) cnd,
         subclass = subclass,
@@ -43,7 +43,7 @@
 #' @param message (`character`) The message for the new error. Messages will be
 #'   formatted with [cli::cli_bullets()].
 #' @param subclass (`character`) Class(es) to assign to the error. Will be
-#'   prefixed by "shinybatch-error-".
+#'   prefixed by "chains-error-".
 #' @param call (`environment`) The execution environment to mention as the
 #'   source of error messages.
 #' @param message_env (`environment`) The execution environment to use to
@@ -54,7 +54,7 @@
 #'   [rlang::abort()].
 #'
 #' @keywords internal
-.shinybatch_abort <- function(
+.chains_abort <- function(
   message,
   subclass,
   call = rlang::caller_env(),
@@ -65,9 +65,9 @@
   cli::cli_abort(
     message,
     class = c(
-      paste("shinybatch-error", subclass, sep = "-"),
-      "shinybatch-error",
-      "shinybatch-condition"
+      paste("chains-error", subclass, sep = "-"),
+      "chains-error",
+      "chains-condition"
     ),
     call = call,
     .envir = message_env,

@@ -4,8 +4,8 @@ test_that("vrv doesn't enter unexpected state (#13)", {
   skip_if_not_installed("shinytest2")
   app <- AppDriver$new(
     app_dir = system.file(
-      "apps/cascading_filters/shinybatch",
-      package = "shinybatch"
+      "apps/cascading_filters/chains",
+      package = "chains"
     )
   )
   app$wait_for_idle()

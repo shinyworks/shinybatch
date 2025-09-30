@@ -13,7 +13,7 @@ test_that(".vrv() errors if the pronoun is not found", {
     {
       .vrv(env = test_env)
     },
-    class = "shinybatch-error-pronoun-not-found"
+    class = "chains-error-pronoun-not-found"
   )
   expect_snapshot(
     {

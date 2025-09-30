@@ -2,22 +2,22 @@
 
 <!-- README.md is generated from README.qmd. Please edit that file -->
 
-# shinybatch
+# chains
 
 <!-- badges: start -->
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/shinybatch.png)](https://CRAN.R-project.org/package=shinybatch)
+status](https://www.r-pkg.org/badges/version/chains.png)](https://CRAN.R-project.org/package=chains)
 [![Codecov test
-coverage](https://codecov.io/gh/shinyworks/shinybatch/graph/badge.svg)](https://app.codecov.io/gh/shinyworks/shinybatch)
-[![R-CMD-check](https://github.com/shinyworks/shinybatch/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/shinyworks/shinybatch/actions/workflows/R-CMD-check.yaml)
+coverage](https://codecov.io/gh/shinyworks/chains/graph/badge.svg)](https://app.codecov.io/gh/shinyworks/chains)
+[![R-CMD-check](https://github.com/shinyworks/chains/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/shinyworks/chains/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-{shinybatch} provides `validated_reactive_val()`, a hybrid reactive
-object that acts like a `shiny::reactiveVal()` but with a validation
-expression like a `shiny::reactive()`. This allows for the creation of
+{chains} provides `validated_reactive_val()`, a hybrid reactive object
+that acts like a `shiny::reactiveVal()` but with a validation expression
+like a `shiny::reactive()`. This allows for the creation of
 self-validating reactive values, useful for managing complex,
 interdependent state in ‘shiny’ applications.
 
@@ -43,7 +43,7 @@ allowed_groups <- shiny::reactive({
 })
 
 # The group_val is validated to make sure it is always one of the allowed groups,
-# returning "bad group" if not. It is also synchronized with the input$group.
+# returning "bad group" if not. It is also synchronize with the input$group.
 group_val <- vrv_factor_scalar(
   levels = allowed_groups(),
   value = shiny::reactive(input$group),
@@ -59,17 +59,16 @@ it will return `"bad group"` anywhere that it is used.
 
 ## Installation
 
-You can install the development version of shinybatch from
+You can install the development version of chains from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("pak")
-pak::pak("shinyworks/shinybatch")
+pak::pak("shinyworks/chains")
 ```
 
 ## Code of Conduct
 
-Please note that the shinybatch project is released with a [Contributor
-Code of
-Conduct](https://shinyworks.github.io/shinybatch/CODE_OF_CONDUCT.html).
+Please note that the chains project is released with a [Contributor Code
+of Conduct](https://shinyworks.github.io/chains/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
