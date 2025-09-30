@@ -1,7 +1,7 @@
 # shiny App to demonstrate vrv_factor_scalar()
 
 library(shiny)
-library(shinybatch)
+library(chains)
 
 all_data <- data.frame(
   level = c("A", "A", "A", "A", "B", "B", "B", "B"),

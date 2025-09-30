@@ -1,44 +1,44 @@
-test_that(".shinybatch_abort throws classed errors", {
+test_that(".chains_abort throws classed errors", {
   expect_error(
     {
-      .shinybatch_abort("Test message", subclass = "test")
+      .chains_abort("Test message", subclass = "test")
     },
-    class = c("shinybatch-error-test")
+    class = c("chains-error-test")
   )
 
   expect_error(
     {
-      .shinybatch_abort("Test message", subclass = c("test", "test2"))
+      .chains_abort("Test message", subclass = c("test", "test2"))
     },
-    class = c("shinybatch-error-test")
+    class = c("chains-error-test")
   )
 
   expect_error(
     {
-      .shinybatch_abort("Test message", subclass = c("test", "test2"))
+      .chains_abort("Test message", subclass = c("test", "test2"))
     },
-    class = c("shinybatch-error-test2")
+    class = c("chains-error-test2")
   )
 
   expect_error(
     {
-      .shinybatch_abort("Test message", subclass = "test")
+      .chains_abort("Test message", subclass = "test")
     },
-    class = "shinybatch-error"
+    class = "chains-error"
   )
 
   expect_error(
     {
-      .shinybatch_abort("Test message", subclass = "test")
+      .chains_abort("Test message", subclass = "test")
     },
-    class = "shinybatch-condition"
+    class = "chains-condition"
   )
 })
 
-test_that(".shinybatch_abort message formatting is correct", {
+test_that(".chains_abort message formatting is correct", {
   expect_snapshot(
     {
-      .shinybatch_abort("This is a test message.", subclass = "snapshot")
+      .chains_abort("This is a test message.", subclass = "snapshot")
     },
     error = TRUE
   )
@@ -46,7 +46,7 @@ test_that(".shinybatch_abort message formatting is correct", {
   expect_snapshot(
     {
       bad_variable <- "bad"
-      .shinybatch_abort(
+      .chains_abort(
         c(
           "This is a test message with a variable: {bad_variable}",
           i = "This is some additional info."
@@ -58,9 +58,9 @@ test_that(".shinybatch_abort message formatting is correct", {
   )
 })
 
-test_that(".shinybatch_abort messages mention the parent function", {
+test_that(".chains_abort messages mention the parent function", {
   wrapper <- function() {
-    .shinybatch_abort("This is a test message.", subclass = "snapshot")
+    .chains_abort("This is a test message.", subclass = "snapshot")
   }
   expect_snapshot(
     {
@@ -92,7 +92,7 @@ test_that(".with_error_handling throws classed error on failure", {
         subclass = "failure"
       )
     },
-    class = "shinybatch-error-failure"
+    class = "chains-error-failure"
   )
 })
 

@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(shinybatch)
+library(chains)
 
-test_check("shinybatch")
+test_check("chains")

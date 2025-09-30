@@ -21,7 +21,7 @@
 formatted with \code{\link[cli:cli_bullets]{cli::cli_bullets()}}.}
 
 \item{subclass}{(\code{character}) Class(es) to assign to the error. Will be
-prefixed by "shinybatch-error-".}
+prefixed by "chains-error-".}
 
 \item{before_error}{(\code{expression} or \code{NULL}) An expression to run before
 aborting, typically for cleanup.}
@@ -40,6 +40,6 @@ The result of \code{expr} if successful.
 }
 \description{
 A wrapper around \code{\link[rlang:try_fetch]{rlang::try_fetch()}} that allows for cleanup code to be run
-before re-throwing an error with \code{\link[=.shinybatch_abort]{.shinybatch_abort()}}.
+before re-throwing an error with \code{\link[=.chains_abort]{.chains_abort()}}.
 }
 \keyword{internal}

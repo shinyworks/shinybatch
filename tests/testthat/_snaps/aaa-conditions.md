@@ -1,7 +1,7 @@
-# .shinybatch_abort message formatting is correct
+# .chains_abort message formatting is correct
 
     Code
-      .shinybatch_abort("This is a test message.", subclass = "snapshot")
+      .chains_abort("This is a test message.", subclass = "snapshot")
     Condition
       Error:
       ! This is a test message.
@@ -10,14 +10,14 @@
 
     Code
       bad_variable <- "bad"
-      .shinybatch_abort(c("This is a test message with a variable: {bad_variable}",
-        i = "This is some additional info."), subclass = "snapshot_complex")
+      .chains_abort(c("This is a test message with a variable: {bad_variable}", i = "This is some additional info."),
+      subclass = "snapshot_complex")
     Condition
       Error:
       ! This is a test message with a variable: bad
       i This is some additional info.
 
-# .shinybatch_abort messages mention the parent function
+# .chains_abort messages mention the parent function
 
     Code
       wrapper()
