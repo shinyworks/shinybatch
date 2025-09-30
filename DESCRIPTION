@@ -1,6 +1,6 @@
 Package: chains
 Title: Complex Reactive Values for 'shiny'
-Version: 0.0.0.9010
+Version: 0.0.0.9011
 Authors@R: 
     person("Jon", "Harmon", , "jonthegeek@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4781-4346"))
@@ -15,9 +15,10 @@ Imports:
     rlang,
     shiny,
     stbl (>= 0.2.0)
-Suggests: 
+Suggests:
     covr,
     knitr,
+    pkgload,
     rmarkdown,
     shinytest2,
     testthat (>= 3.0.0)
