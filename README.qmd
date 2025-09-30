@@ -40,7 +40,7 @@ allowed_groups <- shiny::reactive({
 })
 
 # The group_val is validated to make sure it is always one of the allowed groups,
-# returning "bad group" if not. It is also synchronize with the input$group.
+# returning "bad group" if not. It is also synchronized with the input$group.
 group_val <- vrv_factor_scalar(
   levels = allowed_groups(),
   value = shiny::reactive(input$group),
