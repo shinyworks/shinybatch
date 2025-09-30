@@ -106,28 +106,6 @@
       "milestone": {},
       "body": "While fixing the wasm build thing for #24, I broke the PR deployments. That's what I get for taking AI advice. Go back to roughly what I had before all that (but with proper pathing), but keep the part where I point to the proper webr build.",
       "comments": {}
-    },
-    "28": [],
-    "29": [],
-    "30": [],
-    "31": [],
-    "32": [],
-    "33": [],
-    "34": {
-      "title": "Integration tests use installed package version instead of development version",
-      "type": {
-        "id": 20895323,
-        "node_id": "IT_kwDOCPuvuM4BPtZb",
-        "name": "Bug",
-        "description": "An unexpected problem or behavior",
-        "color": "red",
-        "created_at": "2024-02-20T11:23:06Z",
-        "updated_at": "2024-07-26T15:33:08Z",
-        "is_enabled": true
-      },
-      "milestone": {},
-      "body": "The integration test located at `tests/testthat/test-integration-vrv.R` uses `shinytest2` to launch a test application from `inst/apps/cascading_filters/shinybatch/app.R`.\n\n#### Problem\nThe test application's `app.R` file contains the line `library(shinybatch)`. When `shinytest2` runs this application, it loads the version of `{shinybatch}` that is installed in the main R library. It does **not** use the current, in-development version of the code that is loaded via `devtools::load_all()` or `testthat::test_file()`.\n\n#### Impact\nThis behavior means the integration test is not actually testing the changes being made in the current development branch. A bug could be introduced, pass all unit tests, and only be caught after the package has been re-installed, as the integration test would be running against an older, stable version of the code. This significantly reduces the value of the integration test.\n\n#### Goal\nThe integration testing setup needs to be refactored to ensure that the application run by `shinytest2` uses the development version of the package code. We probably need to make a duplicate of the app for testing, explicitly using pkgload::load_all() rather than library().",
-      "comments": {}
     }
   }
 }
