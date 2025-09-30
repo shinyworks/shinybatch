@@ -18,8 +18,9 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN status](https://www.r-pkg.org/badges/version/chains)](https://CRAN.R-project.org/package=chains)
-[![Codecov test coverage](https://codecov.io/gh/shinyworks/chains/graph/badge.svg)](https://app.codecov.io/gh/shinyworks/chains)
+[![R-universe version](https://shinyworks.r-universe.dev/chains/badges/version)](https://shinyworks.r-universe.dev/chains)
 [![R-CMD-check](https://github.com/shinyworks/chains/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/shinyworks/chains/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/shinyworks/chains/graph/badge.svg)](https://app.codecov.io/gh/shinyworks/chains)
 <!-- badges: end -->
 
 {chains} provides `validated_reactive_val()`, a hybrid reactive object that acts like a `shiny::reactiveVal()` but with a validation expression like a `shiny::reactive()`. This allows for the creation of self-validating reactive values, useful for managing complex, interdependent state in 'shiny' applications.

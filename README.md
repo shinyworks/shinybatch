@@ -10,9 +10,11 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/chains.png)](https://CRAN.R-project.org/package=chains)
+[![R-universe
+version](https://shinyworks.r-universe.dev/chains/badges/version.png)](https://shinyworks.r-universe.dev/chains)
+[![R-CMD-check](https://github.com/shinyworks/chains/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/shinyworks/chains/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/shinyworks/chains/graph/badge.svg)](https://app.codecov.io/gh/shinyworks/chains)
-[![R-CMD-check](https://github.com/shinyworks/chains/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/shinyworks/chains/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 {chains} provides `validated_reactive_val()`, a hybrid reactive object
