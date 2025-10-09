@@ -37,6 +37,6 @@ In the updated app below, we use `chains::vrv_factor_scalar()` to manage the sta
 #| viewerHeight: 300
 #| components: [editor, viewer]
 #| layout: vertical
-webr::install("chains", repos = c("https://chains.shinyworks.org/", "https://shinyworks.r-universe.dev/", "https://repo.r-wasm.org/"))
+webr::install("chains", repos = c("https://chains.shinyworks.org/", "https://shinyworks.r-universe.dev/", "https://stbl.api2r.org", "https://api2r.r-universe.dev", "https://repo.r-wasm.org/"))
 {{< include ../../inst/apps/cascading_filters/chains/app.R >}}
 ```

@@ -1,6 +1,6 @@
 Package: chains
 Title: Complex Reactive Values for 'shiny'
-Version: 0.0.0.9012
+Version: 0.0.0.9013
 Authors@R:
     person("Jon", "Harmon", , "jonthegeek@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-4781-4346"))
@@ -14,7 +14,7 @@ Imports:
     cli,
     rlang,
     shiny,
-    stbl (>= 0.2.0)
+    stbl (>= 0.2.0.9002)
 Suggests:
     covr,
     knitr,
@@ -22,6 +22,8 @@ Suggests:
     rmarkdown,
     shinytest2,
     testthat (>= 3.0.0)
+Remotes:
+    stbl=url::https://api2r.r-universe.dev/src/contrib/stbl_0.2.0.9002.tar.gz
 Config/Needs/website: rmarkdown, quarto, shinylive
 Config/testthat/edition: 3
 Encoding: UTF-8
