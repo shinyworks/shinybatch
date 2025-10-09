@@ -1,72 +1,14 @@
 test_that(".chains_abort throws classed errors", {
-  expect_error(
-    {
-      .chains_abort("Test message", subclass = "test")
-    },
-    class = c("chains-error-test")
+  stbl::expect_pkg_error_classes(
+    .chains_abort("Test message", subclass = "test"),
+    "chains",
+    "test"
   )
-
-  expect_error(
-    {
-      .chains_abort("Test message", subclass = c("test", "test2"))
-    },
-    class = c("chains-error-test")
-  )
-
-  expect_error(
-    {
-      .chains_abort("Test message", subclass = c("test", "test2"))
-    },
-    class = c("chains-error-test2")
-  )
-
-  expect_error(
-    {
-      .chains_abort("Test message", subclass = "test")
-    },
-    class = "chains-error"
-  )
-
-  expect_error(
-    {
-      .chains_abort("Test message", subclass = "test")
-    },
-    class = "chains-condition"
-  )
-})
-
-test_that(".chains_abort message formatting is correct", {
-  expect_snapshot(
-    {
-      .chains_abort("This is a test message.", subclass = "snapshot")
-    },
-    error = TRUE
-  )
-
-  expect_snapshot(
-    {
-      bad_variable <- "bad"
-      .chains_abort(
-        c(
-          "This is a test message with a variable: {bad_variable}",
-          i = "This is some additional info."
-        ),
-        subclass = "snapshot_complex"
-      )
-    },
-    error = TRUE
-  )
-})
-
-test_that(".chains_abort messages mention the parent function", {
-  wrapper <- function() {
-    .chains_abort("This is a test message.", subclass = "snapshot")
-  }
-  expect_snapshot(
-    {
-      wrapper()
-    },
-    error = TRUE
+  stbl::expect_pkg_error_classes(
+    .chains_abort("Test message", subclass = c("test", "test2")),
+    "chains",
+    "test",
+    "test2"
   )
 })
 

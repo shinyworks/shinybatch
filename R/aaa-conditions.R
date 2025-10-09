@@ -62,15 +62,13 @@
   parent = NULL,
   ...
 ) {
-  cli::cli_abort(
+  stbl::pkg_abort(
+    "chains",
     message,
-    class = c(
-      paste("chains-error", subclass, sep = "-"),
-      "chains-error",
-      "chains-condition"
-    ),
+    subclass = subclass,
     call = call,
-    .envir = message_env,
-    parent = parent
+    message_env = message_env,
+    parent = parent,
+    ...
   )
 }
