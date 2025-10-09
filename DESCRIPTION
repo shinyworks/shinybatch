@@ -22,6 +22,8 @@ Suggests:
     rmarkdown,
     shinytest2,
     testthat (>= 3.0.0)
+Remotes:
+    stbl=api2r/stbl
 Config/Needs/website: rmarkdown, quarto, shinylive
 Config/testthat/edition: 3
 Encoding: UTF-8
