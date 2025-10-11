@@ -53,7 +53,7 @@ test_that("vrv_lgl() handles NULL initialization", {
     default = FALSE,
     allow_null = FALSE
   )
-  expect_false(isolate(lgl_vrv_null_bad()), FALSE)
+  expect_false(isolate(lgl_vrv_null_bad()))
   expect_true(isolate(lgl_vrv_null_bad$is_default()))
   error <- isolate(lgl_vrv_null_bad$error())
   expect_s3_class(error, "captured-stbl-error-bad_null")
