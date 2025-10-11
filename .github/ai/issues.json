@@ -133,38 +133,8 @@
     "51": [],
     "52": [],
     "53": [],
-    "54": {
-      "title": "Add `vrv_lgl()`",
-      "type": {
-        "id": 20895326,
-        "node_id": "IT_kwDOCPuvuM4BPtZe",
-        "name": "Feature",
-        "description": "A request, idea, or new functionality",
-        "color": "blue",
-        "created_at": "2024-02-20T11:23:07Z",
-        "updated_at": "2024-10-08T22:29:37Z",
-        "is_enabled": true
-      },
-      "milestone": 1,
-      "body": "> As a {chains} user, in order to stabilize all common atomic vector types, I would like a `vrv_lgl()` function.\n\nThe implementation should follow the existing pattern for other `vrv_*()` functions, wrapping `stbl::stabilize_lgl()`.",
-      "comments": {}
-    },
-    "55": {
-      "title": "Add `vrv_dbl()`",
-      "type": {
-        "id": 20895326,
-        "node_id": "IT_kwDOCPuvuM4BPtZe",
-        "name": "Feature",
-        "description": "A request, idea, or new functionality",
-        "color": "blue",
-        "created_at": "2024-02-20T11:23:07Z",
-        "updated_at": "2024-10-08T22:29:37Z",
-        "is_enabled": true
-      },
-      "milestone": 1,
-      "body": "> As a {chains} user, in order to stabilize all common atomic vector types, I would like a `vrv_dbl()` function.\n\nThe implementation should follow the existing pattern for other `vrv_*()` functions, wrapping `stbl::stabilize_dbl()`.",
-      "comments": {}
-    },
+    "54": [],
+    "55": [],
     "56": {
       "title": "Add helper function `is_default()`",
       "type": {
