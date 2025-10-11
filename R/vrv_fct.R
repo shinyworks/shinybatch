@@ -15,7 +15,7 @@
 #'
 #' @returns A `vrv` object which returns a factor-like `character` vector.
 #' @export
-vrv_factor <- function(
+vrv_fct <- function(
   levels,
   value = NULL,
   default = NULL,
@@ -45,10 +45,10 @@ vrv_factor <- function(
 }
 
 #' @export
-#' @rdname vrv_factor
+#' @rdname vrv_fct
 #' @param allow_zero_length (`expression`) Is a zero-length vector acceptable?
 #'   Can be a reactive expression.
-vrv_factor_scalar <- function(
+vrv_fct_scalar <- function(
   levels,
   value = NULL,
   default = NULL,

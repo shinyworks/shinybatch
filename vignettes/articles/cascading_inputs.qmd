@@ -23,13 +23,13 @@ In this example, we've added a `Sys.sleep(5)` to simulate a long-running operati
 {{< include ../../inst/apps/cascading_filters/shiny/app.R >}}
 ```
 
-## The Solution: `vrv_factor()`
+## The Solution: `vrv_fct()`
 
-The `chains` package provides `vrv_factor()` (and a single-value version, `vrv_factor_scalar()`) to solve this problem. `vrv_factor()` is a specialized wrapper around the more general `validated_reactive_val()` to ensure that the value is always factor-like, validating to a specific set of allowed values. You provide it an (optionally reactive) expression for the valid `levels`, and `vrv_factor()` guarantees that its values are always in those levels. If its current set of values becomes invalid (either because the `levels` change or you attempt to set an invalid value), it returns a default value (which can also be calculated via a reactive expression) instead.
+The `chains` package provides `vrv_fct()` (and a single-value version, `vrv_fct_scalar()`) to solve this problem. `vrv_fct()` is a specialized wrapper around the more general `validated_reactive_val()` to ensure that the value is always factor-like, validating to a specific set of allowed values. You provide it an (optionally reactive) expression for the valid `levels`, and `vrv_fct()` guarantees that its values are always in those levels. If its current set of values becomes invalid (either because the `levels` change or you attempt to set an invalid value), it returns a default value (which can also be calculated via a reactive expression) instead.
 
-By guaranteeing a valid state, `vrv_factor()` prevents downstream reactives from ever observing an inconsistent set of inputs. When the `vrv_factor()`'s value is invalid, it returns its default (`NULL` if not otherwise specified). A downstream reactive using `shiny::req()` will then correctly halt execution, preventing errors or unnecessary calculations until a consistent state is restored.
+By guaranteeing a valid state, `vrv_fct()` prevents downstream reactives from ever observing an inconsistent set of inputs. When the `vrv_fct()`'s value is invalid, it returns its default (`NULL` if not otherwise specified). A downstream reactive using `shiny::req()` will then correctly halt execution, preventing errors or unnecessary calculations until a consistent state is restored.
 
-In the updated app below, we use `chains::vrv_factor_scalar()` to manage the state of the "Group" input. Notice how this simplifies the server function significantly. When you invalidate the "Group" by changing the "Level", the downstream calculation never sees the inconsistent state, so the error modal no longer appears. The application remains responsive and proceeds with the consistent inputs.
+In the updated app below, we use `chains::vrv_fct_scalar()` to manage the state of the "Group" input. Notice how this simplifies the server function significantly. When you invalidate the "Group" by changing the "Level", the downstream calculation never sees the inconsistent state, so the error modal no longer appears. The application remains responsive and proceeds with the consistent inputs.
 
 ```{shinylive-r}
 #| label: solution-example

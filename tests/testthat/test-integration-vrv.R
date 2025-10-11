@@ -3,10 +3,7 @@ skip_on_covr()
 test_that("vrv doesn't enter unexpected state (#13)", {
   skip_if_not_installed("shinytest2")
   app <- AppDriver$new(
-    app_dir = system.file(
-      "apps/cascading_filters/chains",
-      package = "chains"
-    )
+    app_dir = test_path("apps/cascading_filters/chains")
   )
   app$wait_for_idle()
   app$set_inputs(level = "B")

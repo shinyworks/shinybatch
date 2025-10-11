@@ -1,4 +1,4 @@
-# vrv_factor() sets value to default when invalid
+# vrv_fct() sets value to default when invalid
 
     Code
       signalCondition(error)
@@ -8,7 +8,7 @@
       i Disallowed values: A1
       i Allowed values: B1
 
-# vrv_factor_scalar() sets value to default when invalid (levels)
+# vrv_fct_scalar() sets value to default when invalid (levels)
 
     Code
       signalCondition(error)
@@ -18,7 +18,7 @@
       i Disallowed values: A1
       i Allowed values: B1
 
-# vrv_factor_scalar() sets value to default when invalid (size)
+# vrv_fct_scalar() sets value to default when invalid (size)
 
     Code
       signalCondition(error)

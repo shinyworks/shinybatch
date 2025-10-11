@@ -1,22 +1,22 @@
-# vrv_integer ----
+# vrv_int ----
 
-test_that("vrv_integer() initializes as expected", {
-  int_vrv <- vrv_integer(value = 1L)
+test_that("vrv_int() initializes as expected", {
+  int_vrv <- vrv_int(value = 1L)
   expect_equal(isolate(int_vrv()), 1L)
   expect_false(isolate(int_vrv$is_default()))
   expect_null(isolate(int_vrv$error()))
 })
 
-test_that("vrv_integer() allows setting a valid value", {
-  int_vrv <- vrv_integer(value = 1L)
+test_that("vrv_int() allows setting a valid value", {
+  int_vrv <- vrv_int(value = 1L)
   int_vrv(2L)
   expect_equal(isolate(int_vrv()), 2L)
   expect_false(isolate(int_vrv$is_default()))
   expect_null(isolate(int_vrv$error()))
 })
 
-test_that("vrv_integer() sets value to default when invalid (size)", {
-  int_vrv <- vrv_integer(
+test_that("vrv_int() sets value to default when invalid (size)", {
+  int_vrv <- vrv_int(
     value = 1L,
     default = 99L,
     max_size = 1
@@ -38,8 +38,8 @@ test_that("vrv_integer() sets value to default when invalid (size)", {
   )
 })
 
-test_that("vrv_integer() sets value to default when invalid (min_value)", {
-  int_vrv <- vrv_integer(
+test_that("vrv_int() sets value to default when invalid (min_value)", {
+  int_vrv <- vrv_int(
     value = 10L,
     default = 99L,
     min_value = 5L
@@ -61,8 +61,8 @@ test_that("vrv_integer() sets value to default when invalid (min_value)", {
   )
 })
 
-test_that("vrv_integer() sets value to default when invalid (max_value)", {
-  int_vrv <- vrv_integer(
+test_that("vrv_int() sets value to default when invalid (max_value)", {
+  int_vrv <- vrv_int(
     value = 10L,
     default = 99L,
     max_value = 15L
@@ -84,14 +84,14 @@ test_that("vrv_integer() sets value to default when invalid (max_value)", {
   )
 })
 
-test_that("vrv_integer() coerces character", {
-  int_vrv <- vrv_integer(value = "1")
+test_that("vrv_int() coerces character", {
+  int_vrv <- vrv_int(value = "1")
   expect_equal(isolate(int_vrv()), 1L)
 
   int_vrv("2.0")
   expect_equal(isolate(int_vrv()), 2L)
 
-  int_vrv_no_coerce <- vrv_integer(
+  int_vrv_no_coerce <- vrv_int(
     value = 1L,
     default = 99L,
     coerce_character = FALSE
@@ -100,14 +100,14 @@ test_that("vrv_integer() coerces character", {
   expect_equal(isolate(int_vrv_no_coerce()), 99L)
 })
 
-test_that("vrv_integer() coerces factor", {
-  int_vrv <- vrv_integer(value = factor("1"))
+test_that("vrv_int() coerces factor", {
+  int_vrv <- vrv_int(value = factor("1"))
   expect_equal(isolate(int_vrv()), 1L)
 
   int_vrv(factor("2.0"))
   expect_equal(isolate(int_vrv()), 2L)
 
-  int_vrv_no_coerce <- vrv_integer(
+  int_vrv_no_coerce <- vrv_int(
     value = 1L,
     default = 99L,
     coerce_factor = FALSE
@@ -117,9 +117,9 @@ test_that("vrv_integer() coerces factor", {
 })
 
 
-test_that("vrv_integer() handles NULL initialization", {
+test_that("vrv_int() handles NULL initialization", {
   # allow_null = TRUE (default)
-  int_vrv_null_ok <- vrv_integer(
+  int_vrv_null_ok <- vrv_int(
     value = NULL,
     default = 99L
   )
@@ -127,7 +127,7 @@ test_that("vrv_integer() handles NULL initialization", {
   expect_false(isolate(int_vrv_null_ok$is_default()))
 
   # allow_null = FALSE
-  int_vrv_null_bad <- vrv_integer(
+  int_vrv_null_bad <- vrv_int(
     value = NULL,
     default = 99L,
     allow_null = FALSE
@@ -148,9 +148,9 @@ test_that("vrv_integer() handles NULL initialization", {
   )
 })
 
-test_that("vrv_integer() handles being set to NULL", {
+test_that("vrv_int() handles being set to NULL", {
   # allow_null = TRUE (default)
-  int_vrv_null_ok <- vrv_integer(
+  int_vrv_null_ok <- vrv_int(
     value = 1L,
     default = 99L
   )
@@ -159,7 +159,7 @@ test_that("vrv_integer() handles being set to NULL", {
   expect_false(isolate(int_vrv_null_ok$is_default()))
 
   # allow_null = FALSE
-  int_vrv_null_bad <- vrv_integer(
+  int_vrv_null_bad <- vrv_int(
     value = 1L,
     default = 99L,
     allow_null = FALSE
@@ -181,25 +181,25 @@ test_that("vrv_integer() handles being set to NULL", {
   )
 })
 
-# vrv_integer_scalar ----
+# vrv_int_scalar ----
 
-test_that("vrv_integer_scalar() initializes as expected", {
-  int_vrv <- vrv_integer_scalar(value = 1L)
+test_that("vrv_int_scalar() initializes as expected", {
+  int_vrv <- vrv_int_scalar(value = 1L)
   expect_equal(isolate(int_vrv()), 1L)
   expect_false(isolate(int_vrv$is_default()))
   expect_null(isolate(int_vrv$error()))
 })
 
-test_that("vrv_integer_scalar() allows setting a valid value", {
-  int_vrv <- vrv_integer_scalar(value = 1L)
+test_that("vrv_int_scalar() allows setting a valid value", {
+  int_vrv <- vrv_int_scalar(value = 1L)
   int_vrv(2L)
   expect_equal(isolate(int_vrv()), 2L)
   expect_false(isolate(int_vrv$is_default()))
   expect_null(isolate(int_vrv$error()))
 })
 
-test_that("vrv_integer_scalar() sets value to default when invalid (size)", {
-  int_vrv <- vrv_integer_scalar(
+test_that("vrv_int_scalar() sets value to default when invalid (size)", {
+  int_vrv <- vrv_int_scalar(
     value = 1L,
     default = 99L
   )
@@ -220,8 +220,8 @@ test_that("vrv_integer_scalar() sets value to default when invalid (size)", {
   )
 })
 
-test_that("vrv_integer_scalar() sets value to default when invalid (max_value)", {
-  int_vrv <- vrv_integer_scalar(
+test_that("vrv_int_scalar() sets value to default when invalid (max_value)", {
+  int_vrv <- vrv_int_scalar(
     value = 10L,
     default = 99L,
     max_value = 15L
@@ -243,9 +243,9 @@ test_that("vrv_integer_scalar() sets value to default when invalid (max_value)",
   )
 })
 
-test_that("vrv_integer_scalar() handles NULL initialization", {
+test_that("vrv_int_scalar() handles NULL initialization", {
   # allow_null = TRUE (default)
-  int_vrv_null_ok <- vrv_integer_scalar(
+  int_vrv_null_ok <- vrv_int_scalar(
     value = NULL,
     default = 99L
   )
@@ -253,7 +253,7 @@ test_that("vrv_integer_scalar() handles NULL initialization", {
   expect_false(isolate(int_vrv_null_ok$is_default()))
 
   # allow_null = FALSE
-  int_vrv_null_bad <- vrv_integer_scalar(
+  int_vrv_null_bad <- vrv_int_scalar(
     value = NULL,
     default = 99L,
     allow_null = FALSE
@@ -274,9 +274,9 @@ test_that("vrv_integer_scalar() handles NULL initialization", {
   )
 })
 
-test_that("vrv_integer_scalar() handles zero-length integer vector", {
+test_that("vrv_int_scalar() handles zero-length integer vector", {
   # allow_zero_length = TRUE (default)
-  int_vrv_zero_ok <- vrv_integer_scalar(
+  int_vrv_zero_ok <- vrv_int_scalar(
     value = 1L,
     default = 99L
   )
@@ -285,7 +285,7 @@ test_that("vrv_integer_scalar() handles zero-length integer vector", {
   expect_false(isolate(int_vrv_zero_ok$is_default()))
 
   # allow_zero_length = FALSE
-  int_vrv_zero_bad <- vrv_integer_scalar(
+  int_vrv_zero_bad <- vrv_int_scalar(
     value = 1L,
     default = 99L,
     allow_zero_length = FALSE
