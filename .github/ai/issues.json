@@ -132,22 +132,7 @@
     "50": [],
     "51": [],
     "52": [],
-    "53": {
-      "title": "Rename `vrv_*` functions for consistency",
-      "type": {
-        "id": 20895326,
-        "node_id": "IT_kwDOCPuvuM4BPtZe",
-        "name": "Feature",
-        "description": "A request, idea, or new functionality",
-        "color": "blue",
-        "created_at": "2024-02-20T11:23:07Z",
-        "updated_at": "2024-10-08T22:29:37Z",
-        "is_enabled": true
-      },
-      "milestone": 1,
-      "body": "> As a {chains} user, in order to have a consistent API, I would like the `vrv_*` function names to align with their `{stbl}` counterparts.\n\nThis involves renaming the existing `vrv_*` functions to use the same abbreviations as `stbl::stabilize_*()`:\n\n- `vrv_character()` -> `vrv_chr()`\n- `vrv_factor()` -> `vrv_fct()`\n- `vrv_integer()` -> `vrv_int()`\n\nThis change will require renaming the corresponding files (e.g., `R/vrv_character.R` to `R/vrv_chr.R`) and updating all documentation and internal calls to use the new names.",
-      "comments": {}
-    },
+    "53": [],
     "54": {
       "title": "Add `vrv_lgl()`",
       "type": {
