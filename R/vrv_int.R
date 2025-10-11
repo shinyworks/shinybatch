@@ -21,7 +21,7 @@
 #'
 #' @returns A `vrv` object which returns a validated integer vector.
 #' @export
-vrv_integer <- function(
+vrv_int <- function(
   value = NULL,
   default = NULL,
   allow_null = TRUE,
@@ -53,8 +53,8 @@ vrv_integer <- function(
 }
 
 #' @export
-#' @rdname vrv_integer
-vrv_integer_scalar <- function(
+#' @rdname vrv_int
+vrv_int_scalar <- function(
   value = NULL,
   default = NULL,
   label = NULL,

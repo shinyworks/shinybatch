@@ -1,4 +1,4 @@
-# shiny App to demonstrate vrv_factor_scalar()
+# shiny App to demonstrate vrv_fct_scalar()
 
 library(shiny)
 library(chains)
@@ -10,7 +10,7 @@ all_data <- data.frame(
 )
 
 ui <- fluidPage(
-  titlePanel("With vrv_factor_scalar()"),
+  titlePanel("With vrv_fct_scalar()"),
   sidebarLayout(
     sidebarPanel(
       selectInput(
@@ -37,9 +37,9 @@ server <- function(input, output, session) {
     unique(all_data$group[all_data$level == input$level])
   })
 
-  # This is the core change: vrv_factor_scalar() ensures that its value is
+  # This is the core change: vrv_fct_scalar() ensures that its value is
   # always one of the valid_groups.
-  selected_group <- vrv_factor_scalar(
+  selected_group <- vrv_fct_scalar(
     levels = valid_groups(),
     value = reactive(input$group)
   )

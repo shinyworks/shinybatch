@@ -1,9 +1,9 @@
-# vrv_factor ----
+# vrv_fct ----
 
-test_that("vrv_factor() initializes as expected", {
+test_that("vrv_fct() initializes as expected", {
   mock_data <- list("A" = "A1")
   level <- shiny::reactiveVal("A")
-  group <- vrv_factor(
+  group <- vrv_fct(
     levels = {
       mock_data[[level()]]
     },
@@ -18,10 +18,10 @@ test_that("vrv_factor() initializes as expected", {
   expect_null(isolate(group$error()))
 })
 
-test_that("vrv_factor() allows setting within valid levels", {
+test_that("vrv_fct() allows setting within valid levels", {
   mock_data <- list("A" = c("A1", "A2"))
   level <- shiny::reactiveVal("A")
-  group <- vrv_factor(
+  group <- vrv_fct(
     levels = {
       mock_data[[level()]]
     },
@@ -37,10 +37,10 @@ test_that("vrv_factor() allows setting within valid levels", {
   expect_null(isolate(group$error()))
 })
 
-test_that("vrv_factor() sets value to default when invalid", {
+test_that("vrv_fct() sets value to default when invalid", {
   mock_data <- list("A" = "A1", "B" = "B1")
   level <- shiny::reactiveVal("A")
-  group <- vrv_factor(
+  group <- vrv_fct(
     levels = {
       mock_data[[level()]]
     },
@@ -67,10 +67,10 @@ test_that("vrv_factor() sets value to default when invalid", {
   )
 })
 
-test_that("vrv_factor() doesn't break with overlapping groups", {
+test_that("vrv_fct() doesn't break with overlapping groups", {
   mock_data <- list("B" = "B2", "C" = c("A1", "B2"))
   level <- shiny::reactiveVal("B")
-  group <- vrv_factor(
+  group <- vrv_fct(
     levels = {
       mock_data[[level()]]
     },
@@ -87,10 +87,10 @@ test_that("vrv_factor() doesn't break with overlapping groups", {
   expect_null(isolate(group$error()))
 })
 
-test_that("vrv_factor handles NULL initialization when NULL isn't allowed", {
+test_that("vrv_fct handles NULL initialization when NULL isn't allowed", {
   mock_data <- list("A" = "A1", "B" = "B1")
   level <- shiny::reactiveVal("A")
-  factor_vrv <- vrv_factor(
+  factor_vrv <- vrv_fct(
     levels = {
       mock_data[[level()]]
     },
@@ -110,10 +110,10 @@ test_that("vrv_factor handles NULL initialization when NULL isn't allowed", {
   expect_true(isolate(factor_vrv$is_default()))
 })
 
-test_that("vrv_factor handles being set to NULL when NULL isn't allowed", {
+test_that("vrv_fct handles being set to NULL when NULL isn't allowed", {
   mock_data <- list("A" = c("A1", "A2"), "B" = "B1")
   level <- shiny::reactiveVal("A")
-  factor_vrv <- vrv_factor(
+  factor_vrv <- vrv_fct(
     levels = {
       mock_data[[level()]]
     },
@@ -132,12 +132,12 @@ test_that("vrv_factor handles being set to NULL when NULL isn't allowed", {
   expect_true(isolate(factor_vrv$is_default()))
 })
 
-# vrv_factor_scalar ----
+# vrv_fct_scalar ----
 
-test_that("vrv_factor_scalar() initializes as expected", {
+test_that("vrv_fct_scalar() initializes as expected", {
   mock_data <- list("A" = "A1")
   level <- shiny::reactiveVal("A")
-  group <- vrv_factor_scalar(
+  group <- vrv_fct_scalar(
     levels = {
       mock_data[[level()]]
     },
@@ -152,10 +152,10 @@ test_that("vrv_factor_scalar() initializes as expected", {
   expect_null(isolate(group$error()))
 })
 
-test_that("vrv_factor_scalar() allows setting a valid value", {
+test_that("vrv_fct_scalar() allows setting a valid value", {
   mock_data <- list("A" = paste0("A", 1:2))
   level <- shiny::reactiveVal("A")
-  group <- vrv_factor_scalar(
+  group <- vrv_fct_scalar(
     levels = {
       mock_data[[level()]]
     },
@@ -170,10 +170,10 @@ test_that("vrv_factor_scalar() allows setting a valid value", {
   expect_null(isolate(group$error()))
 })
 
-test_that("vrv_factor_scalar() sets value to default when invalid (levels)", {
+test_that("vrv_fct_scalar() sets value to default when invalid (levels)", {
   mock_data <- list("A" = "A1", "B" = "B1")
   level <- shiny::reactiveVal("A")
-  group <- vrv_factor_scalar(
+  group <- vrv_fct_scalar(
     levels = {
       mock_data[[level()]]
     },
@@ -200,10 +200,10 @@ test_that("vrv_factor_scalar() sets value to default when invalid (levels)", {
   )
 })
 
-test_that("vrv_factor_scalar() sets value to default when invalid (size)", {
+test_that("vrv_fct_scalar() sets value to default when invalid (size)", {
   mock_data <- list("A" = paste0("A", 1:2))
   level <- shiny::reactiveVal("A")
-  group <- vrv_factor_scalar(
+  group <- vrv_fct_scalar(
     levels = {
       mock_data[[level()]]
     },

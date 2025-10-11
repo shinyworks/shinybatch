@@ -11,7 +11,7 @@
 #'
 #' @returns A `vrv` object which returns a validated character vector.
 #' @export
-vrv_character <- function(
+vrv_chr <- function(
   value = NULL,
   default = NULL,
   allow_null = TRUE,
@@ -37,8 +37,8 @@ vrv_character <- function(
 }
 
 #' @export
-#' @rdname vrv_character
-vrv_character_scalar <- function(
+#' @rdname vrv_chr
+vrv_chr_scalar <- function(
   value = NULL,
   default = NULL,
   label = NULL,

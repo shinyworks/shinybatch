@@ -1,4 +1,4 @@
-# vrv_character() sets value to default when invalid (size)
+# vrv_chr() sets value to default when invalid (size)
 
     Code
       signalCondition(error)
@@ -7,7 +7,7 @@
       ! `.vrv()` must have size <= 1.
       x 2 is too big.
 
-# vrv_character() sets value to default when invalid (regex)
+# vrv_chr() sets value to default when invalid (regex)
 
     Code
       signalCondition(error)
@@ -16,7 +16,7 @@
       ! `.vrv()` must match the regex pattern "^[a-z]+$"
       x "123" fails the check.
 
-# vrv_character() handles NULL initialization
+# vrv_chr() handles NULL initialization
 
     Code
       signalCondition(error)
@@ -24,7 +24,7 @@
       Error:
       ! `.vrv()` must not be <NULL>.
 
-# vrv_character() handles being set to NULL
+# vrv_chr() handles being set to NULL
 
     Code
       signalCondition(error)
@@ -32,7 +32,7 @@
       Error:
       ! `.vrv()` must not be <NULL>.
 
-# vrv_character_scalar() sets value to default when invalid (size)
+# vrv_chr_scalar() sets value to default when invalid (size)
 
     Code
       signalCondition(error)
@@ -41,7 +41,7 @@
       ! `.vrv()` must be a single <character>.
       x `.vrv()` has 2 values.
 
-# vrv_character_scalar() sets value to default when invalid (regex)
+# vrv_chr_scalar() sets value to default when invalid (regex)
 
     Code
       signalCondition(error)
@@ -50,7 +50,7 @@
       ! `.vrv()` must match the regex pattern "^[a-z]+$"
       x "123" fails the check.
 
-# vrv_character_scalar() handles NULL initialization
+# vrv_chr_scalar() handles NULL initialization
 
     Code
       signalCondition(error)
@@ -58,7 +58,7 @@
       Error:
       ! `.vrv()` must not be <NULL>.
 
-# vrv_character_scalar() handles zero-length character vector
+# vrv_chr_scalar() handles zero-length character vector
 
     Code
       signalCondition(error)
