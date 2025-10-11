@@ -116,7 +116,6 @@ test_that("vrv_dbl() coerces factor", {
   expect_equal(isolate(dbl_vrv_no_coerce()), 9.9)
 })
 
-
 test_that("vrv_dbl() handles NULL initialization", {
   # allow_null = TRUE (default)
   dbl_vrv_null_ok <- vrv_dbl(
