@@ -1,7 +1,9 @@
+skip_if_not_installed("shinytest2")
 skip_on_covr()
+skip_on_cran()
+skip_if(is_checking())
 
 test_that("vrv doesn't enter unexpected state (#13)", {
-  skip_if_not_installed("shinytest2")
   app <- AppDriver$new(
     app_dir = test_path("apps/cascading_filters/chains")
   )
